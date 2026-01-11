@@ -20,6 +20,12 @@ spring:
     clean-disabled: false
     clean-on-error: ${FLYWAY_CLEAN_ON_ERROR:true}
 
+  messages:
+    basename: messages/label_ko, messages/message_ko, messages/label_en, messages/message_en
+    encoding: UTF-8
+    fallback-to-system-locale: false
+    always-use-message-format: true
+
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
   configuration:
