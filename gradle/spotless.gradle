@@ -1,0 +1,15 @@
+spotless {
+    java {
+        target('/src/main/java/**/*.java', '/src/test/java/**/*.java')
+        palantirJavaFormat()
+        importOrder('java', 'javax', 'jakarta', '', 'com', '', 'org', '', 'io', '', 'lombok', 'coz')
+        removeUnusedImports()
+        indentWithSpaces(4)
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+tasks.named('spotlessJava').configure {
+    dependsOn tasks.withType(JavaCompile)
+}
