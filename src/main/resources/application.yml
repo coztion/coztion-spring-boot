@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: spring-boot
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring-boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 1q2w3e4r!
