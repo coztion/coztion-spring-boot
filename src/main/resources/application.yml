@@ -28,6 +28,7 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
+  type-handlers-package: coz.springboot.mybatis
   configuration:
     map-underscore-to-camel-case: true
     auto-mapping-behavior: full
