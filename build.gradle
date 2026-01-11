@@ -35,6 +35,10 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    // MyBatis
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.5'
+
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
