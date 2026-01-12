@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
 import coz.springboot.core.user.vo.SessionUser;
+import coz.springboot.helper.RedisRepository;
 import coz.springboot.helper.SessionFactory;
 
 @Component
@@ -17,6 +18,8 @@ public class SessionAuthenticationHandler {
     public static final String REFRESH_TOKEN_COOKIE_NAME = "REFRESH_TOKEN";
 
     private final SessionFactory sessionFactory;
+
+    private final RedisRepository redisRepository;
 
     public void handleAuthenticationSuccess(SessionUser sessionUser, HttpServletResponse response) {
         String accessToken = sessionFactory.generateAccessToken(sessionUser);
@@ -30,9 +33,16 @@ public class SessionAuthenticationHandler {
         refreshTokenCookie.setPath("/session/refresh");
         refreshTokenCookie.setMaxAge(sessionFactory.getRefreshTokenExpirationSeconds());
         response.addCookie(refreshTokenCookie);
+
+        redisRepository.save(
+                sessionUser.getUsername(), refreshToken, sessionFactory.getRefreshTokenExpirationSeconds());
     }
 
     public void handleAuthenticationFailure(HttpServletResponse response) {
+        removeRefreshTokenCookie(response);
+    }
+
+    public void removeRefreshTokenCookie(HttpServletResponse response) {
         Cookie refreshTokenCookie = new Cookie("REFRESH_TOKEN", null);
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(true);

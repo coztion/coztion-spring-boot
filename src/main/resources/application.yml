@@ -28,7 +28,7 @@ spring:
 
   security:
     token-secret: ${SPRING_SECURITY_JWT_SECRET_VALUE:SPRING_SECURITY_JWT_SECRET_VALUE}
-    access-token-expiration-millis: 300000 # 5분
+    access-token-expiration-millis: 10000 # 300000 # 5분
     refresh-token-expiration-millis: 3600000 # 1시간
 
 mybatis:

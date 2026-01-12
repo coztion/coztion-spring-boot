@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import coz.springboot.core.user.vo.SessionUser;
+import coz.springboot.helper.RedisRepository;
 import coz.springboot.helper.SessionFactory;
 
 @Slf4j
@@ -34,6 +35,8 @@ public class SessionAuthenticationTokenFilter extends OncePerRequestFilter {
     private final SessionFactory sessionFactory;
 
     private final SessionAuthenticationHandler sessionAuthenticationHandler;
+
+    private final RedisRepository redisRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -75,6 +78,13 @@ public class SessionAuthenticationTokenFilter extends OncePerRequestFilter {
             if (!StringUtils.hasText(refreshToken)) return;
 
             SessionUser sessionUser = sessionFactory.validateRefreshToken(refreshToken);
+
+            String cachedRefreshToken = redisRepository.get(sessionUser.getUsername(), String.class);
+            if (Objects.isNull(cachedRefreshToken)) {
+                log.warn("No refresh token found in Redis for user: {}", sessionUser.getUsername());
+                sessionAuthenticationHandler.handleAuthenticationFailure(response);
+                return;
+            }
 
             sessionAuthenticationHandler.handleAuthenticationSuccess(sessionUser, response);
 
