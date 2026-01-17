@@ -3,6 +3,7 @@ package coz.springboot.session;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,8 @@ import coz.springboot.helper.SessionFactory;
 @RequiredArgsConstructor
 public class SessionAuthenticationHandler {
 
-    public static final String REFRESH_TOKEN_COOKIE_NAME = "REFRESH_TOKEN";
+    @Value("${spring.security.refresh-token-cookie-name}")
+    private String refreshTokenCookieName;
 
     private final SessionFactory sessionFactory;
 
@@ -27,7 +29,7 @@ public class SessionAuthenticationHandler {
 
         response.setHeader("Authorization", "Bearer " + accessToken);
 
-        Cookie refreshTokenCookie = new Cookie("REFRESH_TOKEN", refreshToken);
+        Cookie refreshTokenCookie = new Cookie(refreshTokenCookieName, refreshToken);
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(true);
         refreshTokenCookie.setPath("/session/refresh");
@@ -43,7 +45,7 @@ public class SessionAuthenticationHandler {
     }
 
     public void removeRefreshTokenCookie(HttpServletResponse response) {
-        Cookie refreshTokenCookie = new Cookie("REFRESH_TOKEN", null);
+        Cookie refreshTokenCookie = new Cookie(refreshTokenCookieName, null);
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(true);
         refreshTokenCookie.setPath("/session/refresh");

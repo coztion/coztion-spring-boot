@@ -10,6 +10,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,6 +32,9 @@ import coz.springboot.helper.SessionFactory;
 @Component
 @RequiredArgsConstructor
 public class SessionAuthenticationTokenFilter extends OncePerRequestFilter {
+
+    @Value("${spring.security.refresh-token-cookie-name}")
+    private String refreshTokenCookieName;
 
     private final SessionFactory sessionFactory;
 
@@ -86,6 +90,13 @@ public class SessionAuthenticationTokenFilter extends OncePerRequestFilter {
                 return;
             }
 
+            if (!cachedRefreshToken.equals(refreshToken)) {
+                log.warn("Refresh token mismatch for user: {}.", sessionUser.getUsername());
+                redisRepository.remove(sessionUser.getUsername());
+                sessionAuthenticationHandler.handleAuthenticationFailure(response);
+                return;
+            }
+
             sessionAuthenticationHandler.handleAuthenticationSuccess(sessionUser, response);
 
             Authentication authentication =
@@ -102,7 +113,7 @@ public class SessionAuthenticationTokenFilter extends OncePerRequestFilter {
         if (Objects.isNull(cookies)) return null;
 
         for (Cookie cookie : cookies) {
-            if (SessionAuthenticationHandler.REFRESH_TOKEN_COOKIE_NAME.equals(cookie.getName())) {
+            if (refreshTokenCookieName.equals(cookie.getName())) {
                 return cookie.getValue();
             }
         }
