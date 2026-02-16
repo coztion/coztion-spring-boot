@@ -1,9 +1,9 @@
-package coz.springboot.core.user.service;
+package coz.springboot.service.user;
 
 import java.util.List;
 
-import coz.springboot.core.user.dto.UserSearchParam;
-import coz.springboot.core.user.vo.User;
+import coz.springboot.dto.user.UserSearchParam;
+import coz.springboot.vo.user.User;
 
 public interface UserService {
 

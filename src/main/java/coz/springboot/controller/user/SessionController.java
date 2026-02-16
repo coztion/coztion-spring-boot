@@ -1,4 +1,4 @@
-package coz.springboot.core.user.controller;
+package coz.springboot.controller.user;
 
 import jakarta.servlet.http.HttpServletResponse;
 

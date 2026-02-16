@@ -1,4 +1,4 @@
-package coz.springboot.core.user.dto;
+package coz.springboot.dto.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

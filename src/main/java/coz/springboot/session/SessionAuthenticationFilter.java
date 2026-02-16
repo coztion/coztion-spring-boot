@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.SneakyThrows;
 
-import coz.springboot.core.user.vo.SessionUser;
+import coz.springboot.vo.user.SessionUser;
 
 @Component
 public class SessionAuthenticationFilter extends UsernamePasswordAuthenticationFilter {

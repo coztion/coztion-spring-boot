@@ -1,12 +1,12 @@
-package coz.springboot.core.user.repository;
+package coz.springboot.repository.user;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import coz.springboot.core.user.dto.UserSearchParam;
-import coz.springboot.core.user.vo.User;
+import coz.springboot.dto.user.UserSearchParam;
+import coz.springboot.vo.user.User;
 
 @Mapper
 public interface UserRepository {

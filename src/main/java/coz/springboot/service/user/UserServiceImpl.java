@@ -1,4 +1,4 @@
-package coz.springboot.core.user.service;
+package coz.springboot.service.user;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,10 +11,10 @@ import lombok.RequiredArgsConstructor;
 
 import coz.springboot.constant.Label;
 import coz.springboot.constant.Message;
-import coz.springboot.core.user.dto.UserSearchParam;
-import coz.springboot.core.user.repository.UserRepository;
-import coz.springboot.core.user.vo.User;
+import coz.springboot.dto.user.UserSearchParam;
 import coz.springboot.exception.ClientException;
+import coz.springboot.repository.user.UserRepository;
+import coz.springboot.vo.user.User;
 
 @Server
 @RequiredArgsConstructor

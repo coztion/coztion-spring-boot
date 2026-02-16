@@ -1,4 +1,4 @@
-package coz.springboot.core.user.enums;
+package coz.springboot.enums.user;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

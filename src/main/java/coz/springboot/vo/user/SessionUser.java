@@ -1,4 +1,4 @@
-package coz.springboot.core.user.vo;
+package coz.springboot.vo.user;
 
 import java.util.Collection;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.Builder;
 import lombok.Getter;
 
-import coz.springboot.core.user.enums.Authority;
+import coz.springboot.enums.user.Authority;
 
 @Getter
 @Builder

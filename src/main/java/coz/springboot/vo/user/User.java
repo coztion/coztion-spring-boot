@@ -1,4 +1,4 @@
-package coz.springboot.core.user.vo;
+package coz.springboot.vo.user;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import coz.springboot.core.user.enums.Authority;
+import coz.springboot.enums.user.Authority;
 
 @Getter
 @Setter
