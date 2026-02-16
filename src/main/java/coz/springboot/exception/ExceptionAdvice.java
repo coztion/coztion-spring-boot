@@ -1,4 +1,4 @@
-package coz.springboot.advice;
+package coz.springboot.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,10 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import coz.springboot.constant.Message;
 import coz.springboot.dto.common.RestResponse;
-import coz.springboot.exception.BusinessException;
-import coz.springboot.exception.ClientException;
-import coz.springboot.exception.RestException;
-import coz.springboot.exception.ServerException;
 import coz.springboot.helper.MessageTranslator;
 
 @Slf4j
