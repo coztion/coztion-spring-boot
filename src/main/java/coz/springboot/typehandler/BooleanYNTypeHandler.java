@@ -1,4 +1,4 @@
-package coz.springboot.mybatis;
+package coz.springboot.typehandler;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
