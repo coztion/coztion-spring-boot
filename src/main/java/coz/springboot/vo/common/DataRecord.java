@@ -1,4 +1,4 @@
-package coz.springboot.core.shared.vo;
+package coz.springboot.vo.common;
 
 import java.time.LocalDateTime;
 

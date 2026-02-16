@@ -1,12 +1,12 @@
-package coz.springboot.core.code.repository;
+package coz.springboot.repository.code;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import coz.springboot.core.code.dto.CommonCodeSearchParam;
-import coz.springboot.core.code.vo.CommonCode;
+import coz.springboot.dto.code.CommonCodeSearchParam;
+import coz.springboot.vo.code.CommonCode;
 
 @Mapper
 public interface CommonCodeRepository {

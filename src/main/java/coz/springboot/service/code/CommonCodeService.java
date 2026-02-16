@@ -1,9 +1,9 @@
-package coz.springboot.core.code.service;
+package coz.springboot.service.code;
 
 import java.util.List;
 
-import coz.springboot.core.code.dto.CommonCodeSearchParam;
-import coz.springboot.core.code.vo.CommonCode;
+import coz.springboot.dto.code.CommonCodeSearchParam;
+import coz.springboot.vo.code.CommonCode;
 
 public interface CommonCodeService {
 

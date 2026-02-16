@@ -1,11 +1,11 @@
-package coz.springboot.core.code.repository;
+package coz.springboot.repository.code;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import coz.springboot.core.code.dto.GroupCodeSearchParam;
-import coz.springboot.core.code.vo.GroupCode;
+import coz.springboot.dto.code.GroupCodeSearchParam;
+import coz.springboot.vo.code.GroupCode;
 
 @Mapper
 public interface GroupCodeRepository {

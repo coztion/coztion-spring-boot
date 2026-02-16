@@ -1,4 +1,4 @@
-package coz.springboot.enums;
+package coz.springboot.enums.common;
 
 public enum RestResponseType {
     SUCCESS,

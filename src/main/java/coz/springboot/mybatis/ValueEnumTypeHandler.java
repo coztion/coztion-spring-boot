@@ -10,7 +10,7 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;
 
 import coz.springboot.constant.Message;
-import coz.springboot.enums.ValueEnum;
+import coz.springboot.enums.common.ValueEnum;
 import coz.springboot.exception.ServerException;
 
 @MappedTypes(ValueEnum.class)

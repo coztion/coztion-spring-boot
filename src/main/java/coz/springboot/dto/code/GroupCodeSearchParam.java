@@ -1,4 +1,6 @@
-package coz.springboot.core.code.dto;
+package coz.springboot.dto.code;
+
+import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -9,14 +11,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CommonCodeSearchParam {
+public class GroupCodeSearchParam {
+
+    @Schema(description = "그룹코드목록")
+    private List<String> groupCodes;
 
     @Schema(description = "그룹코드")
     private String groupCode;
 
-    @Schema(description = "공통코드")
-    private String commonCode;
-
-    @Schema(description = "사용여부", example = "true")
+    @Schema(description = "사용여부")
     private Boolean isUse;
 }

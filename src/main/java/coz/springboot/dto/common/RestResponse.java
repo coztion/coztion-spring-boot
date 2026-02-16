@@ -1,8 +1,8 @@
-package coz.springboot.dto;
+package coz.springboot.dto.common;
 
 import lombok.*;
 
-import coz.springboot.enums.RestResponseType;
+import coz.springboot.enums.common.RestResponseType;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)

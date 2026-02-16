@@ -3,7 +3,7 @@ package coz.springboot.core.user.enums;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.enums.ValueEnum;
+import coz.springboot.enums.common.ValueEnum;
 
 @Getter
 @RequiredArgsConstructor

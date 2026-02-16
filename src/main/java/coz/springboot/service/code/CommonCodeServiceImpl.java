@@ -1,4 +1,4 @@
-package coz.springboot.core.code.service;
+package coz.springboot.service.code;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,10 +10,10 @@ import lombok.RequiredArgsConstructor;
 
 import coz.springboot.constant.Label;
 import coz.springboot.constant.Message;
-import coz.springboot.core.code.dto.CommonCodeSearchParam;
-import coz.springboot.core.code.repository.CommonCodeRepository;
-import coz.springboot.core.code.vo.CommonCode;
+import coz.springboot.dto.code.CommonCodeSearchParam;
 import coz.springboot.exception.ClientException;
+import coz.springboot.repository.code.CommonCodeRepository;
+import coz.springboot.vo.code.CommonCode;
 
 @Service
 @RequiredArgsConstructor

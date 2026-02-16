@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import coz.springboot.constant.Message;
-import coz.springboot.dto.RestResponse;
+import coz.springboot.dto.common.RestResponse;
 import coz.springboot.exception.BusinessException;
 import coz.springboot.exception.ClientException;
 import coz.springboot.exception.RestException;
