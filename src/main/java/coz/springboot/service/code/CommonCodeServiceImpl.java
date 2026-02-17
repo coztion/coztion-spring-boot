@@ -10,10 +10,10 @@ import lombok.RequiredArgsConstructor;
 
 import coz.springboot.constant.Label;
 import coz.springboot.constant.Message;
-import coz.springboot.dto.code.CommonCodeSearchParam;
+import coz.springboot.domain.code.CommonCode;
+import coz.springboot.domain.code.CommonCodeFilter;
 import coz.springboot.exception.ClientException;
 import coz.springboot.repository.code.CommonCodeRepository;
-import coz.springboot.vo.code.CommonCode;
 
 @Service
 @RequiredArgsConstructor
@@ -23,14 +23,14 @@ class CommonCodeServiceImpl implements CommonCodeService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<CommonCode> getCommonCodes(CommonCodeSearchParam command) {
-        return commonCodeRepository.findCommonCodesByParam(command);
+    public List<CommonCode> getCommonCodes(CommonCodeFilter filter) {
+        return commonCodeRepository.findCommonCodesByFilter(filter);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public CommonCode getCommonCode(CommonCodeSearchParam param) {
-        Optional<CommonCode> optionalCommonCode = commonCodeRepository.findCommonCodeByParam(param);
+    public CommonCode getCommonCode(CommonCodeFilter filter) {
+        Optional<CommonCode> optionalCommonCode = commonCodeRepository.findCommonCodeByFilter(filter);
         return optionalCommonCode.orElseThrow(
                 () -> new ClientException(Message.Exception.NOT_FOUND, Label.Code.COMMON_CODE));
     }

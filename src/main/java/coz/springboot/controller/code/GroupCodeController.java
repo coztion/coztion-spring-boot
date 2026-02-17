@@ -6,14 +6,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.dto.code.GroupCodeSearchParam;
+import coz.springboot.domain.code.GroupCode;
+import coz.springboot.domain.code.GroupCodeFilter;
+import coz.springboot.dto.code.GroupCodeGetRequest;
+import coz.springboot.dto.code.GroupCodeGetResponse;
 import coz.springboot.dto.common.RestResponse;
 import coz.springboot.service.code.GroupCodeService;
-import coz.springboot.vo.code.GroupCode;
 
 @Tag(name = "Group Code", description = "Group Code API")
 @RestController
@@ -23,9 +26,13 @@ public class GroupCodeController {
 
     private final GroupCodeService groupCodeService;
 
+    @Operation(summary = "Get Group Codes", description = "Search group codes based on search filter")
     @GetMapping
-    public RestResponse<List<GroupCode>> getGroupCodes(GroupCodeSearchParam request) {
-        List<GroupCode> groupCodes = groupCodeService.getGroupCodes(request);
-        return RestResponse.ofSuccess(groupCodes);
+    public RestResponse<List<GroupCodeGetResponse>> getGroupCodes(GroupCodeGetRequest request) {
+        GroupCodeFilter groupCodeFilter = request.toDomain();
+        List<GroupCode> groupCodes = groupCodeService.getGroupCodes(groupCodeFilter);
+        List<GroupCodeGetResponse> response =
+                groupCodes.stream().map(GroupCodeGetResponse::ofDomain).toList();
+        return RestResponse.ofSuccess(response);
     }
 }

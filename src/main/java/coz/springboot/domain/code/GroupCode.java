@@ -1,4 +1,4 @@
-package coz.springboot.vo.code;
+package coz.springboot.domain.code;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import coz.springboot.vo.common.DataRecord;
+import coz.springboot.domain.common.DataRecord;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

@@ -2,12 +2,12 @@ package coz.springboot.service.code;
 
 import java.util.List;
 
-import coz.springboot.dto.code.CommonCodeSearchParam;
-import coz.springboot.vo.code.CommonCode;
+import coz.springboot.domain.code.CommonCode;
+import coz.springboot.domain.code.CommonCodeFilter;
 
 public interface CommonCodeService {
 
-    List<CommonCode> getCommonCodes(CommonCodeSearchParam param);
+    List<CommonCode> getCommonCodes(CommonCodeFilter filter);
 
-    CommonCode getCommonCode(CommonCodeSearchParam param);
+    CommonCode getCommonCode(CommonCodeFilter filter);
 }

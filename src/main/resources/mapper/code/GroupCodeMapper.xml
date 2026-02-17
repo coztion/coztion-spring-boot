@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="coz.springboot.repository.code.GroupCodeRepository">
 
-    <resultMap id="groupCodeMap" type="coz.springboot.vo.code.GroupCode">
+    <resultMap id="groupCodeMap" type="coz.springboot.domain.code.GroupCode">
         <id property="groupCode" column="GROUP_CODE" />
-        <collection property="commonCodes" ofType="coz.springboot.vo.code.CommonCode">
+        <collection property="commonCodes" ofType="coz.springboot.domain.code.CommonCode">
             <id property="commonCode" column="COMMON_CODE" />
             <result property="groupCode" column="COMMON_CODE_GROUP_CODE" />
             <result property="isUse" column="COMMON_CODE_IS_USE" />
@@ -15,8 +15,8 @@
         </collection>
     </resultMap>
 
-    <select id="findGroupCodesByParam"
-            parameterType="coz.springboot.dto.code.GroupCodeSearchParam"
+    <select id="findGroupCodesByFilter"
+            parameterType="coz.springboot.domain.code.GroupCodeFilter"
             resultMap="groupCodeMap">
         SELECT GC.GROUP_CODE
              , GC.GROUP_CODE_NAME

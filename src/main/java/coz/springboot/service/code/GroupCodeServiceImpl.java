@@ -7,9 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.dto.code.GroupCodeSearchParam;
+import coz.springboot.domain.code.GroupCode;
+import coz.springboot.domain.code.GroupCodeFilter;
 import coz.springboot.repository.code.GroupCodeRepository;
-import coz.springboot.vo.code.GroupCode;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +19,7 @@ public class GroupCodeServiceImpl implements GroupCodeService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<GroupCode> getGroupCodes(GroupCodeSearchParam param) {
-        return groupCodeRepository.findGroupCodesByParam(param);
+    public List<GroupCode> getGroupCodes(GroupCodeFilter filter) {
+        return groupCodeRepository.findGroupCodesByFilter(filter);
     }
 }

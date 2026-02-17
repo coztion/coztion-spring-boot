@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="coz.springboot.repository.code.CommonCodeRepository">
 
-    <select id="findCommonCodesByParam"
-            parameterType="coz.springboot.dto.code.CommonCodeSearchParam"
-            resultType="coz.springboot.vo.code.CommonCode">
+    <select id="findCommonCodesByFilter"
+            parameterType="coz.springboot.domain.code.CommonCodeFilter"
+            resultType="coz.springboot.domain.code.CommonCode">
         SELECT GROUP_CODE
              , COMMON_CODE
              , COMMON_CODE_NAME
@@ -28,9 +28,9 @@
          ORDER BY COMMON_CODE
     </select>
 
-    <select id="findCommonCodeByParam"
-            parameterType="coz.springboot.dto.code.CommonCodeSearchParam"
-            resultType="coz.springboot.vo.code.CommonCode">
+    <select id="findCommonCodeByFilter"
+            parameterType="coz.springboot.domain.code.CommonCodeFilter"
+            resultType="coz.springboot.domain.code.CommonCode">
         SELECT GROUP_CODE
              , COMMON_CODE
              , COMMON_CODE_NAME

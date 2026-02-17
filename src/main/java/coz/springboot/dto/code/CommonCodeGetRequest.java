@@ -6,10 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import coz.springboot.domain.code.CommonCodeFilter;
+
 @Getter
 @Setter
 @NoArgsConstructor
-public class CommonCodeSearchParam {
+public class CommonCodeGetRequest {
 
     @Schema(description = "그룹코드")
     private String groupCode;
@@ -19,4 +21,12 @@ public class CommonCodeSearchParam {
 
     @Schema(description = "사용여부", example = "true")
     private Boolean isUse;
+
+    public CommonCodeFilter toDomain() {
+        return CommonCodeFilter.builder()
+                .groupCode(groupCode)
+                .commonCode(commonCode)
+                .isUse(isUse)
+                .build();
+    }
 }
