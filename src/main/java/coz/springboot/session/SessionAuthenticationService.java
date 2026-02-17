@@ -12,11 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import coz.springboot.constant.Label;
 import coz.springboot.constant.Message;
-import coz.springboot.dto.user.UserSearchParam;
+import coz.springboot.domain.user.SessionUser;
+import coz.springboot.domain.user.User;
+import coz.springboot.domain.user.UserFilter;
 import coz.springboot.helper.MessageTranslator;
 import coz.springboot.repository.user.UserRepository;
-import coz.springboot.vo.user.SessionUser;
-import coz.springboot.vo.user.User;
+import coz.springboot.service.user.UserService;
 
 @Slf4j
 @Service
@@ -25,12 +26,15 @@ public class SessionAuthenticationService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    private final UserService userService;
+
     private final MessageTranslator messageTranslator;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserSearchParam param = UserSearchParam.ofUsername(username);
-        Optional<User> optionalUser = userRepository.findUserByParam(param);
+        UserFilter userFilter = UserFilter.ofUsername(username);
+
+        Optional<User> optionalUser = userRepository.findUserByFilter(userFilter);
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();

@@ -7,5 +7,5 @@ import coz.springboot.domain.code.GroupCodeFilter;
 
 public interface GroupCodeService {
 
-    List<GroupCode> getGroupCodes(GroupCodeFilter command);
+    List<GroupCode> getGroupCodes(GroupCodeFilter filter);
 }

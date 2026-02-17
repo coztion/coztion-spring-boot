@@ -2,12 +2,12 @@ package coz.springboot.service.user;
 
 import java.util.List;
 
-import coz.springboot.dto.user.UserSearchParam;
-import coz.springboot.vo.user.User;
+import coz.springboot.domain.user.User;
+import coz.springboot.domain.user.UserFilter;
 
 public interface UserService {
 
-    List<User> getUsers(UserSearchParam command);
+    List<User> getUsers(UserFilter filter);
 
-    User getUser(UserSearchParam command);
+    User getUser(UserFilter filter);
 }

@@ -1,4 +1,4 @@
-package coz.springboot.vo.user;
+package coz.springboot.domain.user;
 
 import java.util.Collection;
 import java.util.List;

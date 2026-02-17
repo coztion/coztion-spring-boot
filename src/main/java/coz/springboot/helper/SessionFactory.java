@@ -20,7 +20,7 @@ import io.jsonwebtoken.security.Keys;
 
 import lombok.Getter;
 
-import coz.springboot.vo.user.SessionUser;
+import coz.springboot.domain.user.SessionUser;
 
 @Getter
 @Component

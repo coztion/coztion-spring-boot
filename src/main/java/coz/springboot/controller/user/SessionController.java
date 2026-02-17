@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 
 import coz.springboot.dto.common.RestResponse;
-import coz.springboot.helper.RedisRepository;
 import coz.springboot.helper.SessionHolder;
+import coz.springboot.service.user.SessionService;
 import coz.springboot.session.SessionAuthenticationHandler;
 
 @RestController
@@ -16,9 +16,9 @@ import coz.springboot.session.SessionAuthenticationHandler;
 @RequestMapping("/session")
 public class SessionController {
 
-    private final SessionAuthenticationHandler sessionAuthenticationHandler;
+    private final SessionService sessionService;
 
-    private final RedisRepository redisRepository;
+    private final SessionAuthenticationHandler sessionAuthenticationHandler;
 
     @GetMapping
     public RestResponse<String> getSession() {
@@ -34,7 +34,7 @@ public class SessionController {
     @DeleteMapping
     public RestResponse<Boolean> logout(HttpServletResponse response) {
         String username = SessionHolder.getUsername();
-        redisRepository.remove(username);
+        sessionService.logout(username);
         sessionAuthenticationHandler.removeRefreshTokenCookie(response);
         return RestResponse.ofSuccess(true);
     }

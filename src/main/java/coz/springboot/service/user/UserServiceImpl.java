@@ -3,20 +3,19 @@ package coz.springboot.service.user;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import io.swagger.v3.oas.annotations.servers.Server;
 
 import lombok.RequiredArgsConstructor;
 
 import coz.springboot.constant.Label;
 import coz.springboot.constant.Message;
-import coz.springboot.dto.user.UserSearchParam;
+import coz.springboot.domain.user.User;
+import coz.springboot.domain.user.UserFilter;
 import coz.springboot.exception.ClientException;
 import coz.springboot.repository.user.UserRepository;
-import coz.springboot.vo.user.User;
 
-@Server
+@Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -24,14 +23,14 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<User> getUsers(UserSearchParam command) {
-        return userRepository.findUsersByParam(command);
+    public List<User> getUsers(UserFilter filter) {
+        return userRepository.findUsersByFilter(filter);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public User getUser(UserSearchParam command) {
-        Optional<User> optionalUser = userRepository.findUserByParam(command);
+    public User getUser(UserFilter filter) {
+        Optional<User> optionalUser = userRepository.findUserByFilter(filter);
         return optionalUser.orElseThrow(() -> new ClientException(Message.Exception.NOT_FOUND, Label.User.USER));
     }
 }

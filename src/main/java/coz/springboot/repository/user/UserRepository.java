@@ -5,13 +5,13 @@ import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import coz.springboot.dto.user.UserSearchParam;
-import coz.springboot.vo.user.User;
+import coz.springboot.domain.user.User;
+import coz.springboot.domain.user.UserFilter;
 
 @Mapper
 public interface UserRepository {
 
-    List<User> findUsersByParam(UserSearchParam param);
+    List<User> findUsersByFilter(UserFilter filter);
 
-    Optional<User> findUserByParam(UserSearchParam param);
+    Optional<User> findUserByFilter(UserFilter filter);
 }
