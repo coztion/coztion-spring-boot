@@ -24,7 +24,7 @@ import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import coz.springboot.core.user.vo.SessionUser;
+import coz.springboot.domain.user.SessionUser;
 import coz.springboot.helper.RedisRepository;
 import coz.springboot.helper.SessionFactory;
 

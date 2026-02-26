@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.core.user.vo.SessionUser;
+import coz.springboot.domain.user.SessionUser;
 import coz.springboot.helper.RedisRepository;
 import coz.springboot.helper.SessionFactory;
 

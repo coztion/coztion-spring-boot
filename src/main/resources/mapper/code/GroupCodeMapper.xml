@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coz.springboot.repository.code.GroupCodeRepository">
+
+    <resultMap id="groupCodeMap" type="coz.springboot.domain.code.GroupCode">
+        <id property="groupCode" column="GROUP_CODE" />
+        <collection property="commonCodes" ofType="coz.springboot.domain.code.CommonCode">
+            <id property="commonCode" column="COMMON_CODE" />
+            <result property="groupCode" column="COMMON_CODE_GROUP_CODE" />
+            <result property="isUse" column="COMMON_CODE_IS_USE" />
+            <result property="createdAt" column="COMMON_CODE_CREATED_AT" />
+            <result property="createdBy" column="COMMON_CODE_CREATED_BY" />
+            <result property="updatedAt" column="COMMON_CODE_UPDATED_AT" />
+            <result property="updatedBy" column="COMMON_CODE_UPDATED_BY" />
+        </collection>
+    </resultMap>
+
+    <select id="findGroupCodesByFilter"
+            parameterType="coz.springboot.domain.code.GroupCodeFilter"
+            resultMap="groupCodeMap">
+        SELECT GC.GROUP_CODE
+             , GC.GROUP_CODE_NAME
+             , GC.IS_USE
+             , GC.CREATED_BY
+             , GC.CREATED_AT
+             , GC.UPDATED_BY
+             , GC.UPDATED_AT
+             , CC.GROUP_CODE AS COMMON_CODE_GROUP_CODE
+             , CC.COMMON_CODE
+             , CC.COMMON_CODE_NAME
+             , CC.USE_YN AS COMMON_CODE_IS_USE
+             , CC.CREATED_AT AS COMMON_CODE_CREATED_AT
+             , CC.CREATED_BY AS COMMON_CODE_CREATED_BY
+             , CC.UPDATED_AT AS COMMON_CODE_UPDATED_AT
+             , CC.UPDATED_BY AS COMMON_CODE_UPDATED_BY
+          FROM TB_GROUP_CODE GC
+         INNER JOIN TB_COMMON_CODE CC
+                 ON GC.GROUP_CODE = CC.GROUP_CODE
+        <if test="isUse != null">
+                AND CC.USE_YN = #{isUse}
+        </if>
+        <where>
+            <if test="groupCodes != null and !groupCodes.isEmpty()">
+                AND GC.GROUP_CODE IN
+                <foreach collection="groupCodes" item="groupCode" open="(" separator="," close=")">
+                    #{groupCode}
+                </foreach>
+            </if>
+            <if test="groupCode != null and groupCode != ''">
+                AND GC.GROUP_CODE = #{groupCode}
+            </if>
+            <if test="isUse != null">
+                AND GC.IS_USE = #{isUse}
+            </if>
+        </where>
+         ORDER BY GC.GROUP_CODE, CC.COMMON_CODE
+    </select>
+
+</mapper>
