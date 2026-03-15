@@ -13,4 +13,11 @@ public class Label {
 
         public static final String COMMON_CODE = "label.code.COMMON_CODE";
     }
+
+    public static class Menu {
+
+        public static final String MENU = "label.menu.MENU";
+
+        public static final String MENU_TYPE = "label.menu.MENU_TYPE";
+    }
 }

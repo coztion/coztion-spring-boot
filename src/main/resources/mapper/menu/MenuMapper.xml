@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coz.springboot.repository.menu.MenuRepository">
+
+    <select id="findMenusByFilter"
+            parameterType="coz.springboot.domain.menu.MenuFilter"
+            resultType="coz.springboot.domain.menu.Menu">
+        SELECT MENU_ID
+             , MENU_NAME
+             , MENU_TYPE
+             , PARENT_MENU_ID
+             , SORT_ORDER
+             , USE_YN           AS IS_USE
+             , CREATED_BY
+             , CREATED_AT
+             , UPDATED_BY
+             , UPDATED_AT
+          FROM TB_MENU
+        <where>
+            <if test="menuType != null">
+                AND MENU_TYPE = #{menuType}
+            </if>
+            <if test="isUse != null">
+                AND USE_YN = #{isUse}
+            </if>
+        </where>
+         ORDER BY SORT_ORDER
+    </select>
+
+</mapper>
