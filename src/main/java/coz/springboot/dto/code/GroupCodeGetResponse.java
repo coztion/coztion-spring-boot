@@ -33,10 +33,7 @@ public class GroupCodeGetResponse extends DataRecordResponse {
                 .groupCodeName(groupCode.getGroupCodeName())
                 .isUse(groupCode.getIsUse())
                 .commonCodes(groupCode.getCommonCodes())
-                .createdBy(groupCode.getCreatedBy())
-                .createdAt(groupCode.getCreatedAt())
-                .updatedBy(groupCode.getUpdatedBy())
-                .updatedAt(groupCode.getUpdatedAt())
+                .dataRecord(groupCode)
                 .build();
     }
 }

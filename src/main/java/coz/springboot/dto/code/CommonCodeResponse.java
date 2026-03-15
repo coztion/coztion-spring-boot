@@ -30,10 +30,7 @@ public class CommonCodeResponse extends DataRecordResponse {
                 .commonCode(commonCode.getCommonCode())
                 .commonCodeName(commonCode.getCommonCodeName())
                 .isUse(commonCode.getIsUse())
-                .createdBy(commonCode.getCreatedBy())
-                .createdAt(commonCode.getCreatedAt())
-                .updatedBy(commonCode.getUpdatedBy())
-                .updatedAt(commonCode.getUpdatedAt())
+                .dataRecord(commonCode)
                 .build();
     }
 }
