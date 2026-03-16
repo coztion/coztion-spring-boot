@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import coz.springboot.domain.common.DataRecord;
+import coz.springboot.enums.menu.MenuType;
 
 @Getter
 @Setter
@@ -15,7 +16,7 @@ public class Menu extends DataRecord {
 
     private String menuName;
 
-    private String menuType;
+    private MenuType menuType;
 
     private String parentMenuId;
 

@@ -5,6 +5,8 @@ public class Label {
     public static class User {
 
         public static final String USER = "label.user.USER";
+
+        public static final String AUTHORITY = "label.user.AUTHORITY";
     }
 
     public static class Code {

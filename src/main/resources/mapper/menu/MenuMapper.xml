@@ -27,4 +27,40 @@
          ORDER BY SORT_ORDER
     </select>
 
+
+    <select id="findMenuTree" resultType="coz.springboot.domain.menu.MenuTree">
+        WITH RECURSIVE MENU_TREE AS (
+            SELECT M.MENU_ID
+                 , M.MENU_NAME
+                 , M.MENU_TYPE
+                 , M.PARENT_MENU_ID
+                 , M.SORT_ORDER
+              FROM TB_MENU M
+             INNER JOIN TB_MENU_AUTHORITY MA ON M.MENU_ID = MA.MENU_ID
+             WHERE MA.AUTHORITY_CODE IN
+            <foreach item="authority" collection="list" open="(" separator="," close=")">
+                #{authority.value}
+            </foreach>
+               AND M.USE_YN = 'Y'
+
+             UNION
+
+            SELECT P.MENU_ID
+                 , P.MENU_NAME
+                 , P.MENU_TYPE
+                 , P.PARENT_MENU_ID
+                 , P.SORT_ORDER
+              FROM TB_MENU P
+             INNER JOIN MENU_TREE C ON P.MENU_ID = C.PARENT_MENU_ID
+             WHERE P.USE_YN = 'Y'
+        )
+        SELECT DISTINCT MENU_ID
+                      , MENU_NAME
+                      , MENU_TYPE
+                      , PARENT_MENU_ID
+                      , SORT_ORDER
+          FROM MENU_TREE
+         ORDER BY SORT_ORDER
+    </select>
+
 </mapper>

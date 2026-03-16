@@ -34,7 +34,7 @@ public class MenuGetResponse extends DataRecordResponse {
         return MenuGetResponse.builder()
                 .menuId(menu.getMenuId())
                 .menuName(menu.getMenuName())
-                .menuType(menu.getMenuType())
+                .menuType(menu.getMenuType().getValue())
                 .parentMenuId(menu.getParentMenuId())
                 .sortOrder(menu.getSortOrder())
                 .isUse(menu.getIsUse())
