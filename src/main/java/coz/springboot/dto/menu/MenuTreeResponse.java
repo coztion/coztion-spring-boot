@@ -13,19 +13,19 @@ import coz.springboot.domain.menu.MenuTree;
 @Builder
 public class MenuTreeResponse {
 
-    @Schema(description = "메뉴ID")
+    @Schema(description = "Menu ID")
     private String menuId;
 
-    @Schema(description = "메뉴명")
+    @Schema(description = "Menu Name")
     private String menuName;
 
-    @Schema(description = "메뉴타입")
+    @Schema(description = "Menu Type")
     private String menuType;
 
-    @Schema(description = "정렬순서")
+    @Schema(description = "Sort Order")
     private Integer sortOrder;
 
-    @Schema(description = "하위메뉴목록")
+    @Schema(description = "Sub Menu List")
     private List<MenuTreeResponse> subMenus;
 
     public static MenuTreeResponse ofDomain(MenuTree menu) {

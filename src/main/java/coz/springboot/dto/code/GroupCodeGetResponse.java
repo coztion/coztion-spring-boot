@@ -15,16 +15,16 @@ import coz.springboot.dto.common.DataRecordResponse;
 @SuperBuilder
 public class GroupCodeGetResponse extends DataRecordResponse {
 
-    @Schema(description = "그룹코드")
+    @Schema(description = "Group Code")
     private String groupCode;
 
-    @Schema(description = "그룹코드명")
+    @Schema(description = "Group Code Name")
     private String groupCodeName;
 
-    @Schema(description = "사용여부")
+    @Schema(description = "In Use")
     private Boolean isUse;
 
-    @Schema(description = "공통코드목록")
+    @Schema(description = "Common Code List")
     private List<CommonCode> commonCodes;
 
     public static GroupCodeGetResponse ofDomain(GroupCode groupCode) {

@@ -13,13 +13,13 @@ import coz.springboot.domain.code.CommonCodeFilter;
 @NoArgsConstructor
 public class CommonCodeGetRequest {
 
-    @Schema(description = "그룹코드")
+    @Schema(description = "Group Code")
     private String groupCode;
 
-    @Schema(description = "공통코드")
+    @Schema(description = "Common Code")
     private String commonCode;
 
-    @Schema(description = "사용여부", example = "true")
+    @Schema(description = "In Use", example = "true")
     private Boolean isUse;
 
     public CommonCodeFilter toDomain() {

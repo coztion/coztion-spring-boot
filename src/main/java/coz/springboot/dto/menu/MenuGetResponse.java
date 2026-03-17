@@ -12,22 +12,22 @@ import coz.springboot.dto.common.DataRecordResponse;
 @SuperBuilder
 public class MenuGetResponse extends DataRecordResponse {
 
-    @Schema(description = "메뉴ID")
+    @Schema(description = "Menu ID")
     private String menuId;
 
-    @Schema(description = "메뉴명")
+    @Schema(description = "Menu Name")
     private String menuName;
 
-    @Schema(description = "메뉴타입")
+    @Schema(description = "Menu Type")
     private String menuType;
 
-    @Schema(description = "상위메뉴ID")
+    @Schema(description = "Parent Menu ID")
     private String parentMenuId;
 
-    @Schema(description = "정렬순서")
+    @Schema(description = "Sort Order")
     private Integer sortOrder;
 
-    @Schema(description = "사용여부")
+    @Schema(description = "In Use")
     private Boolean isUse;
 
     public static MenuGetResponse ofDomain(Menu menu) {
