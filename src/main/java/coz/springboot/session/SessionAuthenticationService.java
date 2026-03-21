@@ -16,15 +16,12 @@ import coz.springboot.domain.user.SessionUser;
 import coz.springboot.domain.user.User;
 import coz.springboot.domain.user.UserFilter;
 import coz.springboot.helper.MessageTranslator;
-import coz.springboot.repository.user.UserRepository;
 import coz.springboot.service.user.UserService;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class SessionAuthenticationService implements UserDetailsService {
-
-    private final UserRepository userRepository;
 
     private final UserService userService;
 
@@ -33,11 +30,10 @@ public class SessionAuthenticationService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserFilter userFilter = UserFilter.ofUsername(username);
+        Optional<User> foundUser = userService.getUser(userFilter);
 
-        Optional<User> optionalUser = userRepository.findUserByFilter(userFilter);
-
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
+        if (foundUser.isPresent()) {
+            User user = foundUser.get();
             return SessionUser.ofUser(user);
         }
 
