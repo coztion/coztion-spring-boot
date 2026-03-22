@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import coz.springboot.domain.code.GroupCode;
-import coz.springboot.domain.code.GroupCodeFilter;
+import coz.springboot.vo.code.GroupCode;
+import coz.springboot.vo.code.GroupCodeFilter;
 
 @Mapper
 public interface GroupCodeRepository {

@@ -2,8 +2,8 @@ package coz.springboot.service.code;
 
 import java.util.List;
 
-import coz.springboot.domain.code.GroupCode;
-import coz.springboot.domain.code.GroupCodeFilter;
+import coz.springboot.vo.code.GroupCode;
+import coz.springboot.vo.code.GroupCodeFilter;
 
 public interface GroupCodeService {
 

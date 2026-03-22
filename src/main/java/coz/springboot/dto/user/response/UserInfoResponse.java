@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
-import coz.springboot.domain.user.SessionUser;
+import coz.springboot.vo.user.SessionUser;
 
 @Getter
 @Builder

@@ -2,8 +2,8 @@ package coz.springboot.service.code;
 
 import java.util.List;
 
-import coz.springboot.domain.code.CommonCode;
-import coz.springboot.domain.code.CommonCodeFilter;
+import coz.springboot.vo.code.CommonCode;
+import coz.springboot.vo.code.CommonCodeFilter;
 
 public interface CommonCodeService {
 

@@ -4,7 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import lombok.experimental.UtilityClass;
 
-import coz.springboot.domain.user.SessionUser;
+import coz.springboot.vo.user.SessionUser;
 
 @UtilityClass
 public class SessionHolder {
