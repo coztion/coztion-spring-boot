@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
-import coz.springboot.domain.menu.MenuTree;
+import coz.springboot.vo.menu.MenuTree;
 
 @Getter
 @Builder

@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import coz.springboot.domain.menu.MenuFilter;
 import coz.springboot.enums.menu.MenuType;
+import coz.springboot.vo.menu.MenuFilter;
 
 @Getter
 @Setter

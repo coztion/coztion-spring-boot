@@ -6,8 +6,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import lombok.experimental.UtilityClass;
 
-import coz.springboot.vo.user.SessionUser;
 import coz.springboot.enums.user.Authority;
+import coz.springboot.vo.user.SessionUser;
 
 @UtilityClass
 public class SessionHolder {

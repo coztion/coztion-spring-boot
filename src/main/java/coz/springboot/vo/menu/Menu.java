@@ -1,17 +1,16 @@
-package coz.springboot.domain.menu;
-
-import java.util.List;
+package coz.springboot.vo.menu;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import coz.springboot.enums.menu.MenuType;
+import coz.springboot.vo.common.DataRecord;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class MenuTree {
+public class Menu extends DataRecord {
 
     private String menuId;
 
@@ -23,5 +22,5 @@ public class MenuTree {
 
     private Integer sortOrder;
 
-    private List<MenuTree> subMenus;
+    private Boolean isUse;
 }

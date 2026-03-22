@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import coz.springboot.domain.menu.Menu;
-import coz.springboot.domain.menu.MenuFilter;
-import coz.springboot.domain.menu.MenuTree;
 import coz.springboot.enums.user.Authority;
+import coz.springboot.vo.menu.Menu;
+import coz.springboot.vo.menu.MenuFilter;
+import coz.springboot.vo.menu.MenuTree;
 
 @Mapper
 public interface MenuRepository {

@@ -11,9 +11,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.domain.menu.Menu;
-import coz.springboot.domain.menu.MenuFilter;
-import coz.springboot.domain.menu.MenuTree;
 import coz.springboot.dto.common.RestResponse;
 import coz.springboot.dto.menu.MenuGetRequest;
 import coz.springboot.dto.menu.MenuGetResponse;
@@ -21,6 +18,9 @@ import coz.springboot.dto.menu.MenuTreeResponse;
 import coz.springboot.enums.user.Authority;
 import coz.springboot.helper.SessionHolder;
 import coz.springboot.service.menu.MenuService;
+import coz.springboot.vo.menu.Menu;
+import coz.springboot.vo.menu.MenuFilter;
+import coz.springboot.vo.menu.MenuTree;
 
 @Tag(name = "Menu", description = "Menu API")
 @RestController
