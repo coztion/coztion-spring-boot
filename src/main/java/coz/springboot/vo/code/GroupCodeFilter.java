@@ -1,4 +1,4 @@
-package coz.springboot.domain.code;
+package coz.springboot.vo.code;
 
 import java.util.List;
 

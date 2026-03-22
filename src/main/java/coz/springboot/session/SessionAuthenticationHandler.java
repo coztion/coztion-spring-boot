@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.domain.user.SessionUser;
 import coz.springboot.helper.RedisRepository;
 import coz.springboot.helper.SessionFactory;
+import coz.springboot.vo.user.SessionUser;
 
 @Component
 @RequiredArgsConstructor

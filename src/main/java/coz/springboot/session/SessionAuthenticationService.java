@@ -12,11 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import coz.springboot.constant.Label;
 import coz.springboot.constant.Message;
-import coz.springboot.domain.user.SessionUser;
-import coz.springboot.domain.user.User;
-import coz.springboot.domain.user.UserFilter;
 import coz.springboot.helper.MessageTranslator;
 import coz.springboot.service.user.UserService;
+import coz.springboot.vo.user.SessionUser;
+import coz.springboot.vo.user.User;
+import coz.springboot.vo.user.UserFilter;
 
 @Slf4j
 @Service

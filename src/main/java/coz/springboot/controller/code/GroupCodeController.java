@@ -11,12 +11,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.domain.code.GroupCode;
-import coz.springboot.domain.code.GroupCodeFilter;
 import coz.springboot.dto.code.GroupCodeGetRequest;
 import coz.springboot.dto.code.GroupCodeGetResponse;
 import coz.springboot.dto.common.RestResponse;
 import coz.springboot.service.code.GroupCodeService;
+import coz.springboot.vo.code.GroupCode;
+import coz.springboot.vo.code.GroupCodeFilter;
 
 @Tag(name = "Group Code", description = "Group Code API")
 @RestController

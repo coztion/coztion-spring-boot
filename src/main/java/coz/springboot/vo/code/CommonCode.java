@@ -1,10 +1,10 @@
-package coz.springboot.domain.code;
+package coz.springboot.vo.code;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import coz.springboot.domain.common.DataRecord;
+import coz.springboot.vo.common.DataRecord;
 
 @Getter
 @Setter
