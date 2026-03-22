@@ -20,12 +20,6 @@ public class SessionController {
 
     private final SessionAuthenticationHandler sessionAuthenticationHandler;
 
-    @GetMapping
-    public RestResponse<String> getSession() {
-        String username = SessionHolder.getUsername();
-        return RestResponse.ofSuccess(username);
-    }
-
     @PutMapping("/refresh")
     public RestResponse<Boolean> refreshSession() {
         return RestResponse.ofSuccess(true);

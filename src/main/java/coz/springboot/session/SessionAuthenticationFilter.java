@@ -2,7 +2,6 @@ package coz.springboot.session;
 
 import java.util.Map;
 
-import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -16,21 +15,15 @@ import org.springframework.stereotype.Component;
 
 import lombok.SneakyThrows;
 
-import coz.springboot.domain.user.SessionUser;
-
 @Component
 public class SessionAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-
-    private final AuthenticationManager authenticationManager;
-
-    private final SessionAuthenticationHandler sessionAuthenticationHandler;
 
     public SessionAuthenticationFilter(
             AuthenticationManager authenticationManager, SessionAuthenticationHandler sessionAuthenticationHandler) {
         super(authenticationManager);
-        this.authenticationManager = authenticationManager;
-        this.sessionAuthenticationHandler = sessionAuthenticationHandler;
         setFilterProcessesUrl("/login");
+        setAuthenticationSuccessHandler(sessionAuthenticationHandler);
+        setAuthenticationFailureHandler(sessionAuthenticationHandler);
     }
 
     @SneakyThrows
@@ -41,17 +34,6 @@ public class SessionAuthenticationFilter extends UsernamePasswordAuthenticationF
         String username = (String) authenticationRequest.get("username");
         String password = (String) authenticationRequest.get("password");
         Authentication authentication = UsernamePasswordAuthenticationToken.unauthenticated(username, password);
-        return authenticationManager.authenticate(authentication);
-    }
-
-    @SneakyThrows
-    @Override
-    protected void successfulAuthentication(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain chain,
-            Authentication authentication) {
-        SessionUser sessionUser = (SessionUser) authentication.getPrincipal();
-        sessionAuthenticationHandler.handleAuthenticationSuccess(sessionUser, response);
+        return getAuthenticationManager().authenticate(authentication);
     }
 }

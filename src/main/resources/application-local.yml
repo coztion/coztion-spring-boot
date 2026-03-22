@@ -1,4 +1,8 @@
 spring:
+  security:
+    secret:
+      token: ${SPRING_SECURITY_JWT_SECRET_VALUE:SPRING_SECURITY_JWT_SECRET_VALUE}
+
   datasource:
     url: jdbc:mysql://localhost:3306/spring-boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: root

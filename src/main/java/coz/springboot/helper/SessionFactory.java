@@ -26,13 +26,13 @@ import coz.springboot.domain.user.SessionUser;
 @Component
 public class SessionFactory {
 
-    @Value("${spring.security.token-secret}")
+    @Value("${spring.security.secret.token}")
     private String tokenSecret;
 
-    @Value("${spring.security.access-token-expiration-millis}")
+    @Value("${spring.security.expiration.access-token}")
     private long accessTokenExpirationMillis;
 
-    @Value("${spring.security.refresh-token-expiration-millis}")
+    @Value("${spring.security.expiration.refresh-token}")
     private long refreshTokenExpirationMillis;
 
     public SecretKey secretKey;

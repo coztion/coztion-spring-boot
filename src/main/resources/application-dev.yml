@@ -1,0 +1,4 @@
+spring:
+  security:
+    secret:
+      token: ${SPRING_SECURITY_JWT_SECRET_VALUE}
