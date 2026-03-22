@@ -21,7 +21,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import lombok.RequiredArgsConstructor;
 
 import coz.springboot.session.SessionAuthenticationFilter;
-import coz.springboot.session.SessionAuthenticationProvider;
 import coz.springboot.session.SessionAuthenticationTokenFilter;
 
 @Configuration
@@ -36,15 +35,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
             SessionAuthenticationFilter sessionAuthenticationFilter,
-            SessionAuthenticationTokenFilter sessionAuthenticationTokenFilter,
-            SessionAuthenticationProvider sessionAuthenticationProvider)
+            SessionAuthenticationTokenFilter sessionAuthenticationTokenFilter)
             throws Exception {
         return http.httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(customizer -> customizer.configurationSource(request -> corsConfiguration()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(sessionAuthenticationProvider)
                 .authorizeHttpRequests(request -> request.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/login")
                         .permitAll()
                         .anyRequest()
