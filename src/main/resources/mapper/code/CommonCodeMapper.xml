@@ -3,8 +3,8 @@
 <mapper namespace="coz.springboot.repository.code.CommonCodeRepository">
 
     <select id="findCommonCodesByFilter"
-            parameterType="coz.springboot.domain.code.CommonCodeFilter"
-            resultType="coz.springboot.domain.code.CommonCode">
+            parameterType="coz.springboot.vo.code.CommonCodeFilter"
+            resultType="coz.springboot.vo.code.CommonCode">
         SELECT GROUP_CODE
              , COMMON_CODE
              , COMMON_CODE_NAME
@@ -29,8 +29,8 @@
     </select>
 
     <select id="findCommonCodeByFilter"
-            parameterType="coz.springboot.domain.code.CommonCodeFilter"
-            resultType="coz.springboot.domain.code.CommonCode">
+            parameterType="coz.springboot.vo.code.CommonCodeFilter"
+            resultType="coz.springboot.vo.code.CommonCode">
         SELECT GROUP_CODE
              , COMMON_CODE
              , COMMON_CODE_NAME

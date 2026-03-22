@@ -7,9 +7,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
-import coz.springboot.domain.code.CommonCode;
-import coz.springboot.domain.code.GroupCode;
 import coz.springboot.dto.common.DataRecordResponse;
+import coz.springboot.vo.code.CommonCode;
+import coz.springboot.vo.code.GroupCode;
 
 @Getter
 @SuperBuilder

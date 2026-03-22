@@ -1,10 +1,10 @@
-package coz.springboot.domain.code;
+package coz.springboot.vo.code;
 
 import java.util.List;
 
 import lombok.*;
 
-import coz.springboot.domain.common.DataRecord;
+import coz.springboot.vo.common.DataRecord;
 
 @Getter
 @Setter

@@ -10,10 +10,10 @@ import lombok.RequiredArgsConstructor;
 
 import coz.springboot.constant.Label;
 import coz.springboot.constant.Message;
-import coz.springboot.domain.code.CommonCode;
-import coz.springboot.domain.code.CommonCodeFilter;
 import coz.springboot.exception.ClientException;
 import coz.springboot.repository.code.CommonCodeRepository;
+import coz.springboot.vo.code.CommonCode;
+import coz.springboot.vo.code.CommonCodeFilter;
 
 @Service
 @RequiredArgsConstructor

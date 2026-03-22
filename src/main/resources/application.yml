@@ -9,9 +9,12 @@ spring:
     always-use-message-format: true
 
   security:
-    token-secret: ${SPRING_SECURITY_JWT_SECRET_VALUE:SPRING_SECURITY_JWT_SECRET_VALUE}
-    access-token-expiration-millis: 300000 # 300000 # 5분
-    refresh-token-expiration-millis: 3600000 # 1시간
+    expiration:
+      access-token: 300000 # 300000 # 5분
+      refresh-token: 3600000 # 1시간
+    cookie:
+      access-token: ACCESS_TOKEN
+      refresh-token: REFRESH_TOKEN
     refresh-token-cookie-name: REFRESH_TOKEN
 
 mybatis:

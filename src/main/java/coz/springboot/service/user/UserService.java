@@ -1,13 +1,14 @@
 package coz.springboot.service.user;
 
 import java.util.List;
+import java.util.Optional;
 
-import coz.springboot.domain.user.User;
-import coz.springboot.domain.user.UserFilter;
+import coz.springboot.vo.user.User;
+import coz.springboot.vo.user.UserFilter;
 
 public interface UserService {
 
     List<User> getUsers(UserFilter filter);
 
-    User getUser(UserFilter filter);
+    Optional<User> getUser(UserFilter filter);
 }

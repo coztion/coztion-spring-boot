@@ -1,27 +1,45 @@
 package coz.springboot.session;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.domain.user.SessionUser;
 import coz.springboot.helper.RedisRepository;
 import coz.springboot.helper.SessionFactory;
+import coz.springboot.vo.user.SessionUser;
 
 @Component
 @RequiredArgsConstructor
-public class SessionAuthenticationHandler {
+public class SessionAuthenticationHandler implements AuthenticationSuccessHandler, AuthenticationFailureHandler {
 
-    @Value("${spring.security.refresh-token-cookie-name}")
+    @Value("${spring.security.cookie.refresh-token}")
     private String refreshTokenCookieName;
 
     private final SessionFactory sessionFactory;
 
     private final RedisRepository redisRepository;
+
+    @Override
+    public void onAuthenticationSuccess(
+            HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+        SessionUser sessionUser = (SessionUser) authentication.getPrincipal();
+        handleAuthenticationSuccess(sessionUser, response);
+    }
+
+    @Override
+    public void onAuthenticationFailure(
+            HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
+        handleAuthenticationFailure(response);
+    }
 
     public void handleAuthenticationSuccess(SessionUser sessionUser, HttpServletResponse response) {
         String accessToken = sessionFactory.generateAccessToken(sessionUser);
@@ -41,6 +59,7 @@ public class SessionAuthenticationHandler {
     }
 
     public void handleAuthenticationFailure(HttpServletResponse response) {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         removeRefreshTokenCookie(response);
     }
 

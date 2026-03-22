@@ -8,12 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.constant.Label;
-import coz.springboot.constant.Message;
-import coz.springboot.domain.user.User;
-import coz.springboot.domain.user.UserFilter;
-import coz.springboot.exception.ClientException;
 import coz.springboot.repository.user.UserRepository;
+import coz.springboot.vo.user.User;
+import coz.springboot.vo.user.UserFilter;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public User getUser(UserFilter filter) {
-        Optional<User> optionalUser = userRepository.findUserByFilter(filter);
-        return optionalUser.orElseThrow(() -> new ClientException(Message.Exception.NOT_FOUND, Label.User.USER));
+    public Optional<User> getUser(UserFilter filter) {
+        return userRepository.findUserByFilter(filter);
     }
 }
