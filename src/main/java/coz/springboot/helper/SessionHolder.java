@@ -1,9 +1,12 @@
 package coz.springboot.helper;
 
+import java.util.List;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import lombok.experimental.UtilityClass;
 
+import coz.springboot.enums.user.Authority;
 import coz.springboot.vo.user.SessionUser;
 
 @UtilityClass
@@ -16,5 +19,11 @@ public class SessionHolder {
 
     public static String getUsername() {
         return getSessionUser().getUsername();
+    }
+
+    public static List<Authority> getAuthorities() {
+        return getSessionUser().getAuthorityCodes().stream()
+                .map(Authority::ofValue)
+                .toList();
     }
 }

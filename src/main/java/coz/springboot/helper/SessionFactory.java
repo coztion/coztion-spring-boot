@@ -18,11 +18,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
-import lombok.Getter;
-
 import coz.springboot.vo.user.SessionUser;
 
-@Getter
 @Component
 public class SessionFactory {
 

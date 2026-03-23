@@ -15,16 +15,16 @@ import coz.springboot.vo.code.GroupCode;
 @SuperBuilder
 public class GroupCodeGetResponse extends DataRecordResponse {
 
-    @Schema(description = "그룹코드")
+    @Schema(description = "Group Code")
     private String groupCode;
 
-    @Schema(description = "그룹코드명")
+    @Schema(description = "Group Code Name")
     private String groupCodeName;
 
-    @Schema(description = "사용여부")
+    @Schema(description = "In Use")
     private Boolean isUse;
 
-    @Schema(description = "공통코드목록")
+    @Schema(description = "Common Code List")
     private List<CommonCode> commonCodes;
 
     public static GroupCodeGetResponse ofDomain(GroupCode groupCode) {
@@ -33,10 +33,7 @@ public class GroupCodeGetResponse extends DataRecordResponse {
                 .groupCodeName(groupCode.getGroupCodeName())
                 .isUse(groupCode.getIsUse())
                 .commonCodes(groupCode.getCommonCodes())
-                .createdBy(groupCode.getCreatedBy())
-                .createdAt(groupCode.getCreatedAt())
-                .updatedBy(groupCode.getUpdatedBy())
-                .updatedAt(groupCode.getUpdatedAt())
+                .dataRecord(groupCode)
                 .build();
     }
 }
