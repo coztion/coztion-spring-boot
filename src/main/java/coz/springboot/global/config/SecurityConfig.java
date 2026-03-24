@@ -1,4 +1,4 @@
-package coz.springboot.config;
+package coz.springboot.global.config;
 
 import java.util.Collections;
 import java.util.List;
