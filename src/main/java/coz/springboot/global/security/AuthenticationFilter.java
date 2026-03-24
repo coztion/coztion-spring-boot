@@ -1,4 +1,4 @@
-package coz.springboot.session;
+package coz.springboot.global.security;
 
 import java.util.Map;
 
@@ -16,14 +16,14 @@ import org.springframework.stereotype.Component;
 import lombok.SneakyThrows;
 
 @Component
-public class SessionAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    public SessionAuthenticationFilter(
-            AuthenticationManager authenticationManager, SessionAuthenticationHandler sessionAuthenticationHandler) {
+    public AuthenticationFilter(
+            AuthenticationManager authenticationManager, AuthenticationHandler authenticationHandler) {
         super(authenticationManager);
         setFilterProcessesUrl("/login");
-        setAuthenticationSuccessHandler(sessionAuthenticationHandler);
-        setAuthenticationFailureHandler(sessionAuthenticationHandler);
+        setAuthenticationSuccessHandler(authenticationHandler);
+        setAuthenticationFailureHandler(authenticationHandler);
     }
 
     @SneakyThrows

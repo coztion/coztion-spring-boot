@@ -1,4 +1,4 @@
-package coz.springboot.session;
+package coz.springboot.global.security;
 
 import java.util.Optional;
 
@@ -21,7 +21,7 @@ import coz.springboot.vo.user.UserFilter;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SessionAuthenticationService implements UserDetailsService {
+public class AuthenticationService implements UserDetailsService {
 
     private final UserService userService;
 

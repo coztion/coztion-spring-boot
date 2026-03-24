@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 
 import coz.springboot.dto.common.RestResponse;
 import coz.springboot.global.helper.SessionHolder;
+import coz.springboot.global.security.AuthenticationHandler;
 import coz.springboot.service.user.SessionService;
-import coz.springboot.session.SessionAuthenticationHandler;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,7 +18,7 @@ public class SessionController {
 
     private final SessionService sessionService;
 
-    private final SessionAuthenticationHandler sessionAuthenticationHandler;
+    private final AuthenticationHandler authenticationHandler;
 
     @PutMapping("/refresh")
     public RestResponse<Boolean> refreshSession() {
@@ -29,7 +29,7 @@ public class SessionController {
     public RestResponse<Boolean> logout(HttpServletResponse response) {
         String username = SessionHolder.getUsername();
         sessionService.logout(username);
-        sessionAuthenticationHandler.removeRefreshTokenCookie(response);
+        authenticationHandler.removeRefreshTokenCookie(response);
         return RestResponse.ofSuccess(true);
     }
 }

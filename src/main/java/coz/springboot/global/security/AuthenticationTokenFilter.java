@@ -1,4 +1,4 @@
-package coz.springboot.session;
+package coz.springboot.global.security;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -31,14 +31,14 @@ import coz.springboot.vo.user.SessionUser;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class SessionAuthenticationTokenFilter extends OncePerRequestFilter {
+public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Value("${spring.security.refresh-token-cookie-name}")
     private String refreshTokenCookieName;
 
     private final SessionFactory sessionFactory;
 
-    private final SessionAuthenticationHandler sessionAuthenticationHandler;
+    private final AuthenticationHandler authenticationHandler;
 
     private final RedisRepository redisRepository;
 
@@ -61,7 +61,7 @@ public class SessionAuthenticationTokenFilter extends OncePerRequestFilter {
                 handleTokenRefresh(request, response);
             } catch (JwtException e) {
                 log.warn("Access token is invalid : {}", e.getMessage());
-                sessionAuthenticationHandler.handleAuthenticationFailure(response);
+                authenticationHandler.handleAuthenticationFailure(response);
             }
         }
 
@@ -86,25 +86,25 @@ public class SessionAuthenticationTokenFilter extends OncePerRequestFilter {
             String cachedRefreshToken = redisRepository.get(sessionUser.getUsername(), String.class);
             if (Objects.isNull(cachedRefreshToken)) {
                 log.warn("No refresh token found in Redis for user: {}", sessionUser.getUsername());
-                sessionAuthenticationHandler.handleAuthenticationFailure(response);
+                authenticationHandler.handleAuthenticationFailure(response);
                 return;
             }
 
             if (!cachedRefreshToken.equals(refreshToken)) {
                 log.warn("Refresh token mismatch for user: {}.", sessionUser.getUsername());
                 redisRepository.remove(sessionUser.getUsername());
-                sessionAuthenticationHandler.handleAuthenticationFailure(response);
+                authenticationHandler.handleAuthenticationFailure(response);
                 return;
             }
 
-            sessionAuthenticationHandler.handleAuthenticationSuccess(sessionUser, response);
+            authenticationHandler.handleAuthenticationSuccess(sessionUser, response);
 
             Authentication authentication =
                     UsernamePasswordAuthenticationToken.authenticated(sessionUser, null, sessionUser.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (JwtException e) {
             log.warn("Invalid or expired refresh token: {}", e.getMessage());
-            sessionAuthenticationHandler.handleAuthenticationFailure(response);
+            authenticationHandler.handleAuthenticationFailure(response);
         }
     }
 

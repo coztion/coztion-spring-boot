@@ -20,8 +20,8 @@ import org.springframework.web.cors.CorsConfiguration;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.session.SessionAuthenticationFilter;
-import coz.springboot.session.SessionAuthenticationTokenFilter;
+import coz.springboot.global.security.AuthenticationFilter;
+import coz.springboot.global.security.AuthenticationTokenFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -34,8 +34,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
-            SessionAuthenticationFilter sessionAuthenticationFilter,
-            SessionAuthenticationTokenFilter sessionAuthenticationTokenFilter)
+            AuthenticationFilter authenticationFilter,
+            AuthenticationTokenFilter authenticationTokenFilter)
             throws Exception {
         return http.httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -46,8 +46,8 @@ public class SecurityConfig {
                         .permitAll()
                         .anyRequest()
                         .authenticated())
-                .addFilter(sessionAuthenticationFilter)
-                .addFilterBefore(sessionAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilter(authenticationFilter)
+                .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

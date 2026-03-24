@@ -1,4 +1,4 @@
-package coz.springboot.session;
+package coz.springboot.global.security;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ import coz.springboot.vo.user.SessionUser;
 
 @Component
 @RequiredArgsConstructor
-public class SessionAuthenticationHandler implements AuthenticationSuccessHandler, AuthenticationFailureHandler {
+public class AuthenticationHandler implements AuthenticationSuccessHandler, AuthenticationFailureHandler {
 
     @Value("${spring.security.cookie.refresh-token}")
     private String refreshTokenCookieName;
