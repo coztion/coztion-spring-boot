@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import coz.springboot.dto.common.RestResponse;
 import coz.springboot.dto.user.response.UserInfoResponse;
-import coz.springboot.helper.SessionHolder;
+import coz.springboot.global.helper.SessionHolder;
 import coz.springboot.vo.user.SessionUser;
 
 @RestController

@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import coz.springboot.global.constant.Label;
 import coz.springboot.global.constant.Message;
-import coz.springboot.helper.MessageTranslator;
+import coz.springboot.global.helper.MessageTranslator;
 import coz.springboot.service.user.UserService;
 import coz.springboot.vo.user.SessionUser;
 import coz.springboot.vo.user.User;

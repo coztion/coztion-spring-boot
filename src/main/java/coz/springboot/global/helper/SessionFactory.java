@@ -1,4 +1,4 @@
-package coz.springboot.helper;
+package coz.springboot.global.helper;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;

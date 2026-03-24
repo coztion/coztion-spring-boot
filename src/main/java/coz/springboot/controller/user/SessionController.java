@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 
 import coz.springboot.dto.common.RestResponse;
-import coz.springboot.helper.SessionHolder;
+import coz.springboot.global.helper.SessionHolder;
 import coz.springboot.service.user.SessionService;
 import coz.springboot.session.SessionAuthenticationHandler;
 

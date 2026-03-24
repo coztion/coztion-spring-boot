@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import coz.springboot.dto.common.RestResponse;
 import coz.springboot.global.constant.Message;
-import coz.springboot.helper.MessageTranslator;
+import coz.springboot.global.helper.MessageTranslator;
 
 @Slf4j
 @RestControllerAdvice

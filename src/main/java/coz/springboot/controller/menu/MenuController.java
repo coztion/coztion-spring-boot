@@ -16,7 +16,7 @@ import coz.springboot.dto.menu.MenuGetRequest;
 import coz.springboot.dto.menu.MenuGetResponse;
 import coz.springboot.dto.menu.MenuTreeResponse;
 import coz.springboot.enums.user.Authority;
-import coz.springboot.helper.SessionHolder;
+import coz.springboot.global.helper.SessionHolder;
 import coz.springboot.service.menu.MenuService;
 import coz.springboot.vo.menu.Menu;
 import coz.springboot.vo.menu.MenuFilter;

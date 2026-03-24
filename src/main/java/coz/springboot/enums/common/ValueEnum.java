@@ -2,8 +2,8 @@ package coz.springboot.enums.common;
 
 import org.springframework.util.StringUtils;
 
-import coz.springboot.global.exception.ClientException;
 import coz.springboot.global.constant.Message;
+import coz.springboot.global.exception.ClientException;
 
 public interface ValueEnum {
 

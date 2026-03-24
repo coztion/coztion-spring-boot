@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.helper.RedisRepository;
-import coz.springboot.helper.SessionFactory;
+import coz.springboot.global.helper.RedisRepository;
+import coz.springboot.global.helper.SessionFactory;
 import coz.springboot.vo.user.SessionUser;
 
 @Component
