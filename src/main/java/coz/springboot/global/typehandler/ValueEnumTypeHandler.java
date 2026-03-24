@@ -1,4 +1,4 @@
-package coz.springboot.typehandler;
+package coz.springboot.global.typehandler;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
