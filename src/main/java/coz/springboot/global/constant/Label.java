@@ -1,4 +1,4 @@
-package coz.springboot.constant;
+package coz.springboot.global.constant;
 
 public class Label {
 

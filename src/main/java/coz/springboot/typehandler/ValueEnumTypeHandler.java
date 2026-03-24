@@ -9,9 +9,9 @@ import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;
 
-import coz.springboot.constant.Message;
 import coz.springboot.enums.common.ValueEnum;
 import coz.springboot.exception.ServerException;
+import coz.springboot.global.constant.Message;
 
 @MappedTypes(ValueEnum.class)
 public class ValueEnumTypeHandler<E extends Enum<E> & ValueEnum> extends BaseTypeHandler<E> {

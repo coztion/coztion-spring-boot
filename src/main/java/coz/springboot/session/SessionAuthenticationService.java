@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import coz.springboot.constant.Label;
-import coz.springboot.constant.Message;
+import coz.springboot.global.constant.Label;
+import coz.springboot.global.constant.Message;
 import coz.springboot.helper.MessageTranslator;
 import coz.springboot.service.user.UserService;
 import coz.springboot.vo.user.SessionUser;

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import coz.springboot.constant.Message;
 import coz.springboot.dto.common.RestResponse;
+import coz.springboot.global.constant.Message;
 import coz.springboot.helper.MessageTranslator;
 
 @Slf4j
