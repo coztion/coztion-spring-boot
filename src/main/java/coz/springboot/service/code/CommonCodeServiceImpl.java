@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.exception.ClientException;
+import coz.springboot.global.exception.ClientException;
 import coz.springboot.global.constant.Label;
 import coz.springboot.global.constant.Message;
 import coz.springboot.repository.code.CommonCodeRepository;

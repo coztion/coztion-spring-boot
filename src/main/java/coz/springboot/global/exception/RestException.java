@@ -1,4 +1,4 @@
-package coz.springboot.exception;
+package coz.springboot.global.exception;
 
 import java.util.Arrays;
 
