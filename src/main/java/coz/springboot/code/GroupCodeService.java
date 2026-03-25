@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.code.domain.GroupCode;
-import coz.springboot.code.domain.GroupCodeFilter;
+import coz.springboot.code.model.GroupCode;
+import coz.springboot.code.model.GroupCodeFilter;
 
 @Service
 @RequiredArgsConstructor

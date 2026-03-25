@@ -3,8 +3,8 @@
 <mapper namespace="coz.springboot.menu.MenuRepository">
 
     <select id="findMenusByFilter"
-            parameterType="coz.springboot.menu.domain.MenuFilter"
-            resultType="coz.springboot.menu.domain.Menu">
+            parameterType="coz.springboot.menu.model.MenuFilter"
+            resultType="coz.springboot.menu.model.Menu">
         SELECT MENU_ID
              , MENU_NAME
              , MENU_TYPE
@@ -28,7 +28,7 @@
     </select>
 
 
-    <select id="findMenuTree" resultType="coz.springboot.menu.domain.MenuTree">
+    <select id="findMenuTree" resultType="coz.springboot.menu.model.MenuTree">
         WITH RECURSIVE MENU_TREE AS (
             SELECT M.MENU_ID
                  , M.MENU_NAME

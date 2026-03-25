@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.global.dto.response.RestResponse;
-import coz.springboot.global.helper.SessionHolder;
-import coz.springboot.global.security.AuthenticationHandler;
+import coz.springboot.common.dto.RestResponse;
+import coz.springboot.common.helper.SessionHolder;
+import coz.springboot.common.security.AuthenticationHandler;
 
 @RestController
 @RequiredArgsConstructor

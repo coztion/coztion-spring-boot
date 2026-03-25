@@ -12,11 +12,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.code.domain.CommonCode;
-import coz.springboot.code.domain.CommonCodeFilter;
-import coz.springboot.code.model.CommonCodeGetRequest;
-import coz.springboot.code.model.CommonCodeResponse;
-import coz.springboot.global.dto.response.RestResponse;
+import coz.springboot.code.dto.CommonCodeGetRequest;
+import coz.springboot.code.dto.CommonCodeResponse;
+import coz.springboot.code.model.CommonCode;
+import coz.springboot.code.model.CommonCodeFilter;
+import coz.springboot.common.dto.RestResponse;
 
 @Tag(name = "Common Code", description = "Common Code API")
 @RestController
