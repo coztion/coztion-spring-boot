@@ -1,0 +1,45 @@
+package coz.springboot.menu.model;
+
+import java.util.List;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import lombok.Builder;
+import lombok.Getter;
+
+import coz.springboot.menu.domain.MenuTree;
+
+@Getter
+@Builder
+public class MenuTreeGetResponse {
+
+    @Schema(description = "Menu ID")
+    private String menuId;
+
+    @Schema(description = "Menu Name")
+    private String menuName;
+
+    @Schema(description = "Menu Type")
+    private String menuType;
+
+    @Schema(description = "Sort Order")
+    private Integer sortOrder;
+
+    @Schema(description = "Sub Menu List")
+    private List<MenuTreeGetResponse> subMenus;
+
+    public static MenuTreeGetResponse ofDomain(MenuTree menu) {
+        return MenuTreeGetResponse.builder()
+                .menuId(menu.getMenuId())
+                .menuName(menu.getMenuName())
+                .menuType(menu.getMenuType().getValue())
+                .sortOrder(menu.getSortOrder())
+                .subMenus(
+                        menu.getSubMenus() == null
+                                ? null
+                                : menu.getSubMenus().stream()
+                                        .map(MenuTreeGetResponse::ofDomain)
+                                        .toList())
+                .build();
+    }
+}

@@ -1,0 +1,21 @@
+package coz.springboot.code.domain;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import coz.springboot.global.vo.DataRecord;
+
+@Getter
+@Setter
+@NoArgsConstructor
+public class CommonCode extends DataRecord {
+
+    private String groupCode;
+
+    private String commonCode;
+
+    private String commonCodeName;
+
+    private Boolean isUse;
+}

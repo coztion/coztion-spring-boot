@@ -1,0 +1,21 @@
+package coz.springboot.global.enums;
+
+import org.springframework.util.StringUtils;
+
+import coz.springboot.global.constant.Message;
+import coz.springboot.global.exception.ClientException;
+
+public interface ValueEnum {
+
+    static <E extends Enum<E> & ValueEnum> E ofValue(Class<E> type, String value, String label) {
+        if (!StringUtils.hasText(value)) return null;
+
+        for (E e : type.getEnumConstants()) {
+            if (e.getValue().equals(value)) return e;
+        }
+
+        throw new ClientException(Message.Exception.BAD_REQUEST, label);
+    }
+
+    String getValue();
+}
