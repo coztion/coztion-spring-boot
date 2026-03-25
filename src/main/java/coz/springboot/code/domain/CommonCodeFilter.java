@@ -1,17 +1,15 @@
-package coz.springboot.vo.code;
-
-import java.util.List;
+package coz.springboot.code.domain;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class GroupCodeFilter {
-
-    private List<String> groupCodes;
+public class CommonCodeFilter {
 
     private String groupCode;
+
+    private String commonCode;
 
     private Boolean isUse;
 }

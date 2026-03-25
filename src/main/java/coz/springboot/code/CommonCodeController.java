@@ -1,4 +1,4 @@
-package coz.springboot.controller.code;
+package coz.springboot.code;
 
 import java.util.List;
 
@@ -12,12 +12,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.dto.code.CommonCodeGetRequest;
-import coz.springboot.dto.code.CommonCodeResponse;
+import coz.springboot.code.domain.CommonCode;
+import coz.springboot.code.domain.CommonCodeFilter;
+import coz.springboot.code.model.CommonCodeGetRequest;
+import coz.springboot.code.model.CommonCodeResponse;
 import coz.springboot.global.dto.response.RestResponse;
-import coz.springboot.service.code.CommonCodeService;
-import coz.springboot.vo.code.CommonCode;
-import coz.springboot.vo.code.CommonCodeFilter;
 
 @Tag(name = "Common Code", description = "Common Code API")
 @RestController

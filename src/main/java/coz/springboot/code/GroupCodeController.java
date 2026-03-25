@@ -1,4 +1,4 @@
-package coz.springboot.controller.code;
+package coz.springboot.code;
 
 import java.util.List;
 
@@ -11,12 +11,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.dto.code.GroupCodeGetRequest;
-import coz.springboot.dto.code.GroupCodeGetResponse;
+import coz.springboot.code.domain.GroupCode;
+import coz.springboot.code.domain.GroupCodeFilter;
+import coz.springboot.code.model.GroupCodeGetRequest;
+import coz.springboot.code.model.GroupCodeGetResponse;
 import coz.springboot.global.dto.response.RestResponse;
-import coz.springboot.service.code.GroupCodeService;
-import coz.springboot.vo.code.GroupCode;
-import coz.springboot.vo.code.GroupCodeFilter;
 
 @Tag(name = "Group Code", description = "Group Code API")
 @RestController

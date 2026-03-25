@@ -1,4 +1,4 @@
-package coz.springboot.dto.code;
+package coz.springboot.code.model;
 
 import java.util.List;
 
@@ -7,9 +7,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
+import coz.springboot.code.domain.CommonCode;
+import coz.springboot.code.domain.GroupCode;
 import coz.springboot.global.dto.response.DataRecordResponse;
-import coz.springboot.vo.code.CommonCode;
-import coz.springboot.vo.code.GroupCode;
 
 @Getter
 @SuperBuilder

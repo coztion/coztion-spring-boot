@@ -1,4 +1,4 @@
-package coz.springboot.dto.code;
+package coz.springboot.code.model;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import coz.springboot.vo.code.GroupCodeFilter;
+import coz.springboot.code.domain.GroupCodeFilter;
 
 @Getter
 @Setter

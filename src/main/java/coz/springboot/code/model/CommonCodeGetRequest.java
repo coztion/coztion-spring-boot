@@ -1,4 +1,4 @@
-package coz.springboot.dto.code;
+package coz.springboot.code.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import coz.springboot.vo.code.CommonCodeFilter;
+import coz.springboot.code.domain.CommonCodeFilter;
 
 @Getter
 @Setter
