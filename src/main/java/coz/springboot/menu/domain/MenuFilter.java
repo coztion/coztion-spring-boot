@@ -1,9 +1,7 @@
-package coz.springboot.vo.menu;
+package coz.springboot.menu.domain;
 
 import lombok.Builder;
 import lombok.Getter;
-
-import coz.springboot.enums.menu.MenuType;
 
 @Getter
 @Builder

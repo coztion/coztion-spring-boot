@@ -1,4 +1,4 @@
-package coz.springboot.enums.menu;
+package coz.springboot.menu.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

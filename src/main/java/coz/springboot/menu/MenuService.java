@@ -1,8 +1,9 @@
-package coz.springboot.service.menu;
+package coz.springboot.menu;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -10,26 +11,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.repository.menu.MenuRepository;
+import coz.springboot.menu.domain.Menu;
+import coz.springboot.menu.domain.MenuFilter;
+import coz.springboot.menu.domain.MenuTree;
 import coz.springboot.user.domain.Authority;
-import coz.springboot.vo.menu.Menu;
-import coz.springboot.vo.menu.MenuFilter;
-import coz.springboot.vo.menu.MenuTree;
 
 @Service
 @RequiredArgsConstructor
-public class MenuServiceImpl implements MenuService {
+public class MenuService {
 
     private final MenuRepository menuRepository;
 
     @Transactional(readOnly = true)
-    @Override
     public List<Menu> getMenus(MenuFilter filter) {
         return menuRepository.findMenusByFilter(filter);
     }
 
     @Transactional(readOnly = true)
-    @Override
     public List<MenuTree> getMenuTree(List<Authority> authorities) {
         List<MenuTree> menus = menuRepository.findMenuTree(authorities);
 
@@ -37,12 +35,12 @@ public class MenuServiceImpl implements MenuService {
 
         List<MenuTree> roots = new ArrayList<>();
         for (MenuTree menu : menus) {
-            if (menu.getParentMenuId() == null) {
+            if (Objects.isNull(menu.getParentMenuId())) {
                 roots.add(menu);
             } else {
                 MenuTree parent = map.get(menu.getParentMenuId());
-                if (parent != null) {
-                    if (parent.getSubMenus() == null) {
+                if (Objects.nonNull(parent)) {
+                    if (Objects.isNull(parent.getSubMenus())) {
                         parent.setSubMenus(new ArrayList<>());
                     }
                     parent.getSubMenus().add(menu);

@@ -1,10 +1,9 @@
-package coz.springboot.vo.menu;
+package coz.springboot.menu.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import coz.springboot.enums.menu.MenuType;
 import coz.springboot.global.vo.DataRecord;
 
 @Getter

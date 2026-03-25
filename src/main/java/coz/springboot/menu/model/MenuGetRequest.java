@@ -1,4 +1,4 @@
-package coz.springboot.dto.menu;
+package coz.springboot.menu.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import coz.springboot.enums.menu.MenuType;
-import coz.springboot.vo.menu.MenuFilter;
+import coz.springboot.menu.domain.MenuFilter;
+import coz.springboot.menu.domain.MenuType;
 
 @Getter
 @Setter
