@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 import coz.springboot.dto.code.CommonCodeGetRequest;
 import coz.springboot.dto.code.CommonCodeResponse;
-import coz.springboot.dto.common.RestResponse;
+import coz.springboot.global.dto.response.RestResponse;
 import coz.springboot.service.code.CommonCodeService;
 import coz.springboot.vo.code.CommonCode;
 import coz.springboot.vo.code.CommonCodeFilter;

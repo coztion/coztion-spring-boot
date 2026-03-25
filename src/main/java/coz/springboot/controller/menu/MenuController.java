@@ -11,11 +11,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.dto.common.RestResponse;
 import coz.springboot.dto.menu.MenuGetRequest;
 import coz.springboot.dto.menu.MenuGetResponse;
 import coz.springboot.dto.menu.MenuTreeResponse;
 import coz.springboot.enums.user.Authority;
+import coz.springboot.global.dto.response.RestResponse;
 import coz.springboot.global.helper.SessionHolder;
 import coz.springboot.service.menu.MenuService;
 import coz.springboot.vo.menu.Menu;

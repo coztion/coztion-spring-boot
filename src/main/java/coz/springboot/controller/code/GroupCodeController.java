@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 import coz.springboot.dto.code.GroupCodeGetRequest;
 import coz.springboot.dto.code.GroupCodeGetResponse;
-import coz.springboot.dto.common.RestResponse;
+import coz.springboot.global.dto.response.RestResponse;
 import coz.springboot.service.code.GroupCodeService;
 import coz.springboot.vo.code.GroupCode;
 import coz.springboot.vo.code.GroupCodeFilter;

@@ -1,4 +1,4 @@
-package coz.springboot.dto.common;
+package coz.springboot.global.dto.response;
 
 import lombok.*;
 
