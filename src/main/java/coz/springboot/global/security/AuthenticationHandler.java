@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 import coz.springboot.global.helper.RedisRepository;
 import coz.springboot.global.helper.SessionFactory;
-import coz.springboot.vo.user.SessionUser;
+import coz.springboot.user.domain.SessionUser;
 
 @Component
 @RequiredArgsConstructor

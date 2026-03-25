@@ -1,12 +1,12 @@
-package coz.springboot.repository.user;
+package coz.springboot.user;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import coz.springboot.vo.user.User;
-import coz.springboot.vo.user.UserFilter;
+import coz.springboot.user.domain.User;
+import coz.springboot.user.domain.UserFilter;
 
 @Mapper
 public interface UserRepository {

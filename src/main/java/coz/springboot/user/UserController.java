@@ -1,13 +1,13 @@
-package coz.springboot.controller.user;
+package coz.springboot.user;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import coz.springboot.dto.user.response.UserInfoResponse;
 import coz.springboot.global.dto.response.RestResponse;
 import coz.springboot.global.helper.SessionHolder;
-import coz.springboot.vo.user.SessionUser;
+import coz.springboot.user.domain.SessionUser;
+import coz.springboot.user.model.UserInfoResponse;
 
 @RestController
 @RequestMapping("/user")

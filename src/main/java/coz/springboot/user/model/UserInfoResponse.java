@@ -1,4 +1,4 @@
-package coz.springboot.dto.user.response;
+package coz.springboot.user.model;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
-import coz.springboot.vo.user.SessionUser;
+import coz.springboot.user.domain.SessionUser;
 
 @Getter
 @Builder

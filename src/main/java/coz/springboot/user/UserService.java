@@ -1,4 +1,4 @@
-package coz.springboot.service.user;
+package coz.springboot.user;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,24 +8,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.repository.user.UserRepository;
-import coz.springboot.vo.user.User;
-import coz.springboot.vo.user.UserFilter;
+import coz.springboot.user.domain.User;
+import coz.springboot.user.domain.UserFilter;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserService {
 
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    @Override
     public List<User> getUsers(UserFilter filter) {
         return userRepository.findUsersByFilter(filter);
     }
 
     @Transactional(readOnly = true)
-    @Override
     public Optional<User> getUser(UserFilter filter) {
         return userRepository.findUserByFilter(filter);
     }

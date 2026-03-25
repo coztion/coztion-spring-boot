@@ -18,7 +18,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
-import coz.springboot.vo.user.SessionUser;
+import coz.springboot.user.domain.SessionUser;
 
 @Component
 public class SessionFactory {

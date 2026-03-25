@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.enums.user.Authority;
 import coz.springboot.repository.menu.MenuRepository;
+import coz.springboot.user.domain.Authority;
 import coz.springboot.vo.menu.Menu;
 import coz.springboot.vo.menu.MenuFilter;
 import coz.springboot.vo.menu.MenuTree;

@@ -1,4 +1,4 @@
-package coz.springboot.enums.user;
+package coz.springboot.user.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

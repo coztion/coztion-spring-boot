@@ -1,4 +1,4 @@
-package coz.springboot.controller.user;
+package coz.springboot.user;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import coz.springboot.global.dto.response.RestResponse;
 import coz.springboot.global.helper.SessionHolder;
 import coz.springboot.global.security.AuthenticationHandler;
-import coz.springboot.service.user.SessionService;
 
 @RestController
 @RequiredArgsConstructor
