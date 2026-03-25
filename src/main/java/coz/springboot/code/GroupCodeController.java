@@ -15,7 +15,7 @@ import coz.springboot.code.dto.GroupCodeGetRequest;
 import coz.springboot.code.dto.GroupCodeGetResponse;
 import coz.springboot.code.model.GroupCode;
 import coz.springboot.code.model.GroupCodeFilter;
-import coz.springboot.global.dto.RestResponse;
+import coz.springboot.common.dto.RestResponse;
 
 @Tag(name = "Group Code", description = "Group Code API")
 @RestController

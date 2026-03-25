@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import coz.springboot.global.model.DataRecord;
+import coz.springboot.common.model.DataRecord;
 
 @Getter
 @Setter

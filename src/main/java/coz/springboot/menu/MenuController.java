@@ -11,8 +11,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.global.dto.RestResponse;
-import coz.springboot.global.helper.SessionHolder;
+import coz.springboot.common.dto.RestResponse;
+import coz.springboot.common.helper.SessionHolder;
 import coz.springboot.menu.dto.MenuGetRequest;
 import coz.springboot.menu.dto.MenuGetResponse;
 import coz.springboot.menu.dto.MenuTreeGetResponse;

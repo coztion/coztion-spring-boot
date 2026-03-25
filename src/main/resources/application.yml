@@ -19,7 +19,7 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
-  type-handlers-package: coz.springboot.global.typehandler
+  type-handlers-package: coz.springboot.common.typehandler
   configuration:
     map-underscore-to-camel-case: true
     auto-mapping-behavior: full

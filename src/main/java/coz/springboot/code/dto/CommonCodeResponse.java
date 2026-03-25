@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
 import coz.springboot.code.model.CommonCode;
-import coz.springboot.global.dto.DataRecordResponse;
+import coz.springboot.common.dto.DataRecordResponse;
 
 @Getter
 @SuperBuilder

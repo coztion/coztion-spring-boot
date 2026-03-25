@@ -16,7 +16,7 @@ import coz.springboot.code.dto.CommonCodeGetRequest;
 import coz.springboot.code.dto.CommonCodeResponse;
 import coz.springboot.code.model.CommonCode;
 import coz.springboot.code.model.CommonCodeFilter;
-import coz.springboot.global.dto.RestResponse;
+import coz.springboot.common.dto.RestResponse;
 
 @Tag(name = "Common Code", description = "Common Code API")
 @RestController
