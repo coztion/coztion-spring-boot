@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import coz.springboot.code.domain.CommonCodeFilter;
+import coz.springboot.code.model.CommonCodeFilter;
 
 @Getter
 @Setter

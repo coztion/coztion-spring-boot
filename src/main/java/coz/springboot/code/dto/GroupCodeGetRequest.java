@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import coz.springboot.code.domain.GroupCodeFilter;
+import coz.springboot.code.model.GroupCodeFilter;
 
 @Getter
 @Setter

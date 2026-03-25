@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.user.domain.User;
-import coz.springboot.user.domain.UserFilter;
+import coz.springboot.user.model.User;
+import coz.springboot.user.model.UserFilter;
 
 @Service
 @RequiredArgsConstructor

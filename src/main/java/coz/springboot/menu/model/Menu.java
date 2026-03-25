@@ -1,4 +1,4 @@
-package coz.springboot.menu.domain;
+package coz.springboot.menu.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

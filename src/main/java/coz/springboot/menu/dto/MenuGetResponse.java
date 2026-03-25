@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
 import coz.springboot.global.dto.response.DataRecordResponse;
-import coz.springboot.menu.domain.Menu;
+import coz.springboot.menu.model.Menu;
 
 @Getter
 @SuperBuilder

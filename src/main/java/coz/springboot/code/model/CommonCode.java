@@ -1,4 +1,4 @@
-package coz.springboot.code.domain;
+package coz.springboot.code.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

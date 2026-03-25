@@ -1,4 +1,4 @@
-package coz.springboot.menu.domain;
+package coz.springboot.menu.model;
 
 import java.util.List;
 
