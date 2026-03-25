@@ -2,7 +2,7 @@ package coz.springboot.global.dto.response;
 
 import lombok.*;
 
-import coz.springboot.enums.common.RestResponseType;
+import coz.springboot.global.enums.RestResponseType;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)

@@ -3,8 +3,8 @@ package coz.springboot.enums.user;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.enums.common.ValueEnum;
 import coz.springboot.global.constant.Label;
+import coz.springboot.global.enums.ValueEnum;
 
 @Getter
 @RequiredArgsConstructor

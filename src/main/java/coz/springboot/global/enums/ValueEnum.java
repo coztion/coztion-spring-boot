@@ -1,4 +1,4 @@
-package coz.springboot.enums.common;
+package coz.springboot.global.enums;
 
 import org.springframework.util.StringUtils;
 

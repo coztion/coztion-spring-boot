@@ -11,7 +11,7 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
 import org.apache.ibatis.type.MappedTypes;
 
-import coz.springboot.enums.common.YesOrNo;
+import coz.springboot.global.enums.YesOrNo;
 
 @MappedTypes(Boolean.class)
 @MappedJdbcTypes(JdbcType.VARCHAR)
