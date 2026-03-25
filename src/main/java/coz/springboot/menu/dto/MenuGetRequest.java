@@ -1,4 +1,4 @@
-package coz.springboot.menu.model;
+package coz.springboot.menu.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

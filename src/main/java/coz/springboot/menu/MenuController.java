@@ -16,9 +16,9 @@ import coz.springboot.global.helper.SessionHolder;
 import coz.springboot.menu.domain.Menu;
 import coz.springboot.menu.domain.MenuFilter;
 import coz.springboot.menu.domain.MenuTree;
-import coz.springboot.menu.model.MenuGetRequest;
-import coz.springboot.menu.model.MenuGetResponse;
-import coz.springboot.menu.model.MenuTreeGetResponse;
+import coz.springboot.menu.dto.MenuGetRequest;
+import coz.springboot.menu.dto.MenuGetResponse;
+import coz.springboot.menu.dto.MenuTreeGetResponse;
 import coz.springboot.user.domain.Authority;
 
 @Tag(name = "Menu", description = "Menu API")

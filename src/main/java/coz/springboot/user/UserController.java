@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import coz.springboot.global.dto.response.RestResponse;
 import coz.springboot.global.helper.SessionHolder;
 import coz.springboot.user.domain.SessionUser;
-import coz.springboot.user.model.UserInfoResponse;
+import coz.springboot.user.dto.UserInfoResponse;
 
 @RestController
 @RequestMapping("/user")

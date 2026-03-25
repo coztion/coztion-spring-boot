@@ -1,4 +1,4 @@
-package coz.springboot.code.model;
+package coz.springboot.code.dto;
 
 import java.util.List;
 
