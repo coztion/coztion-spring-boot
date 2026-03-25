@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import coz.springboot.enums.menu.MenuType;
-import coz.springboot.vo.common.DataRecord;
+import coz.springboot.global.vo.DataRecord;
 
 @Getter
 @Setter
