@@ -1,4 +1,4 @@
-package coz.springboot.global.dto.response;
+package coz.springboot.global.dto;
 
 import java.time.LocalDateTime;
 
@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
-import coz.springboot.global.vo.DataRecord;
+import coz.springboot.global.model.DataRecord;
 
 @Getter
 @SuperBuilder

@@ -1,4 +1,4 @@
-package coz.springboot.global.vo;
+package coz.springboot.global.model;
 
 import java.time.LocalDateTime;
 

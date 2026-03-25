@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
-import coz.springboot.global.dto.response.DataRecordResponse;
+import coz.springboot.global.dto.DataRecordResponse;
 import coz.springboot.menu.model.Menu;
 
 @Getter

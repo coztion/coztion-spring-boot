@@ -4,7 +4,7 @@ import java.util.List;
 
 import lombok.*;
 
-import coz.springboot.global.vo.DataRecord;
+import coz.springboot.global.model.DataRecord;
 
 @Getter
 @Setter
