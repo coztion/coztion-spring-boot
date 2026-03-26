@@ -28,10 +28,10 @@ public class GroupCodeController {
     @Operation(summary = "Get Group Codes", description = "Search group codes based on search filter")
     @GetMapping
     public RestResponse<List<GroupCodeGetResponse>> getGroupCodes(GroupCodeGetRequest request) {
-        GroupCodeFilter groupCodeFilter = request.toDomain();
+        GroupCodeFilter groupCodeFilter = request.toGroupCodeFilter();
         List<GroupCode> groupCodes = groupCodeService.getGroupCodes(groupCodeFilter);
         List<GroupCodeGetResponse> response =
-                groupCodes.stream().map(GroupCodeGetResponse::ofDomain).toList();
+                groupCodes.stream().map(GroupCodeGetResponse::fromGroupCode).toList();
         return RestResponse.ofSuccess(response);
     }
 }

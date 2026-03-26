@@ -32,10 +32,10 @@ public class MenuController {
     @Operation(summary = "Get Menus", description = "Search menus based on search filter")
     @GetMapping
     public RestResponse<List<MenuGetResponse>> getMenus(MenuGetRequest request) {
-        MenuFilter menuFilter = request.toDomain();
+        MenuFilter menuFilter = request.toMenuFilter();
         List<Menu> menus = menuService.getMenus(menuFilter);
         List<MenuGetResponse> response =
-                menus.stream().map(MenuGetResponse::ofDomain).toList();
+                menus.stream().map(MenuGetResponse::fromMenu).toList();
         return RestResponse.ofSuccess(response);
     }
 
@@ -45,7 +45,7 @@ public class MenuController {
         List<Authority> authorities = SessionHolder.getAuthorities();
         List<MenuTree> menuTrees = menuService.getMenuTree(authorities);
         List<MenuTreeGetResponse> response =
-                menuTrees.stream().map(MenuTreeGetResponse::ofDomain).toList();
+                menuTrees.stream().map(MenuTreeGetResponse::fromMenuTree).toList();
         return RestResponse.ofSuccess(response);
     }
 }

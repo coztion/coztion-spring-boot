@@ -20,7 +20,7 @@ public class MenuGetRequest {
     @Schema(description = "Usage Status", example = "true")
     private Boolean isUse;
 
-    public MenuFilter toDomain() {
+    public MenuFilter toMenuFilter() {
         return MenuFilter.builder()
                 .menuType(MenuType.ofValue(menuType))
                 .isUse(isUse)

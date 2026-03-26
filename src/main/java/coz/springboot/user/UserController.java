@@ -16,7 +16,7 @@ public class UserController {
     @GetMapping("/info")
     public RestResponse<UserInfoResponse> getUserInfo() {
         SessionUser sessionUser = SessionHolder.getSessionUser();
-        UserInfoResponse userInfo = UserInfoResponse.ofSessionUser(sessionUser);
+        UserInfoResponse userInfo = UserInfoResponse.fromSessionUser(sessionUser);
         return RestResponse.ofSuccess(userInfo);
     }
 }

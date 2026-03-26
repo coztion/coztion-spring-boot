@@ -24,7 +24,7 @@ public class GroupCodeGetRequest {
     @Schema(description = "Usage Status", example = "true")
     private Boolean isUse;
 
-    public GroupCodeFilter toDomain() {
+    public GroupCodeFilter toGroupCodeFilter() {
         return GroupCodeFilter.builder()
                 .groupCodes(groupCodes)
                 .groupCode(groupCode)

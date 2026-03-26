@@ -28,7 +28,7 @@ public class MenuTreeGetResponse {
     @Schema(description = "Sub Menu List")
     private List<MenuTreeGetResponse> subMenus;
 
-    public static MenuTreeGetResponse ofDomain(MenuTree menu) {
+    public static MenuTreeGetResponse fromMenuTree(MenuTree menu) {
         return MenuTreeGetResponse.builder()
                 .menuId(menu.getMenuId())
                 .menuName(menu.getMenuName())
@@ -38,7 +38,7 @@ public class MenuTreeGetResponse {
                         menu.getSubMenus() == null
                                 ? null
                                 : menu.getSubMenus().stream()
-                                        .map(MenuTreeGetResponse::ofDomain)
+                                        .map(MenuTreeGetResponse::fromMenuTree)
                                         .toList())
                 .build();
     }

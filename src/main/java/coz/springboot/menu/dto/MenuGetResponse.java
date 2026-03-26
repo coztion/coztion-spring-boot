@@ -30,7 +30,7 @@ public class MenuGetResponse extends DataRecordResponse {
     @Schema(description = "In Use")
     private Boolean isUse;
 
-    public static MenuGetResponse ofDomain(Menu menu) {
+    public static MenuGetResponse fromMenu(Menu menu) {
         return MenuGetResponse.builder()
                 .menuId(menu.getMenuId())
                 .menuName(menu.getMenuName())

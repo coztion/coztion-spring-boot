@@ -24,7 +24,7 @@ public class CommonCodeResponse extends DataRecordResponse {
     @Schema(description = "Usage Status")
     private Boolean isUse;
 
-    public static CommonCodeResponse ofDomain(CommonCode commonCode) {
+    public static CommonCodeResponse fromCommonCode(CommonCode commonCode) {
         return CommonCodeResponse.builder()
                 .groupCode(commonCode.getGroupCode())
                 .commonCode(commonCode.getCommonCode())

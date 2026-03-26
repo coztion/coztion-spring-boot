@@ -20,7 +20,7 @@ public class UserInfoResponse {
     @Schema(description = "Authorities")
     private List<String> authorityCodes;
 
-    public static UserInfoResponse ofSessionUser(SessionUser sessionUser) {
+    public static UserInfoResponse fromSessionUser(SessionUser sessionUser) {
         return UserInfoResponse.builder()
                 .username(sessionUser.getUsername())
                 .authorityCodes(sessionUser.getAuthorityCodes())
