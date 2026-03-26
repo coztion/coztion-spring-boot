@@ -29,10 +29,10 @@ public class CommonCodeController {
     @Operation(summary = "Get Common Codes", description = "Get a list of common codes")
     @GetMapping
     public RestResponse<List<CommonCodeResponse>> getCommonCodes(@ModelAttribute CommonCodeGetRequest request) {
-        CommonCodeFilter commonCodeFilter = request.toDomain();
+        CommonCodeFilter commonCodeFilter = request.toCommonCodeFilter();
         List<CommonCode> commonCodes = commonCodeService.getCommonCodes(commonCodeFilter);
         List<CommonCodeResponse> response =
-                commonCodes.stream().map(CommonCodeResponse::ofDomain).toList();
+                commonCodes.stream().map(CommonCodeResponse::fromCommonCode).toList();
         return RestResponse.ofSuccess(response);
     }
 }

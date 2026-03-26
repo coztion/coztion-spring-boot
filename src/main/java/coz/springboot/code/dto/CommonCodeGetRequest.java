@@ -22,7 +22,7 @@ public class CommonCodeGetRequest {
     @Schema(description = "In Use", example = "true")
     private Boolean isUse;
 
-    public CommonCodeFilter toDomain() {
+    public CommonCodeFilter toCommonCodeFilter() {
         return CommonCodeFilter.builder()
                 .groupCode(groupCode)
                 .commonCode(commonCode)

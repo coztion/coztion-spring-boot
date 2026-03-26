@@ -27,7 +27,7 @@ public class GroupCodeGetResponse extends DataRecordResponse {
     @Schema(description = "Common Code List")
     private List<CommonCode> commonCodes;
 
-    public static GroupCodeGetResponse ofDomain(GroupCode groupCode) {
+    public static GroupCodeGetResponse fromGroupCode(GroupCode groupCode) {
         return GroupCodeGetResponse.builder()
                 .groupCode(groupCode.getGroupCode())
                 .groupCodeName(groupCode.getGroupCodeName())
