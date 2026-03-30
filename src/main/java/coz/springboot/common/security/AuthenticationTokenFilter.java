@@ -24,6 +24,7 @@ import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import coz.springboot.common.enums.AuthenticationFailureReason;
 import coz.springboot.common.helper.RedisRepository;
 import coz.springboot.common.helper.SessionFactory;
 import coz.springboot.user.model.SessionUser;
@@ -33,7 +34,10 @@ import coz.springboot.user.model.SessionUser;
 @RequiredArgsConstructor
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
-    @Value("${spring.security.refresh-token-cookie-name}")
+    @Value("${spring.security.cookie.access-token}")
+    private String accessTokenCookieName;
+
+    @Value("${spring.security.cookie.refresh-token}")
     private String refreshTokenCookieName;
 
     private final SessionFactory sessionFactory;
@@ -43,9 +47,14 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     private final RedisRepository redisRepository;
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return request.getRequestURI().equals("/login");
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        Optional<String> optionalAccessToken = extractAuthorizationHeader(request);
+        Optional<String> optionalAccessToken = extractAccessTokenFromCookie(request);
 
         if (optionalAccessToken.isPresent()) {
             try {
@@ -58,54 +67,35 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
                 log.warn(
                         "Access token has been expired for user : {}",
                         e.getClaims().getSubject());
-                handleTokenRefresh(request, response);
+                boolean hasRefreshToken = handleTokenRefresh(request, response);
+
+                if (!hasRefreshToken) {
+                    boolean isRefreshRequest = request.getRequestURI().equals("/session/refresh");
+                    AuthenticationFailureReason reason = isRefreshRequest
+                            ? AuthenticationFailureReason.MISSING
+                            : AuthenticationFailureReason.EXPIRED;
+                    authenticationHandler.handleAuthenticationFailure(response, reason);
+                    return;
+                }
             } catch (JwtException e) {
                 log.warn("Access token is invalid : {}", e.getMessage());
-                authenticationHandler.handleAuthenticationFailure(response);
+                authenticationHandler.handleAuthenticationFailure(response, AuthenticationFailureReason.INVALID);
             }
         }
 
         filterChain.doFilter(request, response);
     }
 
-    private Optional<String> extractAuthorizationHeader(HttpServletRequest request) {
-        String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            return Optional.of(authorizationHeader.substring(7));
+    private Optional<String> extractAccessTokenFromCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (Objects.isNull(cookies)) return Optional.empty();
+
+        for (Cookie cookie : cookies) {
+            if (accessTokenCookieName.equals(cookie.getName())) {
+                return Optional.of(cookie.getValue());
+            }
         }
         return Optional.empty();
-    }
-
-    private void handleTokenRefresh(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            String refreshToken = extractRefreshTokenFromCookie(request);
-            if (!StringUtils.hasText(refreshToken)) return;
-
-            SessionUser sessionUser = sessionFactory.validateRefreshToken(refreshToken);
-
-            String cachedRefreshToken = redisRepository.get(sessionUser.getUsername(), String.class);
-            if (Objects.isNull(cachedRefreshToken)) {
-                log.warn("No refresh token found in Redis for user: {}", sessionUser.getUsername());
-                authenticationHandler.handleAuthenticationFailure(response);
-                return;
-            }
-
-            if (!cachedRefreshToken.equals(refreshToken)) {
-                log.warn("Refresh token mismatch for user: {}.", sessionUser.getUsername());
-                redisRepository.remove(sessionUser.getUsername());
-                authenticationHandler.handleAuthenticationFailure(response);
-                return;
-            }
-
-            authenticationHandler.handleAuthenticationSuccess(sessionUser, response);
-
-            Authentication authentication =
-                    UsernamePasswordAuthenticationToken.authenticated(sessionUser, null, sessionUser.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (JwtException e) {
-            log.warn("Invalid or expired refresh token: {}", e.getMessage());
-            authenticationHandler.handleAuthenticationFailure(response);
-        }
     }
 
     private String extractRefreshTokenFromCookie(HttpServletRequest request) {
@@ -119,5 +109,39 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
         }
 
         return null;
+    }
+
+    private boolean handleTokenRefresh(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String refreshToken = extractRefreshTokenFromCookie(request);
+            if (!StringUtils.hasText(refreshToken)) return false;
+
+            SessionUser sessionUser = sessionFactory.validateRefreshToken(refreshToken);
+
+            String cachedRefreshToken = redisRepository.get(sessionUser.getUsername(), String.class);
+            if (Objects.isNull(cachedRefreshToken)) {
+                log.warn("No refresh token found in Redis for user: {}", sessionUser.getUsername());
+                authenticationHandler.handleAuthenticationFailure(response, AuthenticationFailureReason.INVALID);
+                return true;
+            }
+
+            if (!cachedRefreshToken.equals(refreshToken)) {
+                log.warn("Refresh token mismatch for user: {}.", sessionUser.getUsername());
+                redisRepository.remove(sessionUser.getUsername());
+                authenticationHandler.handleAuthenticationFailure(response, AuthenticationFailureReason.INVALID);
+                return true;
+            }
+
+            authenticationHandler.handleAuthenticationSuccess(sessionUser, response);
+
+            Authentication authentication =
+                    UsernamePasswordAuthenticationToken.authenticated(sessionUser, null, sessionUser.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (JwtException e) {
+            log.warn("Invalid or expired refresh token: {}", e.getMessage());
+            authenticationHandler.handleAuthenticationFailure(response, AuthenticationFailureReason.INVALID);
+        }
+
+        return true;
     }
 }
