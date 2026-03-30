@@ -21,6 +21,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import lombok.RequiredArgsConstructor;
 
 import coz.springboot.common.security.AuthenticationFilter;
+import coz.springboot.common.security.AuthenticationHandler;
 import coz.springboot.common.security.AuthenticationTokenFilter;
 
 @Configuration
@@ -31,11 +32,15 @@ public class SecurityConfig {
     @Value("${app.client.base-url}")
     private String clientBaseUrl;
 
+    @Value("${spring.security.header.auth-error}")
+    private String authErrorHeaderName;
+
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
             AuthenticationFilter authenticationFilter,
-            AuthenticationTokenFilter authenticationTokenFilter)
+            AuthenticationTokenFilter authenticationTokenFilter,
+            AuthenticationHandler authenticationHandler)
             throws Exception {
         return http.httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -46,6 +51,7 @@ public class SecurityConfig {
                         .permitAll()
                         .anyRequest()
                         .authenticated())
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationHandler))
                 .addFilter(authenticationFilter)
                 .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -68,8 +74,8 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(Collections.singletonList(clientBaseUrl));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "X-Requested-With"));
-        configuration.setExposedHeaders(List.of("Set-Cookie", "Authorization"));
+        configuration.setAllowedHeaders(List.of("Content-Type", "Accept", "X-Requested-With"));
+        configuration.setExposedHeaders(List.of("Set-Cookie", authErrorHeaderName));
 
         return configuration;
     }

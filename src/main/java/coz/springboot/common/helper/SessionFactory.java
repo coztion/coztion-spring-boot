@@ -55,6 +55,10 @@ public class SessionFactory {
         return validateToken(refreshToken);
     }
 
+    public int getAccessTokenExpirationSeconds() {
+        return (int) (accessTokenExpirationMillis / 1000);
+    }
+
     public int getRefreshTokenExpirationSeconds() {
         return (int) (refreshTokenExpirationMillis / 1000);
     }
