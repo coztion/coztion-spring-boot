@@ -38,7 +38,7 @@
               FROM TB_MENU M
              INNER JOIN TB_MENU_AUTHORITY MA ON M.MENU_ID = MA.MENU_ID
              WHERE MA.AUTHORITY_CODE IN
-            <foreach item="authority" collection="list" open="(" separator="," close=")">
+            <foreach item="authority" collection="authorities" open="(" separator="," close=")">
                 #{authority.value}
             </foreach>
                AND M.USE_YN = 'Y'

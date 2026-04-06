@@ -2,6 +2,8 @@ package coz.springboot.menu;
 
 import java.util.List;
 
+import com.github.pagehelper.Page;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.RequiredArgsConstructor;
 
+import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
 import coz.springboot.common.helper.SessionHolder;
 import coz.springboot.menu.dto.MenuGetRequest;
@@ -31,12 +34,10 @@ public class MenuController {
 
     @Operation(summary = "Get Menus", description = "Search menus based on search filter")
     @GetMapping
-    public RestResponse<List<MenuGetResponse>> getMenus(MenuGetRequest request) {
+    public RestResponse<PageResponse<MenuGetResponse>> getMenus(MenuGetRequest request) {
         MenuFilter menuFilter = request.toMenuFilter();
-        List<Menu> menus = menuService.getMenus(menuFilter);
-        List<MenuGetResponse> response =
-                menus.stream().map(MenuGetResponse::fromMenu).toList();
-        return RestResponse.ofSuccess(response);
+        Page<Menu> menus = menuService.getMenus(menuFilter);
+        return RestResponse.ofSuccess(PageResponse.of(menus, MenuGetResponse::fromMenu));
     }
 
     @Operation(summary = "Get Menu Tree", description = "Get hierarchical menu tree for current user")

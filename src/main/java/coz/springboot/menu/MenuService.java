@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.github.pagehelper.Page;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +25,8 @@ public class MenuService {
     private final MenuRepository menuRepository;
 
     @Transactional(readOnly = true)
-    public List<Menu> getMenus(MenuFilter filter) {
+    public Page<Menu> getMenus(MenuFilter filter) {
+        filter.validatePageable();
         return menuRepository.findMenusByFilter(filter);
     }
 
