@@ -14,6 +14,8 @@ public class RestResponse<T> {
 
     private T data;
 
+    private String failureMessage;
+
     public static <T> RestResponse<T> ofSuccess(T data) {
         return RestResponse.<T>builder()
                 .type(RestResponseType.SUCCESS)
@@ -24,7 +26,7 @@ public class RestResponse<T> {
     public static RestResponse<String> ofFailure(String message) {
         return RestResponse.<String>builder()
                 .type(RestResponseType.FAILURE)
-                .data(message)
+                .failureMessage(message)
                 .build();
     }
 }
