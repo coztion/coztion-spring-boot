@@ -21,14 +21,13 @@ public class ExceptionAdvice {
     @ExceptionHandler(RestException.class)
     public ResponseEntity<RestResponse<String>> handleRestException(RestException exception) {
         String errorMessage = translateMessage(exception);
-        log.error("Rest Exception : {}", errorMessage);
-        return ResponseEntity.internalServerError().body(RestResponse.ofFailure(errorMessage));
+        log.error("[FAILURE] : {}", errorMessage);
+        return ResponseEntity.ok(RestResponse.ofFailure(errorMessage));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<RestResponse<String>> handleException(Exception exception) {
-        log.error("Unhandled Exception : {}", exception.getMessage());
-        log.error("Exception Log : ", exception);
+        log.error("[ERROR] : {}", exception.getMessage());
 
         String errorMessage = messageTranslator.translate(Message.Exception.INTERNAL_SERVER_ERROR);
         return ResponseEntity.internalServerError().body(RestResponse.ofFailure(errorMessage));
