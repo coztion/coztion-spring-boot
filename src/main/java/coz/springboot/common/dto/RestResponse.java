@@ -2,30 +2,25 @@ package coz.springboot.common.dto;
 
 import lombok.*;
 
-import coz.springboot.common.enums.RestResponseType;
-
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
 public class RestResponse<T> {
 
-    private RestResponseType type;
+    private boolean succeed;
 
     private T data;
 
     private String failureMessage;
 
     public static <T> RestResponse<T> ofSuccess(T data) {
-        return RestResponse.<T>builder()
-                .type(RestResponseType.SUCCESS)
-                .data(data)
-                .build();
+        return RestResponse.<T>builder().succeed(true).data(data).build();
     }
 
     public static RestResponse<String> ofFailure(String message) {
         return RestResponse.<String>builder()
-                .type(RestResponseType.FAILURE)
+                .succeed(false)
                 .failureMessage(message)
                 .build();
     }
