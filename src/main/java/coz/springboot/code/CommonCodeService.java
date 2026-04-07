@@ -12,7 +12,7 @@ import coz.springboot.code.model.CommonCode;
 import coz.springboot.code.model.CommonCodeFilter;
 import coz.springboot.common.constant.Label;
 import coz.springboot.common.constant.Message;
-import coz.springboot.common.exception.ClientException;
+import coz.springboot.common.exception.RestException;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +29,6 @@ class CommonCodeService {
     public CommonCode getCommonCode(CommonCodeFilter filter) {
         Optional<CommonCode> optionalCommonCode = commonCodeRepository.findCommonCodeByFilter(filter);
         return optionalCommonCode.orElseThrow(
-                () -> new ClientException(Message.Exception.NOT_FOUND, Label.Code.COMMON_CODE));
+                () -> new RestException(Message.Exception.NOT_FOUND, Label.Code.COMMON_CODE));
     }
 }
