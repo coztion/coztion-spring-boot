@@ -21,7 +21,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public AuthenticationFilter(
             AuthenticationManager authenticationManager, AuthenticationHandler authenticationHandler) {
         super(authenticationManager);
-        setFilterProcessesUrl("/login");
+        setFilterProcessesUrl("/session/login");
         setAuthenticationSuccessHandler(authenticationHandler);
         setAuthenticationFailureHandler(authenticationHandler);
     }
