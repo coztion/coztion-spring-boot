@@ -14,7 +14,7 @@ spring:
       refresh-token: 3600000 # 1시간
     cookie:
       access-token: ACCESS_TOKEN
-      refresh-token: REFR ESH_TOKEN
+      refresh-token: REFRESH_TOKEN
     header:
       auth-error: X-Auth-Error
 
