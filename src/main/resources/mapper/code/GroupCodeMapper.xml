@@ -20,7 +20,7 @@
             resultMap="groupCodeMap">
         SELECT GC.GROUP_CODE
              , GC.GROUP_CODE_NAME
-             , GC.IS_USE
+             , GC.USE_YN
              , GC.CREATED_BY
              , GC.CREATED_AT
              , GC.UPDATED_BY
@@ -50,7 +50,7 @@
                 AND GC.GROUP_CODE = #{groupCode}
             </if>
             <if test="isUse != null">
-                AND GC.IS_USE = #{isUse}
+                AND GC.USE_YN = #{isUse}
             </if>
         </where>
          ORDER BY GC.GROUP_CODE, CC.COMMON_CODE
