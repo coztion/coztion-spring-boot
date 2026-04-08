@@ -3,7 +3,7 @@ package coz.springboot.common.enums;
 import org.springframework.util.StringUtils;
 
 import coz.springboot.common.constant.Message;
-import coz.springboot.common.exception.ClientException;
+import coz.springboot.common.exception.RestException;
 
 public interface ValueEnum {
 
@@ -14,7 +14,7 @@ public interface ValueEnum {
             if (e.getValue().equals(value)) return e;
         }
 
-        throw new ClientException(Message.Exception.BAD_REQUEST, label);
+        throw new RestException(Message.Exception.BAD_REQUEST, label);
     }
 
     String getValue();
