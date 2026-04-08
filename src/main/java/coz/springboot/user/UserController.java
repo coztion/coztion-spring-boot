@@ -1,5 +1,6 @@
 package coz.springboot.user;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import coz.springboot.user.model.SessionUser;
 @RequestMapping("/user")
 public class UserController {
 
+    @Operation(summary = "Get User Info", description = "Get authenticated user information")
     @GetMapping("/info")
     public RestResponse<UserInfoResponse> getUserInfo() {
         SessionUser sessionUser = SessionHolder.getSessionUser();
