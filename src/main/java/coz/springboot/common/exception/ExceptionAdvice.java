@@ -18,31 +18,16 @@ public class ExceptionAdvice {
 
     private final MessageTranslator messageTranslator;
 
-    @ExceptionHandler(ClientException.class)
-    public ResponseEntity<RestResponse<String>> handleClientException(ClientException exception) {
+    @ExceptionHandler(RestException.class)
+    public ResponseEntity<RestResponse<String>> handleRestException(RestException exception) {
         String errorMessage = translateMessage(exception);
-        log.error("Client Exception : {}", errorMessage);
-        return ResponseEntity.badRequest().body(RestResponse.ofFailure(errorMessage));
-    }
-
-    @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<RestResponse<String>> handleBusinessException(BusinessException exception) {
-        String errorMessage = translateMessage(exception);
-        log.error("BusinessException : {}", errorMessage);
-        return ResponseEntity.internalServerError().body(RestResponse.ofFailure(errorMessage));
-    }
-
-    @ExceptionHandler(ServerException.class)
-    public ResponseEntity<RestResponse<String>> handleServerException(ServerException exception) {
-        String errorMessage = translateMessage(exception);
-        log.error("System Exception : {}", errorMessage, exception);
-        return ResponseEntity.internalServerError().body(RestResponse.ofFailure(errorMessage));
+        log.error("[FAILURE] : {}", errorMessage);
+        return ResponseEntity.ok(RestResponse.ofFailure(errorMessage));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<RestResponse<String>> handleException(Exception exception) {
-        log.error("Unhandled Exception : {}", exception.getMessage());
-        log.error("Exception Log : ", exception);
+        log.error("[ERROR] : {}", exception.getMessage());
 
         String errorMessage = messageTranslator.translate(Message.Exception.INTERNAL_SERVER_ERROR);
         return ResponseEntity.internalServerError().body(RestResponse.ofFailure(errorMessage));
