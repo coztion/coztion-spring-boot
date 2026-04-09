@@ -9,5 +9,7 @@ public class Message {
         public static final String NOT_FOUND = "message.exception.NOT_FOUND";
 
         public static final String INTERNAL_SERVER_ERROR = "message.exception.INTERNAL_SERVER_ERROR";
+
+        public static final String UPDATE_FAILURE = "message.exception.UPDATE_FAILURE";
     }
 }

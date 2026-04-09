@@ -13,9 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
+import coz.springboot.common.constant.Label;
+import coz.springboot.common.constant.Message;
+import coz.springboot.common.exception.RestException;
 import coz.springboot.menu.model.Menu;
 import coz.springboot.menu.model.MenuFilter;
 import coz.springboot.menu.model.MenuTree;
+import coz.springboot.menu.model.MenuUpdate;
 import coz.springboot.user.model.Authority;
 
 @Service
@@ -51,5 +55,13 @@ public class MenuService {
             }
         }
         return roots;
+    }
+
+    @Transactional
+    public void updateMenu(MenuUpdate update) {
+        int updatedMenuCount = menuRepository.updateMenu(update);
+        if (updatedMenuCount == 0) {
+            throw new RestException(Message.Exception.UPDATE_FAILURE, Label.Menu.MENU);
+        }
     }
 }

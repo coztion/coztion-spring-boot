@@ -2,9 +2,14 @@ package coz.springboot.menu;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
+
 import com.github.pagehelper.Page;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,9 +24,11 @@ import coz.springboot.common.helper.SessionHolder;
 import coz.springboot.menu.dto.MenuGetRequest;
 import coz.springboot.menu.dto.MenuGetResponse;
 import coz.springboot.menu.dto.MenuTreeGetResponse;
+import coz.springboot.menu.dto.MenuUpdateRequest;
 import coz.springboot.menu.model.Menu;
 import coz.springboot.menu.model.MenuFilter;
 import coz.springboot.menu.model.MenuTree;
+import coz.springboot.menu.model.MenuUpdate;
 import coz.springboot.user.model.Authority;
 
 @Tag(name = "Menu", description = "Menu API")
@@ -48,5 +55,13 @@ public class MenuController {
         List<MenuTreeGetResponse> response =
                 menuTrees.stream().map(MenuTreeGetResponse::fromMenuTree).toList();
         return RestResponse.ofSuccess(response);
+    }
+
+    @Operation(summary = "Update Menu", description = "Update menu information")
+    @PatchMapping("/{menuId}")
+    public RestResponse<Void> updateMenu(@PathVariable String menuId, @Valid @RequestBody MenuUpdateRequest request) {
+        MenuUpdate update = request.toMenuUpdate(menuId, SessionHolder.getUsername());
+        menuService.updateMenu(update);
+        return RestResponse.ofSuccess(null);
     }
 }
