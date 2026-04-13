@@ -24,3 +24,7 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
     auto-mapping-behavior: full
+
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql

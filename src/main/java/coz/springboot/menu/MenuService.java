@@ -6,14 +6,20 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.github.pagehelper.Page;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
+import coz.springboot.common.constant.Label;
+import coz.springboot.common.constant.Message;
+import coz.springboot.common.exception.RestException;
 import coz.springboot.menu.model.Menu;
 import coz.springboot.menu.model.MenuFilter;
 import coz.springboot.menu.model.MenuTree;
+import coz.springboot.menu.model.MenuUpdate;
 import coz.springboot.user.model.Authority;
 
 @Service
@@ -23,7 +29,8 @@ public class MenuService {
     private final MenuRepository menuRepository;
 
     @Transactional(readOnly = true)
-    public List<Menu> getMenus(MenuFilter filter) {
+    public Page<Menu> getMenus(MenuFilter filter) {
+        filter.validatePageable();
         return menuRepository.findMenusByFilter(filter);
     }
 
@@ -48,5 +55,13 @@ public class MenuService {
             }
         }
         return roots;
+    }
+
+    @Transactional
+    public void updateMenu(MenuUpdate update) {
+        int updatedMenuCount = menuRepository.updateMenu(update);
+        if (updatedMenuCount == 0) {
+            throw new RestException(Message.Exception.UPDATE_FAILURE, Label.Menu.MENU);
+        }
     }
 }

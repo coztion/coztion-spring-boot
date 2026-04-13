@@ -2,17 +2,22 @@ package coz.springboot.menu;
 
 import java.util.List;
 
+import com.github.pagehelper.Page;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import coz.springboot.menu.model.Menu;
 import coz.springboot.menu.model.MenuFilter;
 import coz.springboot.menu.model.MenuTree;
+import coz.springboot.menu.model.MenuUpdate;
 import coz.springboot.user.model.Authority;
 
 @Mapper
 public interface MenuRepository {
 
-    List<Menu> findMenusByFilter(MenuFilter filter);
+    Page<Menu> findMenusByFilter(MenuFilter filter);
 
     List<MenuTree> findMenuTree(List<Authority> authorities);
+
+    int updateMenu(MenuUpdate update);
 }

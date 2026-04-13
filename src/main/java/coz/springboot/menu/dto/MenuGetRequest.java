@@ -6,13 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import coz.springboot.common.dto.PageRequest;
 import coz.springboot.menu.model.MenuFilter;
 import coz.springboot.menu.model.MenuType;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class MenuGetRequest {
+public class MenuGetRequest extends PageRequest {
 
     @Schema(description = "Menu Type", example = "GRP_NAV")
     private String menuType;
@@ -24,6 +25,8 @@ public class MenuGetRequest {
         return MenuFilter.builder()
                 .menuType(MenuType.ofValue(menuType))
                 .isUse(isUse)
+                .pageNum(pageNum)
+                .pageSize(pageSize)
                 .build();
     }
 }
