@@ -22,7 +22,7 @@ public class GroupCodeGetResponse extends DataRecordResponse {
     private String groupCodeName;
 
     @Schema(description = "In Use")
-    private Boolean isUse;
+    private String useYn;
 
     @Schema(description = "Common Code List")
     private List<CommonCode> commonCodes;
@@ -31,7 +31,7 @@ public class GroupCodeGetResponse extends DataRecordResponse {
         return GroupCodeGetResponse.builder()
                 .groupCode(groupCode.getGroupCode())
                 .groupCodeName(groupCode.getGroupCodeName())
-                .isUse(groupCode.getIsUse())
+                .useYn(groupCode.getUseYn().getValue())
                 .commonCodes(groupCode.getCommonCodes())
                 .dataRecord(groupCode)
                 .build();

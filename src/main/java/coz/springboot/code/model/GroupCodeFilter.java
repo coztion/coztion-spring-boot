@@ -5,6 +5,8 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 
+import coz.springboot.common.enums.YesOrNo;
+
 @Getter
 @Builder
 public class GroupCodeFilter {
@@ -13,5 +15,5 @@ public class GroupCodeFilter {
 
     private String groupCode;
 
-    private Boolean isUse;
+    private YesOrNo useYn;
 }

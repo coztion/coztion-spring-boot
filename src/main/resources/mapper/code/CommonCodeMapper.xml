@@ -8,7 +8,7 @@
         SELECT GROUP_CODE
              , COMMON_CODE
              , COMMON_CODE_NAME
-             , USE_YN AS IS_USE
+             , USE_YN
              , CREATED_BY
              , CREATED_AT
              , UPDATED_BY
@@ -21,8 +21,8 @@
             <if test="commonCode != null and commonCode != ''">
            AND COMMON_CODE = #{commonCode}
             </if>
-            <if test="isUse != null">
-           AND USE_YN = #{isUse}
+            <if test="useYn != null">
+           AND USE_YN = #{useYn}
             </if>
          </where>
          ORDER BY COMMON_CODE
@@ -34,7 +34,7 @@
         SELECT GROUP_CODE
              , COMMON_CODE
              , COMMON_CODE_NAME
-             , USE_YN AS IS_USE
+             , USE_YN
              , CREATED_BY
              , CREATED_AT
              , UPDATED_BY
@@ -47,8 +47,8 @@
             <if test="commonCode != null and commonCode != ''">
            AND COMMON_CODE = #{commonCode}
             </if>
-            <if test="isUse != null">
-           AND USE_YN = #{isUse}
+            <if test="useYn != null">
+           AND USE_YN = #{useYn}
             </if>
          </where>
     </select>

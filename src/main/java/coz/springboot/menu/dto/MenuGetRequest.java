@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import coz.springboot.common.dto.PageRequest;
+import coz.springboot.common.enums.YesOrNo;
 import coz.springboot.menu.model.MenuFilter;
 import coz.springboot.menu.model.MenuType;
 
@@ -18,13 +19,13 @@ public class MenuGetRequest extends PageRequest {
     @Schema(description = "Menu Type", example = "GRP_NAV")
     private String menuType;
 
-    @Schema(description = "Usage Status", example = "true")
-    private Boolean isUse;
+    @Schema(description = "Usage Status", example = "Y")
+    private String useYn;
 
     public MenuFilter toMenuFilter() {
         return MenuFilter.builder()
                 .menuType(MenuType.ofValue(menuType))
-                .isUse(isUse)
+                .useYn(YesOrNo.of(useYn))
                 .pageNum(pageNum)
                 .pageSize(pageSize)
                 .build();

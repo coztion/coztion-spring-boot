@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import coz.springboot.code.model.GroupCodeFilter;
+import coz.springboot.common.enums.YesOrNo;
 
 @Getter
 @Setter
@@ -21,14 +22,14 @@ public class GroupCodeGetRequest {
     @Schema(description = "Group Code")
     private String groupCode;
 
-    @Schema(description = "Usage Status", example = "true")
-    private Boolean isUse;
+    @Schema(description = "Usage Status", example = "Y")
+    private String useYn;
 
     public GroupCodeFilter toGroupCodeFilter() {
         return GroupCodeFilter.builder()
                 .groupCodes(groupCodes)
                 .groupCode(groupCode)
-                .isUse(isUse)
+                .useYn(YesOrNo.of(useYn))
                 .build();
     }
 }

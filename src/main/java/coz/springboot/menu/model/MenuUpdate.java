@@ -3,6 +3,8 @@ package coz.springboot.menu.model;
 import lombok.Builder;
 import lombok.Getter;
 
+import coz.springboot.common.enums.YesOrNo;
+
 @Getter
 @Builder
 public class MenuUpdate {
@@ -11,7 +13,7 @@ public class MenuUpdate {
 
     private String menuName;
 
-    private Boolean isUse;
+    private YesOrNo useYn;
 
     private String author;
 }

@@ -10,7 +10,7 @@
              , MENU_TYPE
              , PARENT_MENU_ID
              , SORT_ORDER
-             , USE_YN           AS IS_USE
+             , USE_YN
              , CREATED_BY
              , CREATED_AT
              , UPDATED_BY
@@ -20,8 +20,8 @@
             <if test="menuType != null">
                 AND MENU_TYPE = #{menuType}
             </if>
-            <if test="isUse != null">
-                AND USE_YN = #{isUse}
+            <if test="useYn != null">
+                AND USE_YN = #{useYn}
             </if>
         </where>
          ORDER BY SORT_ORDER
@@ -70,7 +70,7 @@
         UPDATE TB_MENU
         <set>
             <if test="menuName != null">MENU_NAME = #{menuName},</if>
-            <if test="isUse != null">USE_YN = #{isUse},</if>
+            <if test="useYn != null">USE_YN = #{useYn},</if>
             UPDATED_BY = #{author},
         </set>
          WHERE MENU_ID = #{targetMenuId}

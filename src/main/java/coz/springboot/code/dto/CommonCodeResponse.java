@@ -22,14 +22,14 @@ public class CommonCodeResponse extends DataRecordResponse {
     private String commonCodeName;
 
     @Schema(description = "Usage Status")
-    private Boolean isUse;
+    private String useYn;
 
     public static CommonCodeResponse fromCommonCode(CommonCode commonCode) {
         return CommonCodeResponse.builder()
                 .groupCode(commonCode.getGroupCode())
                 .commonCode(commonCode.getCommonCode())
                 .commonCodeName(commonCode.getCommonCodeName())
-                .isUse(commonCode.getIsUse())
+                .useYn(commonCode.getUseYn().getValue())
                 .dataRecord(commonCode)
                 .build();
     }

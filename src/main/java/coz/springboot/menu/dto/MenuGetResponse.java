@@ -28,7 +28,7 @@ public class MenuGetResponse extends DataRecordResponse {
     private Integer sortOrder;
 
     @Schema(description = "In Use")
-    private Boolean isUse;
+    private String useYn;
 
     public static MenuGetResponse fromMenu(Menu menu) {
         return MenuGetResponse.builder()
@@ -37,7 +37,7 @@ public class MenuGetResponse extends DataRecordResponse {
                 .menuType(menu.getMenuType().getValue())
                 .parentMenuId(menu.getParentMenuId())
                 .sortOrder(menu.getSortOrder())
-                .isUse(menu.getIsUse())
+                .useYn(menu.getUseYn().getValue())
                 .dataRecord(menu)
                 .build();
     }
