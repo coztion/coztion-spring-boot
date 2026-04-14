@@ -22,5 +22,5 @@ public class Menu extends DataRecord {
 
     private Integer sortOrder;
 
-    private YesOrNo useYn;
+    private YesOrNo useYn = YesOrNo.YES;
 }

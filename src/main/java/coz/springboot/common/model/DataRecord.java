@@ -11,11 +11,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DataRecord {
 
-    private String createdBy;
+    private String createdBy = "system";
 
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    private String updatedBy;
+    private String updatedBy = "system";
 
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt = LocalDateTime.now();
 }

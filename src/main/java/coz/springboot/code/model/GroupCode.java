@@ -16,7 +16,7 @@ public class GroupCode extends DataRecord {
 
     private String groupCodeName;
 
-    private YesOrNo useYn;
+    private YesOrNo useYn = YesOrNo.YES;
 
     private List<CommonCode> commonCodes;
 }

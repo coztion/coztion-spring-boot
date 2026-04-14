@@ -18,5 +18,5 @@ public class CommonCode extends DataRecord {
 
     private String commonCodeName;
 
-    private YesOrNo useYn;
+    private YesOrNo useYn = YesOrNo.YES;
 }
