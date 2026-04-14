@@ -7,7 +7,7 @@
         <collection property="commonCodes" ofType="coz.springboot.code.model.CommonCode">
             <id property="commonCode" column="COMMON_CODE" />
             <result property="groupCode" column="COMMON_CODE_GROUP_CODE" />
-            <result property="isUse" column="COMMON_CODE_IS_USE" />
+            <result property="useYn" column="COMMON_CODE_IS_USE" />
             <result property="createdAt" column="COMMON_CODE_CREATED_AT" />
             <result property="createdBy" column="COMMON_CODE_CREATED_BY" />
             <result property="updatedAt" column="COMMON_CODE_UPDATED_AT" />
@@ -36,8 +36,8 @@
           FROM TB_GROUP_CODE GC
          INNER JOIN TB_COMMON_CODE CC
                  ON GC.GROUP_CODE = CC.GROUP_CODE
-        <if test="isUse != null">
-                AND CC.USE_YN = #{isUse}
+        <if test="useYn != null">
+                AND CC.USE_YN = #{useYn}
         </if>
         <where>
             <if test="groupCodes != null and !groupCodes.isEmpty()">
@@ -49,8 +49,8 @@
             <if test="groupCode != null and groupCode != ''">
                 AND GC.GROUP_CODE = #{groupCode}
             </if>
-            <if test="isUse != null">
-                AND GC.USE_YN = #{isUse}
+            <if test="useYn != null">
+                AND GC.USE_YN = #{useYn}
             </if>
         </where>
          ORDER BY GC.GROUP_CODE, CC.COMMON_CODE

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import coz.springboot.code.model.CommonCodeFilter;
+import coz.springboot.common.enums.YesOrNo;
 
 @Getter
 @Setter
@@ -19,14 +20,14 @@ public class CommonCodeGetRequest {
     @Schema(description = "Common Code")
     private String commonCode;
 
-    @Schema(description = "In Use", example = "true")
-    private Boolean isUse;
+    @Schema(description = "In Use", example = "Y")
+    private String useYn;
 
     public CommonCodeFilter toCommonCodeFilter() {
         return CommonCodeFilter.builder()
                 .groupCode(groupCode)
                 .commonCode(commonCode)
-                .isUse(isUse)
+                .useYn(YesOrNo.of(useYn))
                 .build();
     }
 }

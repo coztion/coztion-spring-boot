@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import coz.springboot.common.enums.YesOrNo;
 import coz.springboot.common.model.DataRecord;
 
 @Getter
@@ -17,5 +18,5 @@ public class CommonCode extends DataRecord {
 
     private String commonCodeName;
 
-    private Boolean isUse;
+    private YesOrNo useYn = YesOrNo.YES;
 }

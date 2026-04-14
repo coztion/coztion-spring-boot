@@ -3,6 +3,8 @@ package coz.springboot.code.model;
 import lombok.Builder;
 import lombok.Getter;
 
+import coz.springboot.common.enums.YesOrNo;
+
 @Getter
 @Builder
 public class CommonCodeFilter {
@@ -11,5 +13,5 @@ public class CommonCodeFilter {
 
     private String commonCode;
 
-    private Boolean isUse;
+    private YesOrNo useYn;
 }

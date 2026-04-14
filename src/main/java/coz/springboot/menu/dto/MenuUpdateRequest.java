@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import coz.springboot.common.enums.YesOrNo;
 import coz.springboot.menu.model.MenuUpdate;
 
 @Getter
@@ -20,13 +21,13 @@ public class MenuUpdateRequest {
     private String menuName;
 
     @Schema(description = "In Use")
-    private Boolean isUse;
+    private String useYn;
 
     public MenuUpdate toMenuUpdate(String menuId, String author) {
         return MenuUpdate.builder()
                 .targetMenuId(menuId)
                 .menuName(menuName)
-                .isUse(isUse)
+                .useYn(YesOrNo.of(useYn))
                 .author(author)
                 .build();
     }

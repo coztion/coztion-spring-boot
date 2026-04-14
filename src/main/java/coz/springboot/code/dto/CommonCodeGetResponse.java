@@ -10,7 +10,7 @@ import coz.springboot.common.dto.DataRecordResponse;
 
 @Getter
 @SuperBuilder
-public class CommonCodeResponse extends DataRecordResponse {
+public class CommonCodeGetResponse extends DataRecordResponse {
 
     @Schema(description = "Group Code")
     private String groupCode;
@@ -22,14 +22,14 @@ public class CommonCodeResponse extends DataRecordResponse {
     private String commonCodeName;
 
     @Schema(description = "Usage Status")
-    private Boolean isUse;
+    private String useYn;
 
-    public static CommonCodeResponse fromCommonCode(CommonCode commonCode) {
-        return CommonCodeResponse.builder()
+    public static CommonCodeGetResponse fromCommonCode(CommonCode commonCode) {
+        return CommonCodeGetResponse.builder()
                 .groupCode(commonCode.getGroupCode())
                 .commonCode(commonCode.getCommonCode())
                 .commonCodeName(commonCode.getCommonCodeName())
-                .isUse(commonCode.getIsUse())
+                .useYn(commonCode.getUseYn().getValue())
                 .dataRecord(commonCode)
                 .build();
     }

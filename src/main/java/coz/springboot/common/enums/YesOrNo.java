@@ -1,13 +1,11 @@
 package coz.springboot.common.enums;
 
-import java.util.Objects;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum YesOrNo {
+public enum YesOrNo implements ValueEnum {
     YES("Y"),
     NO("N");
 
@@ -20,14 +18,6 @@ public enum YesOrNo {
             return NO;
         }
         return null;
-    }
-
-    public static YesOrNo ofBoolean(Boolean value) {
-        if (Objects.isNull(value)) {
-            return null;
-        }
-
-        return value ? YES : NO;
     }
 
     public boolean isYes() {

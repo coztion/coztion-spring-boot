@@ -4,6 +4,7 @@ import java.util.List;
 
 import lombok.*;
 
+import coz.springboot.common.enums.YesOrNo;
 import coz.springboot.common.model.DataRecord;
 
 @Getter
@@ -15,7 +16,7 @@ public class GroupCode extends DataRecord {
 
     private String groupCodeName;
 
-    private Boolean isUse;
+    private YesOrNo useYn = YesOrNo.YES;
 
     private List<CommonCode> commonCodes;
 }

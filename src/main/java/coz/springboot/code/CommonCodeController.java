@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 import coz.springboot.code.dto.CommonCodeGetRequest;
-import coz.springboot.code.dto.CommonCodeResponse;
+import coz.springboot.code.dto.CommonCodeGetResponse;
 import coz.springboot.code.model.CommonCode;
 import coz.springboot.code.model.CommonCodeFilter;
 import coz.springboot.common.dto.RestResponse;
@@ -28,11 +28,11 @@ public class CommonCodeController {
 
     @Operation(summary = "Get Common Codes", description = "Get a list of common codes")
     @GetMapping
-    public RestResponse<List<CommonCodeResponse>> getCommonCodes(@ModelAttribute CommonCodeGetRequest request) {
+    public RestResponse<List<CommonCodeGetResponse>> getCommonCodes(@ModelAttribute CommonCodeGetRequest request) {
         CommonCodeFilter commonCodeFilter = request.toCommonCodeFilter();
         List<CommonCode> commonCodes = commonCodeService.getCommonCodes(commonCodeFilter);
-        List<CommonCodeResponse> response =
-                commonCodes.stream().map(CommonCodeResponse::fromCommonCode).toList();
+        List<CommonCodeGetResponse> response =
+                commonCodes.stream().map(CommonCodeGetResponse::fromCommonCode).toList();
         return RestResponse.ofSuccess(response);
     }
 }
