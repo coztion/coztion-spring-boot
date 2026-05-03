@@ -1,5 +1,7 @@
 package coz.springboot.common.security;
 
+import java.time.Duration;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -68,7 +70,9 @@ public class AuthenticationHandler
         response.addCookie(refreshTokenCookie);
 
         redisRepository.save(
-                sessionUser.getUsername(), refreshToken, sessionFactory.getRefreshTokenExpirationSeconds());
+                sessionUser.getUsername(),
+                refreshToken,
+                Duration.ofSeconds(sessionFactory.getRefreshTokenExpirationSeconds()));
     }
 
     @Override

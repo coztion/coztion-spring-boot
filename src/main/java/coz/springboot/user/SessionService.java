@@ -15,6 +15,6 @@ class SessionService {
 
     @Transactional
     public void logout(String username) {
-        redisRepository.remove(username);
+        redisRepository.delete(username);
     }
 }
