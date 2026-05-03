@@ -118,16 +118,16 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
             SessionUser sessionUser = sessionFactory.validateRefreshToken(refreshToken);
 
-            String cachedRefreshToken = redisRepository.get(sessionUser.getUsername(), String.class);
-            if (Objects.isNull(cachedRefreshToken)) {
+            Optional<String> cachedRefreshToken = redisRepository.find(sessionUser.getUsername());
+            if (cachedRefreshToken.isEmpty()) {
                 log.warn("No refresh token found in Redis for user: {}", sessionUser.getUsername());
                 authenticationHandler.handleAuthenticationFailure(response, AuthenticationFailureReason.INVALID);
                 return true;
             }
 
-            if (!cachedRefreshToken.equals(refreshToken)) {
+            if (!cachedRefreshToken.get().equals(refreshToken)) {
                 log.warn("Refresh token mismatch for user: {}.", sessionUser.getUsername());
-                redisRepository.remove(sessionUser.getUsername());
+                redisRepository.delete(sessionUser.getUsername());
                 authenticationHandler.handleAuthenticationFailure(response, AuthenticationFailureReason.INVALID);
                 return true;
             }

@@ -1,35 +1,32 @@
 package coz.springboot.common.helper;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
+import java.util.Optional;
 
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class RedisRepository {
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final StringRedisTemplate redisTemplate;
 
-    public <T> T get(String key, Class<T> clazz) {
-        Object value = redisTemplate.opsForValue().get(key);
-        if (value == null) {
-            return null;
-        }
-        return clazz.cast(value);
+    public void save(String key, String value, Duration ttl) {
+        redisTemplate.opsForValue().set(key, value, ttl);
     }
 
-    public void save(String key, Object value) {
-        redisTemplate.opsForValue().set(key, value);
+    public Optional<String> find(String key) {
+        return Optional.ofNullable(redisTemplate.opsForValue().get(key));
     }
 
-    public void save(String key, Object value, int timeoutSeconds) {
-        redisTemplate.opsForValue().set(key, value, timeoutSeconds, TimeUnit.SECONDS);
-    }
-
-    public void remove(String key) {
+    public void delete(String key) {
         redisTemplate.delete(key);
+    }
+
+    public boolean exists(String key) {
+        return Boolean.TRUE.equals(redisTemplate.hasKey(key));
     }
 }
