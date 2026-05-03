@@ -47,7 +47,7 @@ public class MenuController {
         return RestResponse.ofSuccess(PageResponse.of(menus, MenuGetResponse::fromMenu));
     }
 
-    @Operation(summary = "Get Menu Tree", description = "Get hierarchical menu tree for current user")
+    @Operation(summary = "Get Menu Tree", description = "Get hierarchical menu tree for user")
     @GetMapping("/menu-tree")
     public RestResponse<List<MenuTreeGetResponse>> getMenuTree() {
         List<Authority> authorities = SessionHolder.getAuthorities();
@@ -55,6 +55,15 @@ public class MenuController {
         List<MenuTreeGetResponse> response =
                 menuTrees.stream().map(MenuTreeGetResponse::fromMenuTree).toList();
         return RestResponse.ofSuccess(response);
+    }
+
+    @Operation(summary = "Get Menu Ids", description = "Get menu ids for user")
+    @GetMapping("/ids")
+    public RestResponse<List<String>> getMenuIds() {
+        List<Authority> authorities = SessionHolder.getAuthorities();
+        Page<Menu> menus = menuService.getMenus(MenuFilter.ofAuthorities(authorities));
+        List<String> menuIds = menus.stream().map(Menu::getMenuId).toList();
+        return RestResponse.ofSuccess(menuIds);
     }
 
     @Operation(summary = "Update Menu", description = "Update menu information")
