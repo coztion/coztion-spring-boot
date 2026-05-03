@@ -11,7 +11,7 @@ import coz.springboot.common.enums.ValueEnum;
 public enum MenuType implements ValueEnum {
     GROUP_NAVIGATION("GRP_NAV"),
     NAVIGATION("NAV"),
-    URL("URL"),
+    PAGE("PAGE"),
     TAB("TAB");
 
     private final String value;

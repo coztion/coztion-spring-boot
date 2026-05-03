@@ -19,6 +19,8 @@ public class MenuTree {
 
     private String parentMenuId;
 
+    private String url;
+
     private Integer sortOrder;
 
     private List<MenuTree> subMenus;

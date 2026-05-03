@@ -5,26 +5,35 @@
     <select id="findMenusByFilter"
             parameterType="coz.springboot.menu.model.MenuFilter"
             resultType="coz.springboot.menu.model.Menu">
-        SELECT MENU_ID
-             , MENU_NAME
-             , MENU_TYPE
-             , PARENT_MENU_ID
-             , SORT_ORDER
-             , USE_YN
-             , CREATED_BY
-             , CREATED_AT
-             , UPDATED_BY
-             , UPDATED_AT
-          FROM TB_MENU
+        SELECT DISTINCT M.MENU_ID
+             , M.MENU_NAME
+             , M.MENU_TYPE
+             , M.PARENT_MENU_ID
+             , M.SORT_ORDER
+             , M.USE_YN
+             , M.CREATED_BY
+             , M.CREATED_AT
+             , M.UPDATED_BY
+             , M.UPDATED_AT
+          FROM TB_MENU M
+        <if test="authorities != null and !authorities.isEmpty()">
+         INNER JOIN TB_MENU_AUTHORITY MA ON M.MENU_ID = MA.MENU_ID
+        </if>
         <where>
+            <if test="authorities != null and !authorities.isEmpty()">
+           AND MA.AUTHORITY_CODE IN
+                <foreach item="authority" collection="authorities" open="(" separator="," close=")">
+                    #{authority}
+                </foreach>
+            </if>
             <if test="menuType != null">
-                AND MENU_TYPE = #{menuType}
+           AND M.MENU_TYPE = #{menuType}
             </if>
             <if test="useYn != null">
-                AND USE_YN = #{useYn}
+           AND M.USE_YN = #{useYn}
             </if>
         </where>
-         ORDER BY SORT_ORDER
+         ORDER BY M.SORT_ORDER
     </select>
 
 
@@ -34,13 +43,14 @@
             SELECT M.MENU_ID
                  , M.MENU_NAME
                  , M.MENU_TYPE
+                 , M.URL
                  , M.PARENT_MENU_ID
                  , M.SORT_ORDER
               FROM TB_MENU M
              INNER JOIN TB_MENU_AUTHORITY MA ON M.MENU_ID = MA.MENU_ID
              WHERE MA.AUTHORITY_CODE IN
             <foreach item="authority" collection="authorities" open="(" separator="," close=")">
-                #{authority.value}
+                #{authority}
             </foreach>
                AND M.USE_YN = 'Y'
 
@@ -49,6 +59,7 @@
             SELECT P.MENU_ID
                  , P.MENU_NAME
                  , P.MENU_TYPE
+                 , P.URL
                  , P.PARENT_MENU_ID
                  , P.SORT_ORDER
               FROM TB_MENU P
@@ -58,6 +69,7 @@
         SELECT DISTINCT MENU_ID
                       , MENU_NAME
                       , MENU_TYPE
+                      , URL
                       , PARENT_MENU_ID
                       , SORT_ORDER
           FROM MENU_TREE
