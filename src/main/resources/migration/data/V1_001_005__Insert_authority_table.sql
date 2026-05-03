@@ -1,3 +1,4 @@
 INSERT INTO TB_AUTHORITY (AUTHORITY_CODE, AUTHORITY_NAME)
 VALUES ('ROLE_ADMIN', 'Administrator')
-     , ('ROLE_DEVELOPER', 'Developer');
+     , ('ROLE_DEVELOPER', 'Developer')
+     , ('ROLE_USER', 'User');

@@ -22,6 +22,9 @@ public class MenuTreeGetResponse {
     @Schema(description = "Menu Type")
     private String menuType;
 
+    @Schema(description = "URL")
+    private String url;
+
     @Schema(description = "Sort Order")
     private Integer sortOrder;
 
@@ -33,6 +36,7 @@ public class MenuTreeGetResponse {
                 .menuId(menu.getMenuId())
                 .menuName(menu.getMenuName())
                 .menuType(menu.getMenuType().getValue())
+                .url(menu.getUrl())
                 .sortOrder(menu.getSortOrder())
                 .subMenus(
                         menu.getSubMenus() == null

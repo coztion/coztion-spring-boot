@@ -34,6 +34,7 @@
             SELECT M.MENU_ID
                  , M.MENU_NAME
                  , M.MENU_TYPE
+                 , M.URL
                  , M.PARENT_MENU_ID
                  , M.SORT_ORDER
               FROM TB_MENU M
@@ -49,6 +50,7 @@
             SELECT P.MENU_ID
                  , P.MENU_NAME
                  , P.MENU_TYPE
+                 , P.URL
                  , P.PARENT_MENU_ID
                  , P.SORT_ORDER
               FROM TB_MENU P
@@ -58,6 +60,7 @@
         SELECT DISTINCT MENU_ID
                       , MENU_NAME
                       , MENU_TYPE
+                      , URL
                       , PARENT_MENU_ID
                       , SORT_ORDER
           FROM MENU_TREE
