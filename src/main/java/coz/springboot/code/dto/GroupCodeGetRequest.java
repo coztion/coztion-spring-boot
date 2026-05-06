@@ -29,7 +29,7 @@ public class GroupCodeGetRequest {
         return GroupCodeFilter.builder()
                 .groupCodes(groupCodes)
                 .groupCode(groupCode)
-                .useYn(YesOrNo.of(useYn))
+                .useYn(YesOrNo.ofValue(useYn))
                 .build();
     }
 }

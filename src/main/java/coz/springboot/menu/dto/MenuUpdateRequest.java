@@ -27,7 +27,7 @@ public class MenuUpdateRequest {
         return MenuUpdate.builder()
                 .targetMenuId(menuId)
                 .menuName(menuName)
-                .useYn(YesOrNo.of(useYn))
+                .useYn(YesOrNo.ofValue(useYn))
                 .author(author)
                 .build();
     }

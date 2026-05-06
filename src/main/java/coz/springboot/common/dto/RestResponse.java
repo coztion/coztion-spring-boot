@@ -1,5 +1,7 @@
 package coz.springboot.common.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.*;
 
 @Getter
@@ -8,10 +10,13 @@ import lombok.*;
 @AllArgsConstructor
 public class RestResponse<T> {
 
+    @Schema(description = "Succeed or Failure", example = "true")
     private boolean succeed;
 
+    @Schema(description = "Core Data")
     private T data;
 
+    @Schema(description = "Message for failure")
     private String failureMessage;
 
     public static <T> RestResponse<T> ofSuccess(T data) {

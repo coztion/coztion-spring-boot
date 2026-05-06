@@ -1,8 +1,6 @@
 package coz.springboot.common.dto;
 
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
@@ -31,14 +29,14 @@ public class PageResponse<T> {
     @Schema(description = "Data List")
     private final List<T> list;
 
-    public static <T, R> PageResponse<R> of(Page<T> page, Function<T, R> mapper) {
+    public static <T> PageResponse<T> ofPage(Page<T> page) {
         PageInfo<T> pageInfo = PageInfo.of(page);
-        return PageResponse.<R>builder()
+        return PageResponse.<T>builder()
                 .pageNum(pageInfo.getPageNum())
                 .pageSize(pageInfo.getPageSize())
                 .pages(pageInfo.getPages())
                 .total(pageInfo.getTotal())
-                .list(pageInfo.getList().stream().map(mapper).collect(Collectors.toList()))
+                .list(pageInfo.getList())
                 .build();
     }
 }

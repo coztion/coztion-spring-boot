@@ -25,7 +25,7 @@ public class MenuGetRequest extends PageRequest {
     public MenuFilter toMenuFilter() {
         return MenuFilter.builder()
                 .menuType(MenuType.ofValue(menuType))
-                .useYn(YesOrNo.of(useYn))
+                .useYn(YesOrNo.ofValue(useYn))
                 .pageNum(pageNum)
                 .pageSize(pageSize)
                 .build();
