@@ -45,4 +45,11 @@ public class SessionUser implements UserDetails {
     public String getUsername() {
         return username;
     }
+
+    public SessionUserInfo toPublicInfo() {
+        return SessionUserInfo.builder()
+                .username(username)
+                .authorityCodes(authorityCodes)
+                .build();
+    }
 }

@@ -13,6 +13,8 @@ import coz.springboot.common.dto.RestResponse;
 import coz.springboot.common.helper.SessionHolder;
 import coz.springboot.common.security.AuthenticationHandler;
 import coz.springboot.user.dto.SessionLoginRequest;
+import coz.springboot.user.model.SessionUser;
+import coz.springboot.user.model.SessionUserInfo;
 
 @Tag(name = "Session", description = "Session API")
 @RestController
@@ -23,6 +25,14 @@ public class SessionController {
     private final SessionService sessionService;
 
     private final AuthenticationHandler authenticationHandler;
+
+    @Operation(summary = "Get Session Info", description = "Get information about authenticated session user")
+    @GetMapping("/user-info")
+    public RestResponse<SessionUserInfo> getSessionUserInfo() {
+        SessionUser sessionUser = SessionHolder.getSessionUser();
+        SessionUserInfo sessionUserInfo = sessionUser.toPublicInfo();
+        return RestResponse.ofSuccess(sessionUserInfo);
+    }
 
     @Operation(summary = "Login", description = "Authenticate with username and password")
     @PostMapping("/login")
