@@ -1,5 +1,7 @@
 package coz.springboot.common.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import org.springframework.util.StringUtils;
 
 import coz.springboot.common.constant.Message;
@@ -17,5 +19,6 @@ public interface ValueEnum {
         throw new RestException(Message.Exception.BAD_REQUEST, label);
     }
 
+    @JsonValue
     String getValue();
 }
