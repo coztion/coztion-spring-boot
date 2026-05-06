@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 import coz.springboot.code.dto.GroupCodeGetRequest;
-import coz.springboot.code.dto.GroupCodeGetResponse;
 import coz.springboot.code.model.GroupCode;
 import coz.springboot.code.model.GroupCodeFilter;
 import coz.springboot.common.dto.RestResponse;
@@ -27,11 +26,8 @@ public class GroupCodeController {
 
     @Operation(summary = "Get Group Codes", description = "Search group codes based on search filter")
     @GetMapping
-    public RestResponse<List<GroupCodeGetResponse>> getGroupCodes(GroupCodeGetRequest request) {
+    public RestResponse<List<GroupCode>> getGroupCodes(GroupCodeGetRequest request) {
         GroupCodeFilter groupCodeFilter = request.toGroupCodeFilter();
-        List<GroupCode> groupCodes = groupCodeService.getGroupCodes(groupCodeFilter);
-        List<GroupCodeGetResponse> response =
-                groupCodes.stream().map(GroupCodeGetResponse::fromGroupCode).toList();
-        return RestResponse.ofSuccess(response);
+        return RestResponse.ofSuccess(groupCodeService.getGroupCodes(groupCodeFilter));
     }
 }
