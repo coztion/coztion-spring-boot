@@ -27,7 +27,7 @@ public class CommonCodeGetRequest {
         return CommonCodeFilter.builder()
                 .groupCode(groupCode)
                 .commonCode(commonCode)
-                .useYn(YesOrNo.of(useYn))
+                .useYn(YesOrNo.ofValue(useYn))
                 .build();
     }
 }

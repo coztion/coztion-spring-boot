@@ -29,7 +29,7 @@ public class PageResponse<T> {
     @Schema(description = "Data List")
     private final List<T> list;
 
-    public static <T> PageResponse<T> of(Page<T> page) {
+    public static <T> PageResponse<T> ofPage(Page<T> page) {
         PageInfo<T> pageInfo = PageInfo.of(page);
         return PageResponse.<T>builder()
                 .pageNum(pageInfo.getPageNum())

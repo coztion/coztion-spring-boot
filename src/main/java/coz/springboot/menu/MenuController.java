@@ -41,7 +41,7 @@ public class MenuController {
     @GetMapping
     public RestResponse<PageResponse<Menu>> getMenus(MenuGetRequest request) {
         MenuFilter menuFilter = request.toMenuFilter();
-        return RestResponse.ofSuccess(PageResponse.of(menuService.getMenus(menuFilter)));
+        return RestResponse.ofSuccess(PageResponse.ofPage(menuService.getMenus(menuFilter)));
     }
 
     @Operation(summary = "Get Menu Tree", description = "Get hierarchical menu tree for user")
