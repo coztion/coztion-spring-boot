@@ -22,8 +22,6 @@ import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
 import coz.springboot.common.helper.SessionHolder;
 import coz.springboot.menu.dto.MenuGetRequest;
-import coz.springboot.menu.dto.MenuGetResponse;
-import coz.springboot.menu.dto.MenuTreeGetResponse;
 import coz.springboot.menu.dto.MenuUpdateRequest;
 import coz.springboot.menu.model.Menu;
 import coz.springboot.menu.model.MenuFilter;
@@ -41,20 +39,16 @@ public class MenuController {
 
     @Operation(summary = "Get Menus", description = "Search menus based on search filter")
     @GetMapping
-    public RestResponse<PageResponse<MenuGetResponse>> getMenus(MenuGetRequest request) {
+    public RestResponse<PageResponse<Menu>> getMenus(MenuGetRequest request) {
         MenuFilter menuFilter = request.toMenuFilter();
-        Page<Menu> menus = menuService.getMenus(menuFilter);
-        return RestResponse.ofSuccess(PageResponse.of(menus, MenuGetResponse::fromMenu));
+        return RestResponse.ofSuccess(PageResponse.of(menuService.getMenus(menuFilter)));
     }
 
     @Operation(summary = "Get Menu Tree", description = "Get hierarchical menu tree for user")
     @GetMapping("/menu-tree")
-    public RestResponse<List<MenuTreeGetResponse>> getMenuTree() {
+    public RestResponse<List<MenuTree>> getMenuTree() {
         List<Authority> authorities = SessionHolder.getAuthorities();
-        List<MenuTree> menuTrees = menuService.getMenuTree(authorities);
-        List<MenuTreeGetResponse> response =
-                menuTrees.stream().map(MenuTreeGetResponse::fromMenuTree).toList();
-        return RestResponse.ofSuccess(response);
+        return RestResponse.ofSuccess(menuService.getMenuTree(authorities));
     }
 
     @Operation(summary = "Get Menu Ids", description = "Get menu ids for user")

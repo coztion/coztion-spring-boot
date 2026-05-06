@@ -31,6 +31,17 @@ public class PageResponse<T> {
     @Schema(description = "Data List")
     private final List<T> list;
 
+    public static <T> PageResponse<T> of(Page<T> page) {
+        PageInfo<T> pageInfo = PageInfo.of(page);
+        return PageResponse.<T>builder()
+                .pageNum(pageInfo.getPageNum())
+                .pageSize(pageInfo.getPageSize())
+                .pages(pageInfo.getPages())
+                .total(pageInfo.getTotal())
+                .list(pageInfo.getList())
+                .build();
+    }
+
     public static <T, R> PageResponse<R> of(Page<T> page, Function<T, R> mapper) {
         PageInfo<T> pageInfo = PageInfo.of(page);
         return PageResponse.<R>builder()
