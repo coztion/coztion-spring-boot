@@ -15,5 +15,9 @@ public class GroupCodeFilter {
 
     private String groupCode;
 
+    private String groupCodeName;
+
+    private String commonCodeName;
+
     private YesOrNo useYn;
 }

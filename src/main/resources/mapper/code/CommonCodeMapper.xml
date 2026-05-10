@@ -9,12 +9,19 @@
              , COMMON_CODE
              , COMMON_CODE_NAME
              , USE_YN
+             , SORT_ORDER
              , CREATED_BY
              , CREATED_AT
              , UPDATED_BY
              , UPDATED_AT
           FROM TB_COMMON_CODE
-         <where>
+        <where>
+            <if test="groupCodes != null and !groupCodes.isEmpty()">
+           AND GROUP_CODE IN
+                <foreach collection="groupCodes" item="groupCode" open="(" separator="," close=")">
+                    #{groupCode}
+                </foreach>
+            </if>
             <if test="groupCode != null and groupCode != ''">
            AND GROUP_CODE = #{groupCode}
             </if>
@@ -24,8 +31,8 @@
             <if test="useYn != null">
            AND USE_YN = #{useYn}
             </if>
-         </where>
-         ORDER BY COMMON_CODE
+        </where>
+         ORDER BY SORT_ORDER
     </select>
 
     <select id="findCommonCodeByFilter"
@@ -40,7 +47,13 @@
              , UPDATED_BY
              , UPDATED_AT
           FROM TB_COMMON_CODE
-         <where>
+        <where>
+            <if test="groupCodes != null and !groupCodes.isEmpty()">
+           AND GROUP_CODE IN
+                <foreach collection="groupCodes" item="groupCode" open="(" separator="," close=")">
+                    #{groupCode}
+                </foreach>
+            </if>
             <if test="groupCode != null and groupCode != ''">
            AND GROUP_CODE = #{groupCode}
             </if>
@@ -51,6 +64,7 @@
            AND USE_YN = #{useYn}
             </if>
          </where>
+         ORDER BY SORT_ORDER
     </select>
 
 </mapper>

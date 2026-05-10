@@ -21,6 +21,7 @@
         SELECT GC.GROUP_CODE
              , GC.GROUP_CODE_NAME
              , GC.USE_YN
+             , GC.SORT_ORDER
              , GC.CREATED_BY
              , GC.CREATED_AT
              , GC.UPDATED_BY
@@ -29,6 +30,7 @@
              , CC.COMMON_CODE
              , CC.COMMON_CODE_NAME
              , CC.USE_YN AS COMMON_CODE_IS_USE
+             , CC.SORT_ORDER
              , CC.CREATED_AT AS COMMON_CODE_CREATED_AT
              , CC.CREATED_BY AS COMMON_CODE_CREATED_BY
              , CC.UPDATED_AT AS COMMON_CODE_UPDATED_AT
@@ -49,11 +51,17 @@
             <if test="groupCode != null and groupCode != ''">
                 AND GC.GROUP_CODE = #{groupCode}
             </if>
+            <if test="groupCodeName != null and groupCodeName != ''">
+                AND GC.GROUP_CODE_NAME LIKE CONCAT('%', #{groupCodeName}, '%')
+            </if>
+            <if test="commonCodeName != null and commonCodeName != ''">
+                AND CC.COMMON_CODE_NAME LIKE CONCAT('%', #{commonCodeName}, '%')
+            </if>
             <if test="useYn != null">
                 AND GC.USE_YN = #{useYn}
             </if>
         </where>
-         ORDER BY GC.GROUP_CODE, CC.COMMON_CODE
+         ORDER BY GC.SORT_ORDER, CC.SORT_ORDER
     </select>
 
 </mapper>

@@ -25,4 +25,15 @@ public class CommonCode extends DataRecord {
 
     @Schema(description = "Usage Status")
     private YesOrNo useYn = YesOrNo.YES;
+
+    @Schema(description = "Sort Order")
+    private Integer sortOrder;
+
+    public Code toCode() {
+        return Code.builder()
+                .groupCode(groupCode)
+                .commonCode(commonCode)
+                .commonCodeName(commonCodeName)
+                .build();
+    }
 }

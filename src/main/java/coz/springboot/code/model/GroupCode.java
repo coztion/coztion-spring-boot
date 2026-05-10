@@ -25,6 +25,9 @@ public class GroupCode extends DataRecord {
     @Schema(description = "In Use")
     private YesOrNo useYn = YesOrNo.YES;
 
+    @Schema(description = "Sort Order")
+    private Integer sortOrder;
+
     @Schema(description = "Common Code List")
     private List<CommonCode> commonCodes;
 }
