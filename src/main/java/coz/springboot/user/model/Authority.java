@@ -9,8 +9,8 @@ import coz.springboot.common.enums.ValueEnum;
 @Getter
 @RequiredArgsConstructor
 public enum Authority implements ValueEnum {
+    SYSTEM("ROLE_SYSTEM"),
     ADMIN("ROLE_ADMIN"),
-    DEVELOPER("ROLE_DEVELOPER"),
     USER("ROLE_USER");
 
     private final String authorityCode;
