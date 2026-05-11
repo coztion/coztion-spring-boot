@@ -51,6 +51,7 @@ public class SessionController {
     public RestResponse<Boolean> logout(HttpServletResponse response) {
         String username = SessionHolder.getUsername();
         sessionService.logout(username);
+        authenticationHandler.removeAccessTokenCookie(response);
         authenticationHandler.removeRefreshTokenCookie(response);
         return RestResponse.ofSuccess(true);
     }
