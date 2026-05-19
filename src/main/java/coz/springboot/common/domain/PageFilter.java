@@ -1,29 +1,29 @@
-package coz.springboot.common.model;
+package coz.springboot.common.domain;
 
 import java.util.Objects;
 
 import com.github.pagehelper.PageHelper;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import coz.springboot.common.dto.PageRequest;
-
 @Getter
+@Setter
 @SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PageFilter {
 
+    @Schema(description = "Page Number")
     private Integer pageNum;
 
+    @Schema(description = "Page Size")
     private Integer pageSize;
-
-    public abstract static class PageFilterBuilder<C extends PageFilter, B extends PageFilterBuilder<C, B>> {
-        public B page(PageRequest request) {
-            this.pageNum(request.getPageNum());
-            this.pageSize(request.getPageSize());
-            return self();
-        }
-    }
 
     public void validatePageable() {
         if (Objects.nonNull(pageNum) && pageNum > 0 && Objects.nonNull(pageSize) && pageSize > 0) {

@@ -6,11 +6,11 @@ import com.github.pagehelper.Page;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import coz.springboot.menu.model.Menu;
-import coz.springboot.menu.model.MenuFilter;
-import coz.springboot.menu.model.MenuTree;
-import coz.springboot.menu.model.MenuUpdate;
-import coz.springboot.user.model.Authority;
+import coz.springboot.menu.domain.Menu;
+import coz.springboot.menu.domain.MenuFilter;
+import coz.springboot.menu.domain.MenuTree;
+import coz.springboot.menu.domain.MenuUpdate;
+import coz.springboot.user.domain.Authority;
 
 @Mapper
 public interface MenuRepository {

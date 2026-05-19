@@ -1,4 +1,4 @@
-package coz.springboot.user.model;
+package coz.springboot.user.domain;
 
 import lombok.*;
 

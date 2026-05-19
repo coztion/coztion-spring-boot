@@ -14,9 +14,9 @@ import coz.springboot.common.constant.Label;
 import coz.springboot.common.constant.Message;
 import coz.springboot.common.helper.MessageTranslator;
 import coz.springboot.user.UserService;
-import coz.springboot.user.model.SessionUser;
-import coz.springboot.user.model.User;
-import coz.springboot.user.model.UserFilter;
+import coz.springboot.user.domain.SessionUser;
+import coz.springboot.user.domain.User;
+import coz.springboot.user.domain.UserFilter;
 
 @Slf4j
 @Service

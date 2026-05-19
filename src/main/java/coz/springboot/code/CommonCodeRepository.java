@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import coz.springboot.code.model.CommonCode;
-import coz.springboot.code.model.CommonCodeFilter;
+import coz.springboot.code.domain.CommonCode;
+import coz.springboot.code.domain.CommonCodeFilter;
 
 @Mapper
 public interface CommonCodeRepository {

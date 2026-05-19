@@ -6,12 +6,7 @@ import jakarta.validation.Valid;
 
 import com.github.pagehelper.Page;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,13 +16,11 @@ import lombok.RequiredArgsConstructor;
 import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
 import coz.springboot.common.helper.SessionHolder;
-import coz.springboot.menu.dto.MenuGetRequest;
-import coz.springboot.menu.dto.MenuUpdateRequest;
-import coz.springboot.menu.model.Menu;
-import coz.springboot.menu.model.MenuFilter;
-import coz.springboot.menu.model.MenuTree;
-import coz.springboot.menu.model.MenuUpdate;
-import coz.springboot.user.model.Authority;
+import coz.springboot.menu.domain.Menu;
+import coz.springboot.menu.domain.MenuFilter;
+import coz.springboot.menu.domain.MenuTree;
+import coz.springboot.menu.domain.MenuUpdate;
+import coz.springboot.user.domain.Authority;
 
 @Tag(name = "Menu", description = "Menu API")
 @RestController
@@ -39,9 +32,9 @@ public class MenuController {
 
     @Operation(summary = "Get Menus", description = "Search menus based on search filter")
     @GetMapping
-    public RestResponse<PageResponse<Menu>> getMenus(MenuGetRequest request) {
-        MenuFilter menuFilter = request.toMenuFilter();
-        return RestResponse.ofSuccess(PageResponse.ofPage(menuService.getMenus(menuFilter)));
+    public RestResponse<PageResponse<Menu>> getMenus(@Valid @ModelAttribute MenuFilter menuFilter) {
+        Page<Menu> pagedMenus = menuService.getMenus(menuFilter);
+        return RestResponse.ofSuccess(PageResponse.ofPage(pagedMenus));
     }
 
     @Operation(summary = "Get Menu Tree", description = "Get hierarchical menu tree for user")
@@ -62,9 +55,10 @@ public class MenuController {
 
     @Operation(summary = "Update Menu", description = "Update menu information")
     @PatchMapping("/{menuId}")
-    public RestResponse<Void> updateMenu(@PathVariable String menuId, @Valid @RequestBody MenuUpdateRequest request) {
-        MenuUpdate update = request.toMenuUpdate(menuId, SessionHolder.getUsername());
-        menuService.updateMenu(update);
+    public RestResponse<Void> updateMenu(@PathVariable String menuId, @Valid @RequestBody MenuUpdate menuUpdate) {
+        menuUpdate.setTargetMenuId(menuId);
+        menuUpdate.setAuthor(SessionHolder.getUsername());
+        menuService.updateMenu(menuUpdate);
         return RestResponse.ofSuccess(null);
     }
 }

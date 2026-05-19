@@ -1,4 +1,4 @@
-package coz.springboot.code.model;
+package coz.springboot.code.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import coz.springboot.common.domain.DataRecord;
 import coz.springboot.common.enums.YesOrNo;
-import coz.springboot.common.model.DataRecord;
 
 @Getter
 @Setter

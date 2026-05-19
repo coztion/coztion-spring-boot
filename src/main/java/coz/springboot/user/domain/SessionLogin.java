@@ -1,4 +1,4 @@
-package coz.springboot.user.dto;
+package coz.springboot.user.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SessionLoginRequest {
+public class SessionLogin {
 
     @Schema(description = "Username")
     private String username;

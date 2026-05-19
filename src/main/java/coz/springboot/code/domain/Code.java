@@ -1,4 +1,4 @@
-package coz.springboot.code.model;
+package coz.springboot.code.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

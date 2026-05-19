@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 import coz.springboot.common.enums.AuthenticationFailureReason;
 import coz.springboot.common.helper.RedisRepository;
 import coz.springboot.common.helper.SessionFactory;
-import coz.springboot.user.model.SessionUser;
+import coz.springboot.user.domain.SessionUser;
 
 @Component
 @RequiredArgsConstructor

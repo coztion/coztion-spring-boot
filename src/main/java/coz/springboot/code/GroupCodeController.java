@@ -1,8 +1,11 @@
 package coz.springboot.code;
 
+import jakarta.validation.Valid;
+
 import com.github.pagehelper.Page;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,9 +14,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.code.dto.GroupCodeGetRequest;
-import coz.springboot.code.model.GroupCode;
-import coz.springboot.code.model.GroupCodeFilter;
+import coz.springboot.code.domain.GroupCode;
+import coz.springboot.code.domain.GroupCodeFilter;
 import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
 
@@ -27,8 +29,7 @@ public class GroupCodeController {
 
     @Operation(summary = "Get Group Codes", description = "Search group codes based on search filter")
     @GetMapping
-    public RestResponse<PageResponse<GroupCode>> getGroupCodes(GroupCodeGetRequest request) {
-        GroupCodeFilter groupCodeFilter = request.toGroupCodeFilter();
+    public RestResponse<PageResponse<GroupCode>> getGroupCodes(@Valid @ModelAttribute GroupCodeFilter groupCodeFilter) {
         Page<GroupCode> groupCodes = groupCodeService.getGroupCodes(groupCodeFilter);
         return RestResponse.ofSuccess(PageResponse.ofPage(groupCodes));
     }

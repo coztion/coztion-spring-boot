@@ -1,4 +1,6 @@
-package coz.springboot.menu.model;
+package coz.springboot.menu.domain;
+
+import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -6,13 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import coz.springboot.common.enums.YesOrNo;
-import coz.springboot.common.model.DataRecord;
-
 @Getter
 @Setter
 @NoArgsConstructor
-public class Menu extends DataRecord {
+public class MenuTree {
 
     @Schema(description = "Menu ID")
     private String menuId;
@@ -26,9 +25,12 @@ public class Menu extends DataRecord {
     @Schema(description = "Parent Menu ID")
     private String parentMenuId;
 
+    @Schema(description = "URL")
+    private String url;
+
     @Schema(description = "Sort Order")
     private Integer sortOrder;
 
-    @Schema(description = "In Use")
-    private YesOrNo useYn = YesOrNo.YES;
+    @Schema(description = "Sub Menu List")
+    private List<MenuTree> subMenus;
 }

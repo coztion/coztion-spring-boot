@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import coz.springboot.user.model.User;
-import coz.springboot.user.model.UserFilter;
+import coz.springboot.user.domain.User;
+import coz.springboot.user.domain.UserFilter;
 
 @Mapper
 public interface UserRepository {
