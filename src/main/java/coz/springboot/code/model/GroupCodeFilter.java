@@ -2,14 +2,15 @@ package coz.springboot.code.model;
 
 import java.util.List;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 import coz.springboot.common.enums.YesOrNo;
+import coz.springboot.common.model.PageFilter;
 
 @Getter
-@Builder
-public class GroupCodeFilter {
+@SuperBuilder
+public class GroupCodeFilter extends PageFilter {
 
     private List<String> groupCodes;
 

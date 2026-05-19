@@ -1,6 +1,6 @@
 package coz.springboot.code;
 
-import java.util.List;
+import com.github.pagehelper.Page;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import coz.springboot.code.dto.GroupCodeGetRequest;
 import coz.springboot.code.model.GroupCode;
 import coz.springboot.code.model.GroupCodeFilter;
+import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
 
 @Tag(name = "Group Code", description = "Group Code API")
@@ -26,8 +27,9 @@ public class GroupCodeController {
 
     @Operation(summary = "Get Group Codes", description = "Search group codes based on search filter")
     @GetMapping
-    public RestResponse<List<GroupCode>> getGroupCodes(GroupCodeGetRequest request) {
+    public RestResponse<PageResponse<GroupCode>> getGroupCodes(GroupCodeGetRequest request) {
         GroupCodeFilter groupCodeFilter = request.toGroupCodeFilter();
-        return RestResponse.ofSuccess(groupCodeService.getGroupCodes(groupCodeFilter));
+        Page<GroupCode> groupCodes = groupCodeService.getGroupCodes(groupCodeFilter);
+        return RestResponse.ofSuccess(PageResponse.ofPage(groupCodes));
     }
 }

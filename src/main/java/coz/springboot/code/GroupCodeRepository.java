@@ -1,6 +1,6 @@
 package coz.springboot.code;
 
-import java.util.List;
+import com.github.pagehelper.Page;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,5 +10,5 @@ import coz.springboot.code.model.GroupCodeFilter;
 @Mapper
 public interface GroupCodeRepository {
 
-    List<GroupCode> findGroupCodesByFilter(GroupCodeFilter filter);
+    Page<GroupCode> findGroupCodesByFilter(GroupCodeFilter filter);
 }

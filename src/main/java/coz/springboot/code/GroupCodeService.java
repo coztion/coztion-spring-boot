@@ -1,6 +1,6 @@
 package coz.springboot.code;
 
-import java.util.List;
+import com.github.pagehelper.Page;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,8 @@ public class GroupCodeService {
     private final GroupCodeRepository groupCodeRepository;
 
     @Transactional(readOnly = true)
-    public List<GroupCode> getGroupCodes(GroupCodeFilter filter) {
+    public Page<GroupCode> getGroupCodes(GroupCodeFilter filter) {
+        filter.validatePageable();
         return groupCodeRepository.findGroupCodesByFilter(filter);
     }
 }
