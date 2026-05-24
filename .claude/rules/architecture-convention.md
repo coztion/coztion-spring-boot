@@ -5,39 +5,40 @@ paths:
 
 # Architecture Convention
 
-The codebase is organized into two **conceptual** layers—**presentation** and **application**—and three **concrete**
-roles—**controller**, **service**, and **repository**. Concepts describe _what_ is separated; concrete roles describe
+The codebase is organized into two **conceptual** layers — **presentation** and **application** — and three **concrete**
+roles — **controller**, **service**, and **repository**. Concepts describe _what_ is separated; concrete roles describe
 _how_ that split is usually implemented.
 
 ---
 
 ### Architecture
 
-| Layer            | Role           | Responsibility                                                                                               |
-|------------------|----------------|--------------------------------------------------------------------------------------------------------------|
-| **Presentation** | **Controller** | Boundary validation, invoke use cases, map results to response DTOs.                                         |
-|                  | **DTO**        | Types used only at the API boundary; kept on the feature's presentation side.                                |
-| **Application**  | **Service**    | Rules, orchestration, transaction boundaries where the app defines a unit of work.                           |
-|                  | **Repository** | Load and persist feature state behind a narrow surface.                                                      |
-|                  | **Model**      | Vocabulary shared by **service** and **repository**; distinct from DTOs unless layers are merged on purpose. |
+| Layer            | Role           | Responsibility                                                                     |
+|------------------|----------------|------------------------------------------------------------------------------------|
+| **Presentation** | **Controller** | Boundary validation, invoke use cases, map results to response DTOs.               |
+| **Application**  | **Service**    | Rules, orchestration, transaction boundaries where the app defines a unit of work. |
+|                  | **Repository** | Load and persist feature state behind a narrow surface.                            |
+|                  | **Domain**     | All domain types for a feature: models, filters, and command objects.              |
 
 ### Dependency Direction
 
-- Presentation may call application (e.g. controller → service, map model → DTO).
-- Application may call repository (e.g. service → repository).
-- Application must not depend on presentation (no DTOs or transport types inside services/repositories).
+- Presentation may call application (controller -> service).
+- Application may call repository (service -> repository).
+- Application must not depend on presentation (no transport types inside services/repositories).
+- Domain types are shared across both layers within the same feature.
+- Within the same bounded context, a service may call its own repository directly.
+- Across bounded contexts, communication must go through the target service — never call another context's repository directly.
 
 ### Package Layout
 
-**`{root-package}`** — root package. **`{domain-name}`** — one bounded context; repeat the subtree per domain. *`common`* — shared code not tied to a single domain.
+**`{root-package}`** — root package. **`{domain-name}`** — one bounded context; repeat the subtree per domain.
 
 ```
 {root-package}/
 ├── {domain-name}/
-│   ├── dto/
-│   ├── model/
-│   ├── *Controller          # presentation
-│   ├── *Service             # application
+│   ├── domain/       # all domain types for the feature
+│   ├── *Controller   # presentation
+│   ├── *Service      # application
 │   └── *Repository
-└── common
+└── common/           # shared code not tied to a single domain
 ```
