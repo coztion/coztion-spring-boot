@@ -15,6 +15,30 @@
         </collection>
     </resultMap>
 
+    <sql id="whereGroupCodeFilter">
+        <where>
+            <if test="groupCodes != null and !groupCodes.isEmpty()">
+           AND GC.GROUP_CODE IN
+                <foreach collection="groupCodes" item="groupCode" open="(" separator="," close=")">
+                    #{groupCode}
+                </foreach>
+            </if>
+            <if test="groupCode != null and groupCode != ''">
+           AND GC.GROUP_CODE = #{groupCode}
+            </if>
+            <if test="groupCodeName != null and groupCodeName != ''">
+           AND GC.GROUP_CODE_NAME LIKE CONCAT('%', #{groupCodeName}, '%')
+            </if>
+            <if test="commonCodeName != null and commonCodeName != ''">
+           AND CC.COMMON_CODE_NAME LIKE CONCAT('%', #{commonCodeName}, '%')
+            </if>
+            <if test="useYn != null">
+           AND GC.USE_YN = #{useYn}
+            </if>
+           AND GC.DEL_YN != 'Y'
+        </where>
+    </sql>
+
     <select id="findGroupCodesByFilter"
             parameterType="coz.springboot.code.domain.GroupCodeFilter"
             resultMap="groupCodeMap">
@@ -36,32 +60,97 @@
              , CC.UPDATED_AT AS COMMON_CODE_UPDATED_AT
              , CC.UPDATED_BY AS COMMON_CODE_UPDATED_BY
           FROM TB_GROUP_CODE GC
-         INNER JOIN TB_COMMON_CODE CC
+          LEFT JOIN TB_COMMON_CODE CC
                  ON GC.GROUP_CODE = CC.GROUP_CODE
-        <if test="useYn != null">
-                AND CC.USE_YN = #{useYn}
-        </if>
-        <where>
-            <if test="groupCodes != null and !groupCodes.isEmpty()">
-                AND GC.GROUP_CODE IN
-                <foreach collection="groupCodes" item="groupCode" open="(" separator="," close=")">
-                    #{groupCode}
-                </foreach>
-            </if>
-            <if test="groupCode != null and groupCode != ''">
-                AND GC.GROUP_CODE = #{groupCode}
-            </if>
-            <if test="groupCodeName != null and groupCodeName != ''">
-                AND GC.GROUP_CODE_NAME LIKE CONCAT('%', #{groupCodeName}, '%')
-            </if>
-            <if test="commonCodeName != null and commonCodeName != ''">
-                AND CC.COMMON_CODE_NAME LIKE CONCAT('%', #{commonCodeName}, '%')
-            </if>
-            <if test="useYn != null">
-                AND GC.USE_YN = #{useYn}
-            </if>
-        </where>
+                AND CC.DEL_YN != 'Y'
+        <include refid="whereGroupCodeFilter" />
          ORDER BY GC.SORT_ORDER, CC.SORT_ORDER
     </select>
+
+    <select id="findGroupCodeByFilter"
+            parameterType="coz.springboot.code.domain.GroupCodeFilter"
+            resultMap="groupCodeMap">
+        SELECT GC.GROUP_CODE
+             , GC.GROUP_CODE_NAME
+             , GC.USE_YN
+             , GC.SORT_ORDER
+             , GC.CREATED_BY
+             , GC.CREATED_AT
+             , GC.UPDATED_BY
+             , GC.UPDATED_AT
+             , CC.GROUP_CODE AS COMMON_CODE_GROUP_CODE
+             , CC.COMMON_CODE
+             , CC.COMMON_CODE_NAME
+             , CC.USE_YN AS COMMON_CODE_IS_USE
+             , CC.SORT_ORDER
+             , CC.CREATED_AT AS COMMON_CODE_CREATED_AT
+             , CC.CREATED_BY AS COMMON_CODE_CREATED_BY
+             , CC.UPDATED_AT AS COMMON_CODE_UPDATED_AT
+             , CC.UPDATED_BY AS COMMON_CODE_UPDATED_BY
+          FROM TB_GROUP_CODE GC
+          LEFT JOIN TB_COMMON_CODE CC
+                 ON GC.GROUP_CODE = CC.GROUP_CODE
+                AND CC.DEL_YN != 'Y'
+        <include refid="whereGroupCodeFilter" />
+         ORDER BY GC.SORT_ORDER, CC.SORT_ORDER
+    </select>
+
+    <insert id="insertGroupCode"
+            parameterType="coz.springboot.code.domain.GroupCodeCreate">
+        INSERT INTO TB_GROUP_CODE (
+            GROUP_CODE
+          , GROUP_CODE_NAME
+          , USE_YN
+          , SORT_ORDER
+          , CREATED_BY
+          , UPDATED_BY
+        ) VALUES (
+            #{groupCode}
+          , #{groupCodeName}
+          , #{useYn}
+          , #{sortOrder}
+          , #{author}
+          , #{author}
+        )
+    </insert>
+
+    <update id="updateGroupCode"
+            parameterType="coz.springboot.code.domain.GroupCodeUpdate">
+        UPDATE TB_GROUP_CODE
+           SET GROUP_CODE_NAME = #{groupCodeName}
+             , USE_YN          = #{useYn}
+             , UPDATED_BY      = #{author}
+             , UPDATED_AT      = NOW()
+         WHERE GROUP_CODE      = #{targetGroupCode}
+           AND DEL_YN         != 'Y'
+    </update>
+
+    <update id="updateCommonCodesByGroupCodeUpdate"
+            parameterType="coz.springboot.code.domain.GroupCodeUpdate">
+        UPDATE TB_COMMON_CODE
+           SET USE_YN     = #{useYn}
+             , UPDATED_BY = #{author}
+             , UPDATED_AT = NOW()
+         WHERE GROUP_CODE = #{targetGroupCode}
+           AND DEL_YN    != 'Y'
+    </update>
+
+    <update id="deleteGroupCode"
+            parameterType="coz.springboot.code.domain.GroupCodeDelete">
+        UPDATE TB_GROUP_CODE
+           SET DEL_YN     = 'Y'
+             , UPDATED_BY = #{author}
+             , UPDATED_AT = NOW()
+         WHERE GROUP_CODE = #{targetGroupCode}
+    </update>
+
+    <update id="deleteCommonCodesByGroupCodeDelete"
+            parameterType="coz.springboot.code.domain.GroupCodeDelete">
+        UPDATE TB_COMMON_CODE
+           SET DEL_YN     = 'Y'
+             , UPDATED_BY = #{author}
+             , UPDATED_AT = NOW()
+         WHERE GROUP_CODE = #{targetGroupCode}
+    </update>
 
 </mapper>

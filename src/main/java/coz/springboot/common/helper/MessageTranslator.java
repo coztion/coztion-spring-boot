@@ -23,4 +23,8 @@ public class MessageTranslator {
 
         return messageSource.getMessage(messageCode, labels, LocaleContextHolder.getLocale());
     }
+
+    public String translateWithArgs(String messageCode, Object... args) {
+        return messageSource.getMessage(messageCode, args, LocaleContextHolder.getLocale());
+    }
 }

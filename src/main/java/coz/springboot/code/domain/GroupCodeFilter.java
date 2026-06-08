@@ -4,16 +4,20 @@ import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import coz.springboot.common.domain.PageFilter;
 import coz.springboot.common.enums.YesOrNo;
 
 @Getter
 @Setter
+@SuperBuilder
 @NoArgsConstructor
+@AllArgsConstructor
 public class GroupCodeFilter extends PageFilter {
 
     @Schema(description = "Group Codes")
@@ -30,4 +34,8 @@ public class GroupCodeFilter extends PageFilter {
 
     @Schema(description = "Usage")
     private YesOrNo useYn;
+
+    public static GroupCodeFilter ofGroupCode(String groupCode) {
+        return GroupCodeFilter.builder().groupCode(groupCode).build();
+    }
 }

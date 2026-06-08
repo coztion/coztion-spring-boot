@@ -2,6 +2,8 @@ package coz.springboot.code.domain;
 
 import java.util.List;
 
+import org.springframework.util.CollectionUtils;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.Getter;
@@ -30,4 +32,8 @@ public class GroupCode extends DataRecord {
 
     @Schema(description = "Common Code List")
     private List<CommonCode> commonCodes;
+
+    public boolean hasCommonCodes() {
+        return !CollectionUtils.isEmpty(commonCodes);
+    }
 }

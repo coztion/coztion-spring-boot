@@ -2,19 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="coz.springboot.code.CommonCodeRepository">
 
-    <select id="findCommonCodesByFilter"
-            parameterType="coz.springboot.code.domain.CommonCodeFilter"
-            resultType="coz.springboot.code.domain.CommonCode">
-        SELECT GROUP_CODE
-             , COMMON_CODE
-             , COMMON_CODE_NAME
-             , USE_YN
-             , SORT_ORDER
-             , CREATED_BY
-             , CREATED_AT
-             , UPDATED_BY
-             , UPDATED_AT
-          FROM TB_COMMON_CODE
+    <sql id="whereCommonCodeFilter">
         <where>
             <if test="groupCodes != null and !groupCodes.isEmpty()">
            AND GROUP_CODE IN
@@ -31,7 +19,24 @@
             <if test="useYn != null">
            AND USE_YN = #{useYn}
             </if>
+           AND DEL_YN != 'Y'
         </where>
+    </sql>
+
+    <select id="findCommonCodesByFilter"
+            parameterType="coz.springboot.code.domain.CommonCodeFilter"
+            resultType="coz.springboot.code.domain.CommonCode">
+        SELECT GROUP_CODE
+             , COMMON_CODE
+             , COMMON_CODE_NAME
+             , USE_YN
+             , SORT_ORDER
+             , CREATED_BY
+             , CREATED_AT
+             , UPDATED_BY
+             , UPDATED_AT
+          FROM TB_COMMON_CODE
+        <include refid="whereCommonCodeFilter" />
          ORDER BY SORT_ORDER
     </select>
 
@@ -47,23 +52,7 @@
              , UPDATED_BY
              , UPDATED_AT
           FROM TB_COMMON_CODE
-        <where>
-            <if test="groupCodes != null and !groupCodes.isEmpty()">
-           AND GROUP_CODE IN
-                <foreach collection="groupCodes" item="groupCode" open="(" separator="," close=")">
-                    #{groupCode}
-                </foreach>
-            </if>
-            <if test="groupCode != null and groupCode != ''">
-           AND GROUP_CODE = #{groupCode}
-            </if>
-            <if test="commonCode != null and commonCode != ''">
-           AND COMMON_CODE = #{commonCode}
-            </if>
-            <if test="useYn != null">
-           AND USE_YN = #{useYn}
-            </if>
-         </where>
+        <include refid="whereCommonCodeFilter" />
          ORDER BY SORT_ORDER
     </select>
 
