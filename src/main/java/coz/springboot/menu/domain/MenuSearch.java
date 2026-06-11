@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import coz.springboot.common.domain.PageFilter;
+import coz.springboot.common.domain.Pagination;
 import coz.springboot.common.enums.YesOrNo;
 import coz.springboot.user.domain.Authority;
 
@@ -16,7 +16,7 @@ import coz.springboot.user.domain.Authority;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenuFilter extends PageFilter {
+public class MenuSearch extends Pagination {
 
     @Schema(description = "Menu Type", example = "GRP_NAV")
     private MenuType menuType;
@@ -27,7 +27,7 @@ public class MenuFilter extends PageFilter {
     @Schema(description = "Authorities", hidden = true)
     private List<Authority> authorities;
 
-    public static MenuFilter ofAuthorities(List<Authority> authorities) {
-        return MenuFilter.builder().authorities(authorities).build();
+    public static MenuSearch ofAuthorities(List<Authority> authorities) {
+        return MenuSearch.builder().authorities(authorities).build();
     }
 }

@@ -17,7 +17,7 @@ import coz.springboot.common.constant.Label;
 import coz.springboot.common.constant.Message;
 import coz.springboot.common.exception.RestException;
 import coz.springboot.menu.domain.Menu;
-import coz.springboot.menu.domain.MenuFilter;
+import coz.springboot.menu.domain.MenuSearch;
 import coz.springboot.menu.domain.MenuTree;
 import coz.springboot.menu.domain.MenuUpdate;
 import coz.springboot.user.domain.Authority;
@@ -29,7 +29,7 @@ public class MenuService {
     private final MenuRepository menuRepository;
 
     @Transactional(readOnly = true)
-    public Page<Menu> getMenus(MenuFilter filter) {
+    public Page<Menu> searchMenus(MenuSearch filter) {
         filter.validatePageable();
         return menuRepository.findMenusByFilter(filter);
     }

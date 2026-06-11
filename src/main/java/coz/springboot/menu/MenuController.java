@@ -17,7 +17,7 @@ import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
 import coz.springboot.common.helper.SessionHolder;
 import coz.springboot.menu.domain.Menu;
-import coz.springboot.menu.domain.MenuFilter;
+import coz.springboot.menu.domain.MenuSearch;
 import coz.springboot.menu.domain.MenuTree;
 import coz.springboot.menu.domain.MenuUpdate;
 import coz.springboot.user.domain.Authority;
@@ -32,8 +32,8 @@ public class MenuController {
 
     @Operation(summary = "Get Menus", description = "Search menus based on search filter")
     @GetMapping
-    public RestResponse<PageResponse<Menu>> getMenus(@Valid @ModelAttribute MenuFilter menuFilter) {
-        Page<Menu> pagedMenus = menuService.getMenus(menuFilter);
+    public RestResponse<PageResponse<Menu>> getMenus(@Valid @ModelAttribute MenuSearch menuSearch) {
+        Page<Menu> pagedMenus = menuService.searchMenus(menuSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(pagedMenus));
     }
 
@@ -48,7 +48,7 @@ public class MenuController {
     @GetMapping("/ids")
     public RestResponse<List<String>> getMenuIds() {
         List<Authority> authorities = SessionHolder.getAuthorities();
-        Page<Menu> menus = menuService.getMenus(MenuFilter.ofAuthorities(authorities));
+        Page<Menu> menus = menuService.searchMenus(MenuSearch.ofAuthorities(authorities));
         List<String> menuIds = menus.stream().map(Menu::getMenuId).toList();
         return RestResponse.ofSuccess(menuIds);
     }

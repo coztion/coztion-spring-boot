@@ -3,7 +3,7 @@
 <mapper namespace="coz.springboot.menu.MenuRepository">
 
     <select id="findMenusByFilter"
-            parameterType="coz.springboot.menu.domain.MenuFilter"
+            parameterType="coz.springboot.menu.domain.MenuSearch"
             resultType="coz.springboot.menu.domain.Menu">
         SELECT DISTINCT M.MENU_ID
              , M.MENU_NAME

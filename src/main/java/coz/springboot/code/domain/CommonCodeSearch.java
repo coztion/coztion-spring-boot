@@ -13,7 +13,7 @@ import coz.springboot.common.enums.YesOrNo;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommonCodeFilter {
+public class CommonCodeSearch {
 
     @Schema(description = "Group Code")
     private String groupCode;
@@ -27,8 +27,8 @@ public class CommonCodeFilter {
     @Schema(description = "In Use", example = "Y")
     private YesOrNo useYn;
 
-    public static CommonCodeFilter ofGroupCodesInUse(List<String> groupCodes) {
-        return CommonCodeFilter.builder()
+    public static CommonCodeSearch ofGroupCodesInUse(List<String> groupCodes) {
+        return CommonCodeSearch.builder()
                 .groupCodes(groupCodes)
                 .useYn(YesOrNo.YES)
                 .build();

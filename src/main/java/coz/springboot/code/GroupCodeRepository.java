@@ -9,15 +9,15 @@ import org.apache.ibatis.annotations.Mapper;
 import coz.springboot.code.domain.GroupCode;
 import coz.springboot.code.domain.GroupCodeCreate;
 import coz.springboot.code.domain.GroupCodeDelete;
-import coz.springboot.code.domain.GroupCodeFilter;
+import coz.springboot.code.domain.GroupCodeSearch;
 import coz.springboot.code.domain.GroupCodeUpdate;
 
 @Mapper
 public interface GroupCodeRepository {
 
-    Page<GroupCode> findGroupCodesByFilter(GroupCodeFilter filter);
+    Page<GroupCode> findGroupCodesByFilter(GroupCodeSearch filter);
 
-    Optional<GroupCode> findGroupCodeByFilter(GroupCodeFilter filter);
+    Optional<GroupCode> findGroupCodeByFilter(GroupCodeSearch filter);
 
     int insertGroupCode(GroupCodeCreate create);
 

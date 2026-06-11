@@ -24,7 +24,7 @@
     </sql>
 
     <select id="findCommonCodesByFilter"
-            parameterType="coz.springboot.code.domain.CommonCodeFilter"
+            parameterType="coz.springboot.code.domain.CommonCodeSearch"
             resultType="coz.springboot.code.domain.CommonCode">
         SELECT GROUP_CODE
              , COMMON_CODE
@@ -41,7 +41,7 @@
     </select>
 
     <select id="findCommonCodeByFilter"
-            parameterType="coz.springboot.code.domain.CommonCodeFilter"
+            parameterType="coz.springboot.code.domain.CommonCodeSearch"
             resultType="coz.springboot.code.domain.CommonCode">
         SELECT GROUP_CODE
              , COMMON_CODE

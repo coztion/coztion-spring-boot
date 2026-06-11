@@ -17,7 +17,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PageFilter {
+public class Pagination {
 
     @Schema(description = "Page Number")
     private Integer pageNum;

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import coz.springboot.common.domain.PageFilter;
+import coz.springboot.common.domain.Pagination;
 import coz.springboot.common.enums.YesOrNo;
 
 @Getter
@@ -18,7 +18,7 @@ import coz.springboot.common.enums.YesOrNo;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupCodeFilter extends PageFilter {
+public class GroupCodeSearch extends Pagination {
 
     @Schema(description = "Group Codes")
     private List<String> groupCodes;
@@ -35,7 +35,7 @@ public class GroupCodeFilter extends PageFilter {
     @Schema(description = "Usage")
     private YesOrNo useYn;
 
-    public static GroupCodeFilter ofGroupCode(String groupCode) {
-        return GroupCodeFilter.builder().groupCode(groupCode).build();
+    public static GroupCodeSearch ofGroupCode(String groupCode) {
+        return GroupCodeSearch.builder().groupCode(groupCode).build();
     }
 }

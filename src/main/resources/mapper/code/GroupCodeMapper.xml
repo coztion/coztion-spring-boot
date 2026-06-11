@@ -40,7 +40,7 @@
     </sql>
 
     <select id="findGroupCodesByFilter"
-            parameterType="coz.springboot.code.domain.GroupCodeFilter"
+            parameterType="coz.springboot.code.domain.GroupCodeSearch"
             resultMap="groupCodeMap">
         SELECT GC.GROUP_CODE
              , GC.GROUP_CODE_NAME
@@ -68,7 +68,7 @@
     </select>
 
     <select id="findGroupCodeByFilter"
-            parameterType="coz.springboot.code.domain.GroupCodeFilter"
+            parameterType="coz.springboot.code.domain.GroupCodeSearch"
             resultMap="groupCodeMap">
         SELECT GC.GROUP_CODE
              , GC.GROUP_CODE_NAME

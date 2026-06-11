@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import coz.springboot.code.domain.CommonCode;
-import coz.springboot.code.domain.CommonCodeFilter;
+import coz.springboot.code.domain.CommonCodeSearch;
 import coz.springboot.common.constant.Label;
 import coz.springboot.common.constant.Message;
 import coz.springboot.common.exception.RestException;
@@ -21,12 +21,12 @@ class CommonCodeService {
     private final CommonCodeRepository commonCodeRepository;
 
     @Transactional(readOnly = true)
-    public List<CommonCode> getCommonCodes(CommonCodeFilter filter) {
+    public List<CommonCode> searchCommonCodes(CommonCodeSearch filter) {
         return commonCodeRepository.findCommonCodesByFilter(filter);
     }
 
     @Transactional(readOnly = true)
-    public CommonCode getCommonCode(CommonCodeFilter filter) {
+    public CommonCode getCommonCode(CommonCodeSearch filter) {
         Optional<CommonCode> optionalCommonCode = commonCodeRepository.findCommonCodeByFilter(filter);
         return optionalCommonCode.orElseThrow(
                 () -> new RestException(Message.Exception.NOT_FOUND, Label.Code.COMMON_CODE));

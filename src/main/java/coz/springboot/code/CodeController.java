@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 import coz.springboot.code.domain.Code;
 import coz.springboot.code.domain.CommonCode;
-import coz.springboot.code.domain.CommonCodeFilter;
+import coz.springboot.code.domain.CommonCodeSearch;
 import coz.springboot.common.dto.RestResponse;
 
 @Tag(name = "Code", description = "Code API")
@@ -26,8 +26,8 @@ public class CodeController {
 
     @GetMapping
     public RestResponse<List<Code>> getCodes(@RequestParam List<String> groupCodes) {
-        CommonCodeFilter commonCodeFilter = CommonCodeFilter.ofGroupCodesInUse(groupCodes);
-        List<CommonCode> commonCodes = commonCodeService.getCommonCodes(commonCodeFilter);
+        CommonCodeSearch commonCodeSearch = CommonCodeSearch.ofGroupCodesInUse(groupCodes);
+        List<CommonCode> commonCodes = commonCodeService.searchCommonCodes(commonCodeSearch);
         List<Code> codes = commonCodes.stream().map(CommonCode::toCode).toList();
         return RestResponse.ofSuccess(codes);
     }
