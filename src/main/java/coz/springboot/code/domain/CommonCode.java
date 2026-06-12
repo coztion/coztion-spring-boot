@@ -23,6 +23,9 @@ public class CommonCode extends DataRecord {
     @Schema(description = "Common Code Name")
     private String commonCodeName;
 
+    @Schema(description = "Common Code Description")
+    private String commonCodeDescription;
+
     @Schema(description = "Usage Status")
     private YesOrNo useYn = YesOrNo.YES;
 

@@ -29,6 +29,7 @@
         SELECT GROUP_CODE
              , COMMON_CODE
              , COMMON_CODE_NAME
+             , COMMON_CODE_DESC AS COMMON_CODE_DESCRIPTION
              , USE_YN
              , SORT_ORDER
              , CREATED_BY
@@ -46,6 +47,7 @@
         SELECT GROUP_CODE
              , COMMON_CODE
              , COMMON_CODE_NAME
+             , COMMON_CODE_DESC AS COMMON_CODE_DESCRIPTION
              , USE_YN
              , CREATED_BY
              , CREATED_AT

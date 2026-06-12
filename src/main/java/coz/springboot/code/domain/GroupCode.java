@@ -24,6 +24,9 @@ public class GroupCode extends DataRecord {
     @Schema(description = "Group Code Name")
     private String groupCodeName;
 
+    @Schema(description = "Group Code Description")
+    private String groupCodeDescription;
+
     @Schema(description = "In Use")
     private YesOrNo useYn = YesOrNo.YES;
 

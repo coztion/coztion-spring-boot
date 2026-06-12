@@ -44,6 +44,7 @@
             resultMap="groupCodeMap">
         SELECT GC.GROUP_CODE
              , GC.GROUP_CODE_NAME
+             , GC.GROUP_CODE_DESC AS GROUP_CODE_DESCRIPTION
              , GC.USE_YN
              , GC.SORT_ORDER
              , GC.CREATED_BY
@@ -53,6 +54,7 @@
              , CC.GROUP_CODE AS COMMON_CODE_GROUP_CODE
              , CC.COMMON_CODE
              , CC.COMMON_CODE_NAME
+             , CC.COMMON_CODE_DESC AS COMMON_CODE_DESCRIPTION
              , CC.USE_YN AS COMMON_CODE_IS_USE
              , CC.SORT_ORDER
              , CC.CREATED_AT AS COMMON_CODE_CREATED_AT
@@ -72,6 +74,7 @@
             resultMap="groupCodeMap">
         SELECT GC.GROUP_CODE
              , GC.GROUP_CODE_NAME
+             , GC.GROUP_CODE_DESC AS GROUP_CODE_DESCRIPTION
              , GC.USE_YN
              , GC.SORT_ORDER
              , GC.CREATED_BY
@@ -81,6 +84,7 @@
              , CC.GROUP_CODE AS COMMON_CODE_GROUP_CODE
              , CC.COMMON_CODE
              , CC.COMMON_CODE_NAME
+             , CC.COMMON_CODE_DESC AS COMMON_CODE_DESCRIPTION
              , CC.USE_YN AS COMMON_CODE_IS_USE
              , CC.SORT_ORDER
              , CC.CREATED_AT AS COMMON_CODE_CREATED_AT
@@ -100,6 +104,7 @@
         INSERT INTO TB_GROUP_CODE (
             GROUP_CODE
           , GROUP_CODE_NAME
+          , GROUP_CODE_DESC
           , USE_YN
           , SORT_ORDER
           , CREATED_BY
@@ -107,6 +112,7 @@
         ) VALUES (
             #{groupCode}
           , #{groupCodeName}
+          , #{groupCodeDescription}
           , #{useYn}
           , #{sortOrder}
           , #{author}
@@ -118,6 +124,7 @@
             parameterType="coz.springboot.code.domain.GroupCodeUpdate">
         UPDATE TB_GROUP_CODE
            SET GROUP_CODE_NAME = #{groupCodeName}
+             , GROUP_CODE_DESC = #{groupCodeDescription}
              , USE_YN          = #{useYn}
              , UPDATED_BY      = #{author}
              , UPDATED_AT      = NOW()

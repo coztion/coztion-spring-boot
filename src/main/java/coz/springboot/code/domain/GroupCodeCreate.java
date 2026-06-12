@@ -26,6 +26,9 @@ public class GroupCodeCreate {
     @NotBlank(message = Label.Code.GROUP_CODE_NAME)
     private String groupCodeName;
 
+    @Schema(description = "Group Code Description")
+    private String groupCodeDescription;
+
     @Schema(description = "Usage Status")
     private YesOrNo useYn = YesOrNo.YES;
 
