@@ -22,6 +22,10 @@ public class RedisRepository {
         return Optional.ofNullable(redisTemplate.opsForValue().get(key));
     }
 
+    public Optional<String> findAndDelete(String key) {
+        return Optional.ofNullable(redisTemplate.opsForValue().getAndDelete(key));
+    }
+
     public void delete(String key) {
         redisTemplate.delete(key);
     }

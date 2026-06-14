@@ -12,9 +12,9 @@ import lombok.RequiredArgsConstructor;
 import coz.springboot.common.dto.RestResponse;
 import coz.springboot.common.helper.SessionHolder;
 import coz.springboot.common.security.AuthenticationHandler;
-import coz.springboot.user.dto.SessionLoginRequest;
-import coz.springboot.user.model.SessionUser;
-import coz.springboot.user.model.SessionUserInfo;
+import coz.springboot.user.domain.SessionLogin;
+import coz.springboot.user.domain.SessionUser;
+import coz.springboot.user.domain.SessionUserInfo;
 
 @Tag(name = "Session", description = "Session API")
 @RestController
@@ -36,7 +36,7 @@ public class SessionController {
 
     @Operation(summary = "Login", description = "Authenticate with username and password")
     @PostMapping("/login")
-    public RestResponse<Void> login(@RequestBody SessionLoginRequest request) {
+    public RestResponse<Void> login(@RequestBody SessionLogin request) {
         return RestResponse.ofSuccess(null);
     }
 
@@ -51,6 +51,7 @@ public class SessionController {
     public RestResponse<Boolean> logout(HttpServletResponse response) {
         String username = SessionHolder.getUsername();
         sessionService.logout(username);
+        authenticationHandler.removeAccessTokenCookie(response);
         authenticationHandler.removeRefreshTokenCookie(response);
         return RestResponse.ofSuccess(true);
     }

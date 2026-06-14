@@ -10,17 +10,4 @@ public enum YesOrNo implements ValueEnum {
     NO("N");
 
     private final String value;
-
-    public static YesOrNo ofValue(String value) {
-        if (YES.value.equalsIgnoreCase(value)) {
-            return YES;
-        } else if (NO.value.equalsIgnoreCase(value)) {
-            return NO;
-        }
-        return null;
-    }
-
-    public boolean isYes() {
-        return this == YES;
-    }
 }

@@ -1,6 +1,7 @@
 package coz.springboot.common.exception;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import coz.springboot.common.constant.Message;
 import coz.springboot.common.dto.RestResponse;
 import coz.springboot.common.helper.MessageTranslator;
+import coz.springboot.common.helper.ValidationTranslator;
 
 @Slf4j
 @RestControllerAdvice
@@ -17,6 +19,16 @@ import coz.springboot.common.helper.MessageTranslator;
 public class ExceptionAdvice {
 
     private final MessageTranslator messageTranslator;
+
+    private final ValidationTranslator validationTranslator;
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<RestResponse<String>> handleValidationException(MethodArgumentNotValidException exception) {
+        String errorMessage = validationTranslator.translate(
+                exception.getBindingResult().getFieldErrors().getFirst());
+        log.error("[VALIDATION] : {}", errorMessage);
+        return ResponseEntity.ok().body(RestResponse.ofFailure(errorMessage));
+    }
 
     @ExceptionHandler(RestException.class)
     public ResponseEntity<RestResponse<String>> handleRestException(RestException exception) {

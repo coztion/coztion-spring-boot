@@ -1,14 +1,31 @@
 package coz.springboot.code;
 
-import java.util.List;
+import java.util.Optional;
+
+import com.github.pagehelper.Page;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import coz.springboot.code.model.GroupCode;
-import coz.springboot.code.model.GroupCodeFilter;
+import coz.springboot.code.domain.GroupCode;
+import coz.springboot.code.domain.GroupCodeCreate;
+import coz.springboot.code.domain.GroupCodeDelete;
+import coz.springboot.code.domain.GroupCodeSearch;
+import coz.springboot.code.domain.GroupCodeUpdate;
 
 @Mapper
 public interface GroupCodeRepository {
 
-    List<GroupCode> findGroupCodesByFilter(GroupCodeFilter filter);
+    Page<GroupCode> findGroupCodesByFilter(GroupCodeSearch filter);
+
+    Optional<GroupCode> findGroupCodeByFilter(GroupCodeSearch filter);
+
+    int insertGroupCode(GroupCodeCreate create);
+
+    int updateGroupCode(GroupCodeUpdate update);
+
+    int updateCommonCodesByGroupCodeUpdate(GroupCodeUpdate update);
+
+    int deleteGroupCode(GroupCodeDelete delete);
+
+    int deleteCommonCodesByGroupCodeDelete(GroupCodeDelete delete);
 }

@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 import coz.springboot.common.enums.AuthenticationFailureReason;
 import coz.springboot.common.helper.RedisRepository;
 import coz.springboot.common.helper.SessionFactory;
-import coz.springboot.user.model.SessionUser;
+import coz.springboot.user.domain.SessionUser;
 
 @Slf4j
 @Component
@@ -80,6 +80,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
             } catch (JwtException e) {
                 log.warn("Access token is invalid : {}", e.getMessage());
                 authenticationHandler.handleAuthenticationFailure(response, AuthenticationFailureReason.INVALID);
+                return;
             }
         }
 
@@ -118,7 +119,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
             SessionUser sessionUser = sessionFactory.validateRefreshToken(refreshToken);
 
-            Optional<String> cachedRefreshToken = redisRepository.find(sessionUser.getUsername());
+            Optional<String> cachedRefreshToken = redisRepository.findAndDelete(sessionUser.getUsername());
             if (cachedRefreshToken.isEmpty()) {
                 log.warn("No refresh token found in Redis for user: {}", sessionUser.getUsername());
                 authenticationHandler.handleAuthenticationFailure(response, AuthenticationFailureReason.INVALID);
@@ -127,7 +128,6 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
             if (!cachedRefreshToken.get().equals(refreshToken)) {
                 log.warn("Refresh token mismatch for user: {}.", sessionUser.getUsername());
-                redisRepository.delete(sessionUser.getUsername());
                 authenticationHandler.handleAuthenticationFailure(response, AuthenticationFailureReason.INVALID);
                 return true;
             }
