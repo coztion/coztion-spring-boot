@@ -13,3 +13,4 @@ description: Use when user requests to generate a pull request.
 - Write a pull request content in Korean.
 - Do not create a file or request to create a PR. Just show the plain text.
 - Do not interpret the Markdown. Wrap the entire output in a code block to prevent Markdown rendering.
+- After showing the output, copy the same content (title on the first line, followed by a blank line, then the PR template content) to the clipboard using `pbcopy`.
