@@ -1,3 +1,3 @@
 INSERT INTO TB_COMMON_CODE(GROUP_CODE, COMMON_CODE, COMMON_CODE_NAME, COMMON_CODE_DESC, USE_YN, SORT_ORDER)
-VALUES ('USAGE', 'USE', 'Use', 'Use status Y', 'Y', 1)
-     , ('USAGE', 'UNUSED', 'Unused', 'Use status N', 'Y', 2)
+VALUES ('USAGE', 'Y', 'Yes', 'Use status Y', 'Y', 1)
+     , ('USAGE', 'N', 'No', 'Use status N', 'Y', 2)
