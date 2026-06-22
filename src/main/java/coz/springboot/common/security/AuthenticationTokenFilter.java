@@ -77,6 +77,10 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
                     authenticationHandler.handleAuthenticationFailure(response, reason);
                     return;
                 }
+
+                if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                    return;
+                }
             } catch (JwtException e) {
                 log.warn("Access token is invalid : {}", e.getMessage());
                 authenticationHandler.handleAuthenticationFailure(response, AuthenticationFailureReason.INVALID);
