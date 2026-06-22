@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.common.enums.AuthenticationFailureReason;
 import coz.springboot.common.helper.RedisRepository;
 import coz.springboot.common.helper.SessionFactory;
 import coz.springboot.user.domain.SessionUser;
@@ -32,9 +31,6 @@ public class AuthenticationHandler
     @Value("${spring.security.cookie.refresh-token}")
     private String refreshTokenCookieName;
 
-    @Value("${spring.security.header.auth-error}")
-    private String authErrorHeaderName;
-
     private final SessionFactory sessionFactory;
 
     private final RedisRepository redisRepository;
@@ -49,7 +45,7 @@ public class AuthenticationHandler
     @Override
     public void onAuthenticationFailure(
             HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
-        handleAuthenticationFailure(response, AuthenticationFailureReason.INVALID);
+        handleAuthenticationFailure(response);
     }
 
     public void handleAuthenticationSuccess(SessionUser sessionUser, HttpServletResponse response) {
@@ -66,7 +62,7 @@ public class AuthenticationHandler
         Cookie refreshTokenCookie = new Cookie(refreshTokenCookieName, refreshToken);
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(true);
-        refreshTokenCookie.setPath("/session/refresh");
+        refreshTokenCookie.setPath("/");
         refreshTokenCookie.setMaxAge(sessionFactory.getRefreshTokenExpirationSeconds());
         response.addCookie(refreshTokenCookie);
 
@@ -79,16 +75,13 @@ public class AuthenticationHandler
     @Override
     public void commence(
             HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
-        handleAuthenticationFailure(response, AuthenticationFailureReason.MISSING);
+        handleAuthenticationFailure(response);
     }
 
-    public void handleAuthenticationFailure(HttpServletResponse response, AuthenticationFailureReason reason) {
+    public void handleAuthenticationFailure(HttpServletResponse response) {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setHeader(authErrorHeaderName, reason.name());
-        if (reason != AuthenticationFailureReason.EXPIRED) {
-            removeAccessTokenCookie(response);
-            removeRefreshTokenCookie(response);
-        }
+        removeAccessTokenCookie(response);
+        removeRefreshTokenCookie(response);
     }
 
     public void removeAccessTokenCookie(HttpServletResponse response) {
@@ -104,7 +97,7 @@ public class AuthenticationHandler
         Cookie refreshTokenCookie = new Cookie(refreshTokenCookieName, null);
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(true);
-        refreshTokenCookie.setPath("/session/refresh");
+        refreshTokenCookie.setPath("/");
         refreshTokenCookie.setMaxAge(0);
         response.addCookie(refreshTokenCookie);
     }

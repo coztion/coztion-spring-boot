@@ -32,9 +32,6 @@ public class SecurityConfig {
     @Value("${app.client.base-url}")
     private String clientBaseUrl;
 
-    @Value("${spring.security.header.auth-error}")
-    private String authErrorHeaderName;
-
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
@@ -76,7 +73,7 @@ public class SecurityConfig {
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(List.of("Content-Type", "Accept", "X-Requested-With"));
-        configuration.setExposedHeaders(List.of("Set-Cookie", authErrorHeaderName));
+        configuration.setExposedHeaders(List.of("Set-Cookie"));
 
         return configuration;
     }

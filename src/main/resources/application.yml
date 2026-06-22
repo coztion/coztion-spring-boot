@@ -15,8 +15,6 @@ spring:
     cookie:
       access-token: ACCESS_TOKEN
       refresh-token: REFRESH_TOKEN
-    header:
-      auth-error: X-Auth-Error
 
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml

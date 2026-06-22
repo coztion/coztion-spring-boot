@@ -24,7 +24,6 @@ import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import coz.springboot.common.enums.AuthenticationFailureReason;
 import coz.springboot.common.helper.RedisRepository;
 import coz.springboot.common.helper.SessionFactory;
 import coz.springboot.user.domain.SessionUser;
@@ -48,7 +47,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return request.getRequestURI().equals("/session/login");
+        return "/session/login".equals(request.getRequestURI());
     }
 
     @Override
@@ -67,28 +66,28 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
                 log.warn(
                         "Access token has been expired for user : {}",
                         e.getClaims().getSubject());
-                boolean hasRefreshToken = handleTokenRefresh(request, response);
-
-                if (!hasRefreshToken) {
-                    boolean isRefreshRequest = request.getRequestURI().equals("/session/refresh");
-                    AuthenticationFailureReason reason = isRefreshRequest
-                            ? AuthenticationFailureReason.MISSING
-                            : AuthenticationFailureReason.EXPIRED;
-                    authenticationHandler.handleAuthenticationFailure(response, reason);
-                    return;
-                }
-
-                if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                    return;
-                }
+                if (!attemptRefresh(request, response)) return;
             } catch (JwtException e) {
                 log.warn("Access token is invalid : {}", e.getMessage());
-                authenticationHandler.handleAuthenticationFailure(response, AuthenticationFailureReason.INVALID);
+                authenticationHandler.handleAuthenticationFailure(response);
                 return;
             }
+        } else {
+            boolean failedRefresh = !attemptRefresh(request, response);
+            if (failedRefresh) return;
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private boolean attemptRefresh(HttpServletRequest request, HttpServletResponse response) {
+        boolean refreshHandled = handleTokenRefresh(request, response);
+        if (!refreshHandled) {
+            log.warn("No refresh token found in request");
+            authenticationHandler.handleAuthenticationFailure(response);
+            return false;
+        }
+        return SecurityContextHolder.getContext().getAuthentication() != null;
     }
 
     private Optional<String> extractAccessTokenFromCookie(HttpServletRequest request) {
@@ -123,16 +122,16 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
             SessionUser sessionUser = sessionFactory.validateRefreshToken(refreshToken);
 
-            Optional<String> cachedRefreshToken = redisRepository.findAndDelete(sessionUser.getUsername());
+            Optional<String> cachedRefreshToken = redisRepository.find(sessionUser.getUsername());
             if (cachedRefreshToken.isEmpty()) {
                 log.warn("No refresh token found in Redis for user: {}", sessionUser.getUsername());
-                authenticationHandler.handleAuthenticationFailure(response, AuthenticationFailureReason.INVALID);
+                authenticationHandler.handleAuthenticationFailure(response);
                 return true;
             }
 
             if (!cachedRefreshToken.get().equals(refreshToken)) {
-                log.warn("Refresh token mismatch for user: {}.", sessionUser.getUsername());
-                authenticationHandler.handleAuthenticationFailure(response, AuthenticationFailureReason.INVALID);
+                log.warn("Refresh token mismatch for user: {}", sessionUser.getUsername());
+                authenticationHandler.handleAuthenticationFailure(response);
                 return true;
             }
 
@@ -143,7 +142,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (JwtException e) {
             log.warn("Invalid or expired refresh token: {}", e.getMessage());
-            authenticationHandler.handleAuthenticationFailure(response, AuthenticationFailureReason.INVALID);
+            authenticationHandler.handleAuthenticationFailure(response);
         }
 
         return true;
