@@ -48,7 +48,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return request.getRequestURI().equals("/login");
+        return request.getRequestURI().equals("/session/login");
     }
 
     @Override
