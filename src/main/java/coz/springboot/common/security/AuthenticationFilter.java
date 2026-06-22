@@ -18,9 +18,14 @@ import lombok.SneakyThrows;
 @Component
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    private final ObjectMapper objectMapper;
+
     public AuthenticationFilter(
-            AuthenticationManager authenticationManager, AuthenticationHandler authenticationHandler) {
+            AuthenticationManager authenticationManager,
+            AuthenticationHandler authenticationHandler,
+            ObjectMapper objectMapper) {
         super(authenticationManager);
+        this.objectMapper = objectMapper;
         setFilterProcessesUrl("/session/login");
         setAuthenticationSuccessHandler(authenticationHandler);
         setAuthenticationFailureHandler(authenticationHandler);
@@ -29,8 +34,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
-        ObjectMapper mapper = new ObjectMapper();
-        var authenticationRequest = mapper.readValue(request.getInputStream(), Map.class);
+        var authenticationRequest = objectMapper.readValue(request.getInputStream(), Map.class);
         String username = (String) authenticationRequest.get("username");
         String password = (String) authenticationRequest.get("password");
         Authentication authentication = UsernamePasswordAuthenticationToken.unauthenticated(username, password);
