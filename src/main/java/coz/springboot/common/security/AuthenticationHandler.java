@@ -60,6 +60,7 @@ public class AuthenticationHandler
         accessTokenCookie.setHttpOnly(true);
         accessTokenCookie.setSecure(true);
         accessTokenCookie.setPath("/");
+        accessTokenCookie.setMaxAge(sessionFactory.getAccessTokenExpirationSeconds());
         response.addCookie(accessTokenCookie);
 
         Cookie refreshTokenCookie = new Cookie(refreshTokenCookieName, refreshToken);
