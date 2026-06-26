@@ -2,6 +2,8 @@ spring:
   security:
     secret:
       token: ${SPRING_SECURITY_JWT_SECRET_VALUE:SPRING_SECURITY_JWT_SECRET_VALUE}
+    cookie:
+      secure: false
 
   datasource:
     url: jdbc:mysql://localhost:3306/coztion?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC

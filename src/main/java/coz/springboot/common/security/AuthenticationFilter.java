@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import tools.jackson.databind.ObjectMapper;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,10 +24,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public AuthenticationFilter(
             AuthenticationManager authenticationManager,
             AuthenticationHandler authenticationHandler,
-            ObjectMapper objectMapper) {
+            ObjectMapper objectMapper,
+            @Value("${spring.security.url.login}") String loginUrl) {
         super(authenticationManager);
         this.objectMapper = objectMapper;
-        setFilterProcessesUrl("/session/login");
+        setFilterProcessesUrl(loginUrl);
         setAuthenticationSuccessHandler(authenticationHandler);
         setAuthenticationFailureHandler(authenticationHandler);
     }

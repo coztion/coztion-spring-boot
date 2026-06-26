@@ -40,6 +40,14 @@ public class SessionController {
         return RestResponse.ofSuccess(null);
     }
 
+    @Operation(
+            summary = "Refresh Session",
+            description = "Reissue access and refresh tokens using a valid refresh token")
+    @PutMapping("/refresh")
+    public RestResponse<Void> refresh() {
+        return RestResponse.ofSuccess(null);
+    }
+
     @Operation(summary = "Logout", description = "Invalidate session and remove token cookies")
     @DeleteMapping
     public RestResponse<Boolean> logout(HttpServletResponse response) {

@@ -31,6 +31,12 @@ public class AuthenticationHandler
     @Value("${spring.security.cookie.refresh-token}")
     private String refreshTokenCookieName;
 
+    @Value("${spring.security.url.refresh}")
+    private String refreshUrl;
+
+    @Value("${spring.security.cookie.secure}")
+    private boolean secureCookie;
+
     private final SessionFactory sessionFactory;
 
     private final RedisRepository redisRepository;
@@ -54,15 +60,15 @@ public class AuthenticationHandler
 
         Cookie accessTokenCookie = new Cookie(accessTokenCookieName, accessToken);
         accessTokenCookie.setHttpOnly(true);
-        accessTokenCookie.setSecure(true);
+        accessTokenCookie.setSecure(secureCookie);
         accessTokenCookie.setPath("/");
         accessTokenCookie.setMaxAge(sessionFactory.getAccessTokenExpirationSeconds());
         response.addCookie(accessTokenCookie);
 
         Cookie refreshTokenCookie = new Cookie(refreshTokenCookieName, refreshToken);
         refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(true);
-        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setSecure(secureCookie);
+        refreshTokenCookie.setPath(refreshUrl);
         refreshTokenCookie.setMaxAge(sessionFactory.getRefreshTokenExpirationSeconds());
         response.addCookie(refreshTokenCookie);
 
@@ -87,7 +93,7 @@ public class AuthenticationHandler
     public void removeAccessTokenCookie(HttpServletResponse response) {
         Cookie accessTokenCookie = new Cookie(accessTokenCookieName, null);
         accessTokenCookie.setHttpOnly(true);
-        accessTokenCookie.setSecure(true);
+        accessTokenCookie.setSecure(secureCookie);
         accessTokenCookie.setPath("/");
         accessTokenCookie.setMaxAge(0);
         response.addCookie(accessTokenCookie);
@@ -96,8 +102,8 @@ public class AuthenticationHandler
     public void removeRefreshTokenCookie(HttpServletResponse response) {
         Cookie refreshTokenCookie = new Cookie(refreshTokenCookieName, null);
         refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(true);
-        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setSecure(secureCookie);
+        refreshTokenCookie.setPath(refreshUrl);
         refreshTokenCookie.setMaxAge(0);
         response.addCookie(refreshTokenCookie);
     }

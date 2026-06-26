@@ -15,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -24,7 +23,6 @@ import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import coz.springboot.common.helper.RedisRepository;
 import coz.springboot.common.helper.SessionFactory;
 import coz.springboot.user.domain.SessionUser;
 
@@ -36,18 +34,20 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     @Value("${spring.security.cookie.access-token}")
     private String accessTokenCookieName;
 
-    @Value("${spring.security.cookie.refresh-token}")
-    private String refreshTokenCookieName;
+    @Value("${spring.security.url.login}")
+    private String loginUrl;
+
+    @Value("${spring.security.url.refresh}")
+    private String refreshUrl;
 
     private final SessionFactory sessionFactory;
 
     private final AuthenticationHandler authenticationHandler;
 
-    private final RedisRepository redisRepository;
-
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return "/session/login".equals(request.getRequestURI());
+        String uri = request.getRequestURI();
+        return loginUrl.equals(uri) || (refreshUrl.equals(uri) && "PUT".equals(request.getMethod()));
     }
 
     @Override
@@ -55,39 +55,29 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         Optional<String> optionalAccessToken = extractAccessTokenFromCookie(request);
 
-        if (optionalAccessToken.isPresent()) {
-            try {
-                String accessToken = optionalAccessToken.get();
-                SessionUser sessionUser = sessionFactory.validateAccessToken(accessToken);
-                Authentication authentication = UsernamePasswordAuthenticationToken.authenticated(
-                        sessionUser, null, sessionUser.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } catch (ExpiredJwtException e) {
-                log.warn(
-                        "Access token has been expired for user : {}",
-                        e.getClaims().getSubject());
-                if (!attemptRefresh(request, response)) return;
-            } catch (JwtException e) {
-                log.warn("Access token is invalid : {}", e.getMessage());
-                authenticationHandler.handleAuthenticationFailure(response);
-                return;
-            }
-        } else {
-            boolean failedRefresh = !attemptRefresh(request, response);
-            if (failedRefresh) return;
+        if (optionalAccessToken.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+
+        try {
+            String accessToken = optionalAccessToken.get();
+            SessionUser sessionUser = sessionFactory.validateAccessToken(accessToken);
+            Authentication authentication =
+                    UsernamePasswordAuthenticationToken.authenticated(sessionUser, null, sessionUser.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (ExpiredJwtException e) {
+            log.warn(
+                    "Access token has been expired for user : {}", e.getClaims().getSubject());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        } catch (JwtException e) {
+            log.warn("Access token is invalid : {}", e.getMessage());
+            authenticationHandler.handleAuthenticationFailure(response);
+            return;
         }
 
         filterChain.doFilter(request, response);
-    }
-
-    private boolean attemptRefresh(HttpServletRequest request, HttpServletResponse response) {
-        boolean refreshHandled = handleTokenRefresh(request, response);
-        if (!refreshHandled) {
-            log.warn("No refresh token found in request");
-            authenticationHandler.handleAuthenticationFailure(response);
-            return false;
-        }
-        return SecurityContextHolder.getContext().getAuthentication() != null;
     }
 
     private Optional<String> extractAccessTokenFromCookie(HttpServletRequest request) {
@@ -100,51 +90,5 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
             }
         }
         return Optional.empty();
-    }
-
-    private String extractRefreshTokenFromCookie(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (Objects.isNull(cookies)) return null;
-
-        for (Cookie cookie : cookies) {
-            if (refreshTokenCookieName.equals(cookie.getName())) {
-                return cookie.getValue();
-            }
-        }
-
-        return null;
-    }
-
-    private boolean handleTokenRefresh(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            String refreshToken = extractRefreshTokenFromCookie(request);
-            if (!StringUtils.hasText(refreshToken)) return false;
-
-            SessionUser sessionUser = sessionFactory.validateRefreshToken(refreshToken);
-
-            Optional<String> cachedRefreshToken = redisRepository.find(sessionUser.getUsername());
-            if (cachedRefreshToken.isEmpty()) {
-                log.warn("No refresh token found in Redis for user: {}", sessionUser.getUsername());
-                authenticationHandler.handleAuthenticationFailure(response);
-                return true;
-            }
-
-            if (!cachedRefreshToken.get().equals(refreshToken)) {
-                log.warn("Refresh token mismatch for user: {}", sessionUser.getUsername());
-                authenticationHandler.handleAuthenticationFailure(response);
-                return true;
-            }
-
-            authenticationHandler.handleAuthenticationSuccess(sessionUser, response);
-
-            Authentication authentication =
-                    UsernamePasswordAuthenticationToken.authenticated(sessionUser, null, sessionUser.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (JwtException e) {
-            log.warn("Invalid or expired refresh token: {}", e.getMessage());
-            authenticationHandler.handleAuthenticationFailure(response);
-        }
-
-        return true;
     }
 }
