@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import coz.springboot.common.security.AuthenticationFilter;
 import coz.springboot.common.security.AuthenticationHandler;
 import coz.springboot.common.security.AuthenticationTokenFilter;
+import coz.springboot.common.security.RefreshTokenFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -32,14 +33,15 @@ public class SecurityConfig {
     @Value("${app.client.base-url}")
     private String clientBaseUrl;
 
-    @Value("${spring.security.header.auth-error}")
-    private String authErrorHeaderName;
+    @Value("${spring.security.url.login}")
+    private String loginUrl;
 
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
             AuthenticationFilter authenticationFilter,
             AuthenticationTokenFilter authenticationTokenFilter,
+            RefreshTokenFilter refreshTokenFilter,
             AuthenticationHandler authenticationHandler)
             throws Exception {
         return http.httpBasic(AbstractHttpConfigurer::disable)
@@ -47,14 +49,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(customizer -> customizer.configurationSource(request -> corsConfiguration()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(
-                        request -> request.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/session/login")
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated())
+                .authorizeHttpRequests(request -> request.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", loginUrl)
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationHandler))
                 .addFilter(authenticationFilter)
-                .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(refreshTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(authenticationTokenFilter, RefreshTokenFilter.class)
                 .build();
     }
 
@@ -76,7 +78,7 @@ public class SecurityConfig {
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(List.of("Content-Type", "Accept", "X-Requested-With"));
-        configuration.setExposedHeaders(List.of("Set-Cookie", authErrorHeaderName));
+        configuration.setExposedHeaders(List.of("Set-Cookie"));
 
         return configuration;
     }
