@@ -2,28 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="coz.springboot.code.CommonCodeRepository">
 
-    <sql id="whereCommonCodeFilter">
-        <where>
-            <if test="groupCodes != null and !groupCodes.isEmpty()">
-           AND GROUP_CODE IN
-                <foreach collection="groupCodes" item="groupCode" open="(" separator="," close=")">
-                    #{groupCode}
-                </foreach>
-            </if>
-            <if test="groupCode != null and groupCode != ''">
-           AND GROUP_CODE = #{groupCode}
-            </if>
-            <if test="commonCode != null and commonCode != ''">
-           AND COMMON_CODE = #{commonCode}
-            </if>
-            <if test="useYn != null">
-           AND USE_YN = #{useYn}
-            </if>
-           AND DEL_YN != 'Y'
-        </where>
-    </sql>
-
-    <select id="findCommonCodesByFilter"
+    <select id="findCommonCodes"
             parameterType="coz.springboot.code.domain.CommonCodeSearch"
             resultType="coz.springboot.code.domain.CommonCode">
         SELECT GROUP_CODE
@@ -37,24 +16,23 @@
              , UPDATED_BY
              , UPDATED_AT
           FROM TB_COMMON_CODE
-        <include refid="whereCommonCodeFilter" />
-         ORDER BY SORT_ORDER
-    </select>
-
-    <select id="findCommonCodeByFilter"
-            parameterType="coz.springboot.code.domain.CommonCodeSearch"
-            resultType="coz.springboot.code.domain.CommonCode">
-        SELECT GROUP_CODE
-             , COMMON_CODE
-             , COMMON_CODE_NAME
-             , COMMON_CODE_DESC AS COMMON_CODE_DESCRIPTION
-             , USE_YN
-             , CREATED_BY
-             , CREATED_AT
-             , UPDATED_BY
-             , UPDATED_AT
-          FROM TB_COMMON_CODE
-        <include refid="whereCommonCodeFilter" />
+         WHERE TRUE
+        <if test="groupCodes != null and !groupCodes.isEmpty()">
+           AND GROUP_CODE IN
+            <foreach collection="groupCodes" item="groupCode" open="(" separator="," close=")">
+                #{groupCode}
+            </foreach>
+        </if>
+        <if test="groupCode != null and groupCode != ''">
+           AND GROUP_CODE = #{groupCode}
+        </if>
+        <if test="commonCode != null and commonCode != ''">
+           AND COMMON_CODE = #{commonCode}
+        </if>
+        <if test="useYn != null">
+           AND USE_YN = #{useYn}
+        </if>
+           AND DEL_YN != 'Y'
          ORDER BY SORT_ORDER
     </select>
 

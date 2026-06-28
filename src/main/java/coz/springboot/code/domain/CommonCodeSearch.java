@@ -4,16 +4,21 @@ import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
+import coz.springboot.common.domain.Pagination;
 import coz.springboot.common.enums.YesOrNo;
 
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommonCodeSearch {
+public class CommonCodeSearch extends Pagination {
 
     @Schema(description = "Group Code")
     private String groupCode;

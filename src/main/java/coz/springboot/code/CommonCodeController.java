@@ -1,6 +1,6 @@
 package coz.springboot.code;
 
-import java.util.List;
+import com.github.pagehelper.Page;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 import coz.springboot.code.domain.CommonCode;
 import coz.springboot.code.domain.CommonCodeSearch;
+import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
 
 @Tag(name = "Common Code", description = "Common Code API")
@@ -26,8 +27,8 @@ public class CommonCodeController {
 
     @Operation(summary = "Get Common Codes", description = "Get a list of common codes")
     @GetMapping
-    public RestResponse<List<CommonCode>> getCommonCodes(@ModelAttribute CommonCodeSearch commonCodeSearch) {
-        List<CommonCode> commonCodes = commonCodeService.searchCommonCodes(commonCodeSearch);
-        return RestResponse.ofSuccess(commonCodes);
+    public RestResponse<PageResponse<CommonCode>> getCommonCodes(@ModelAttribute CommonCodeSearch commonCodeSearch) {
+        Page<CommonCode> commonCodes = commonCodeService.searchCommonCodes(commonCodeSearch);
+        return RestResponse.ofSuccess(PageResponse.ofPage(commonCodes));
     }
 }
