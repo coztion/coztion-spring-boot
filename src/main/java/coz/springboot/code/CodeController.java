@@ -2,6 +2,8 @@ package coz.springboot.code;
 
 import java.util.List;
 
+import com.github.pagehelper.Page;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +29,7 @@ public class CodeController {
     @GetMapping
     public RestResponse<List<Code>> getCodes(@RequestParam List<String> groupCodes) {
         CommonCodeSearch commonCodeSearch = CommonCodeSearch.ofGroupCodesInUse(groupCodes);
-        List<CommonCode> commonCodes = commonCodeService.searchCommonCodes(commonCodeSearch);
+        Page<CommonCode> commonCodes = commonCodeService.searchCommonCodes(commonCodeSearch);
         List<Code> codes = commonCodes.stream().map(CommonCode::toCode).toList();
         return RestResponse.ofSuccess(codes);
     }

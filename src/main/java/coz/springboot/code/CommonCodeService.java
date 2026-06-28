@@ -1,7 +1,6 @@
 package coz.springboot.code;
 
-import java.util.List;
-import java.util.Optional;
+import com.github.pagehelper.Page;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,9 +9,6 @@ import lombok.RequiredArgsConstructor;
 
 import coz.springboot.code.domain.CommonCode;
 import coz.springboot.code.domain.CommonCodeSearch;
-import coz.springboot.common.constant.Label;
-import coz.springboot.common.constant.Message;
-import coz.springboot.common.exception.RestException;
 
 @Service
 @RequiredArgsConstructor
@@ -21,14 +17,8 @@ class CommonCodeService {
     private final CommonCodeRepository commonCodeRepository;
 
     @Transactional(readOnly = true)
-    public List<CommonCode> searchCommonCodes(CommonCodeSearch filter) {
-        return commonCodeRepository.findCommonCodesByFilter(filter);
-    }
-
-    @Transactional(readOnly = true)
-    public CommonCode getCommonCode(CommonCodeSearch filter) {
-        Optional<CommonCode> optionalCommonCode = commonCodeRepository.findCommonCodeByFilter(filter);
-        return optionalCommonCode.orElseThrow(
-                () -> new RestException(Message.Exception.NOT_FOUND, Label.Code.COMMON_CODE));
+    public Page<CommonCode> searchCommonCodes(CommonCodeSearch commonCodeSearch) {
+        commonCodeSearch.validatePageable();
+        return commonCodeRepository.findCommonCodes(commonCodeSearch);
     }
 }
