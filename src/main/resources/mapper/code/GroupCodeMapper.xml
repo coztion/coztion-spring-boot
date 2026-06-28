@@ -39,7 +39,7 @@
         </where>
     </sql>
 
-    <select id="findGroupCodesByFilter"
+    <select id="selectGroupCodes"
             parameterType="coz.springboot.code.domain.GroupCodeSearch"
             resultMap="groupCodeMap">
         SELECT GC.GROUP_CODE
@@ -69,7 +69,7 @@
          ORDER BY GC.SORT_ORDER, CC.SORT_ORDER
     </select>
 
-    <select id="findGroupCodeByFilter"
+    <select id="selectGroupCode"
             parameterType="coz.springboot.code.domain.GroupCodeSearch"
             resultMap="groupCodeMap">
         SELECT GC.GROUP_CODE
@@ -100,7 +100,7 @@
     </select>
 
     <insert id="insertGroupCode"
-            parameterType="coz.springboot.code.domain.GroupCodeCreate">
+            parameterType="coz.springboot.code.domain.GroupCodeSave">
         INSERT INTO TB_GROUP_CODE (
             GROUP_CODE
           , GROUP_CODE_NAME

@@ -13,8 +13,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 import coz.springboot.code.domain.GroupCode;
-import coz.springboot.code.domain.GroupCodeCreate;
 import coz.springboot.code.domain.GroupCodeDelete;
+import coz.springboot.code.domain.GroupCodeSave;
 import coz.springboot.code.domain.GroupCodeSearch;
 import coz.springboot.code.domain.GroupCodeUpdate;
 import coz.springboot.common.dto.PageResponse;
@@ -39,9 +39,9 @@ public class GroupCodeController {
     @Operation(summary = "Post Group Code")
     @PostMapping
     public RestResponse<GroupCode> postGroupCode(
-            @Valid @RequestBody GroupCodeCreate groupCodeCreate, @AuthenticationPrincipal SessionUser sessionUser) {
-        groupCodeCreate.setAuthor(sessionUser.getUsername());
-        GroupCode createdGroupCode = groupCodeService.saveGroupCode(groupCodeCreate);
+            @Valid @RequestBody GroupCodeSave groupCodeSave, @AuthenticationPrincipal SessionUser sessionUser) {
+        groupCodeSave.setAuthor(sessionUser.getUsername());
+        GroupCode createdGroupCode = groupCodeService.saveGroupCode(groupCodeSave);
         return RestResponse.ofSuccess(createdGroupCode);
     }
 
