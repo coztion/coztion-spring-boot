@@ -15,8 +15,8 @@ import lombok.RequiredArgsConstructor;
 import coz.springboot.code.domain.GroupCode;
 import coz.springboot.code.domain.GroupCodeDelete;
 import coz.springboot.code.domain.GroupCodeSave;
-import coz.springboot.code.domain.GroupCodeSearch;
 import coz.springboot.code.domain.GroupCodeUpdate;
+import coz.springboot.code.domain.GroupCodesSearch;
 import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
 import coz.springboot.user.domain.SessionUser;
@@ -31,8 +31,9 @@ public class GroupCodeController {
 
     @Operation(summary = "Get Group Codes")
     @GetMapping
-    public RestResponse<PageResponse<GroupCode>> getGroupCodes(@Valid @ModelAttribute GroupCodeSearch groupCodeSearch) {
-        Page<GroupCode> groupCodes = groupCodeService.searchGroupCodes(groupCodeSearch);
+    public RestResponse<PageResponse<GroupCode>> getGroupCodes(
+            @Valid @ModelAttribute GroupCodesSearch groupCodesSearch) {
+        Page<GroupCode> groupCodes = groupCodeService.searchGroupCodes(groupCodesSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(groupCodes));
     }
 

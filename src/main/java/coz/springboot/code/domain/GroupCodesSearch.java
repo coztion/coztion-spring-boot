@@ -18,7 +18,7 @@ import coz.springboot.common.enums.YesOrNo;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupCodeSearch extends Pagination {
+public class GroupCodesSearch extends Pagination {
 
     @Schema(description = "Group Codes")
     private List<String> groupCodes;
@@ -35,7 +35,7 @@ public class GroupCodeSearch extends Pagination {
     @Schema(description = "Usage")
     private YesOrNo useYn;
 
-    public static GroupCodeSearch ofGroupCode(String groupCode) {
-        return GroupCodeSearch.builder().groupCode(groupCode).build();
+    public static GroupCodesSearch ofGroupCode(String groupCode) {
+        return GroupCodesSearch.builder().groupCode(groupCode).build();
     }
 }
