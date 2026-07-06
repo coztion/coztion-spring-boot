@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 import coz.springboot.code.domain.GroupCode;
 import coz.springboot.code.domain.GroupCodeDelete;
 import coz.springboot.code.domain.GroupCodeSave;
+import coz.springboot.code.domain.GroupCodeSearch;
 import coz.springboot.code.domain.GroupCodeUpdate;
 import coz.springboot.code.domain.GroupCodesSearch;
 
@@ -18,6 +19,8 @@ public interface GroupCodeRepository {
     Page<GroupCode> selectGroupCodes(GroupCodesSearch groupCodesSearch);
 
     Optional<GroupCode> selectGroupCode(GroupCodesSearch groupCodesSearch);
+
+    Optional<GroupCode> findGroupCode(GroupCodeSearch groupCodeSearch);
 
     int insertGroupCode(GroupCodeSave groupCodeSave);
 

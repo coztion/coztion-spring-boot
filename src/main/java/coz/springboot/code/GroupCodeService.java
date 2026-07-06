@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import coz.springboot.code.domain.GroupCode;
 import coz.springboot.code.domain.GroupCodeDelete;
 import coz.springboot.code.domain.GroupCodeSave;
+import coz.springboot.code.domain.GroupCodeSearch;
 import coz.springboot.code.domain.GroupCodeUpdate;
 import coz.springboot.code.domain.GroupCodesSearch;
 import coz.springboot.common.constant.Label;
@@ -25,9 +26,16 @@ public class GroupCodeService {
     private final GroupCodeRepository groupCodeRepository;
 
     @Transactional(readOnly = true)
-    public Page<GroupCode> searchGroupCodes(GroupCodesSearch filter) {
-        filter.validatePageable();
-        return groupCodeRepository.selectGroupCodes(filter);
+    public Page<GroupCode> getGroupCodes(GroupCodesSearch groupCodesSearch) {
+        groupCodesSearch.validatePageable();
+        return groupCodeRepository.selectGroupCodes(groupCodesSearch);
+    }
+
+    @Transactional(readOnly = true)
+    public GroupCode getGroupCode(GroupCodeSearch groupCodeSearch) {
+        return groupCodeRepository
+                .findGroupCode(groupCodeSearch)
+                .orElseThrow(() -> new RestException(Message.Exception.NOT_FOUND, Label.Code.GROUP_CODE));
     }
 
     @Transactional
