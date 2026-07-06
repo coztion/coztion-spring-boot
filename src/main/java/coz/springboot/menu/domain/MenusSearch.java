@@ -16,7 +16,7 @@ import coz.springboot.user.domain.Authority;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenuSearch extends Pagination {
+public class MenusSearch extends Pagination {
 
     @Schema(description = "Menu Type", example = "GRP_NAV")
     private MenuType menuType;
@@ -27,7 +27,7 @@ public class MenuSearch extends Pagination {
     @Schema(description = "Authorities", hidden = true)
     private List<Authority> authorities;
 
-    public static MenuSearch ofAuthorities(List<Authority> authorities) {
-        return MenuSearch.builder().authorities(authorities).build();
+    public static MenusSearch ofAuthorities(List<Authority> authorities) {
+        return MenusSearch.builder().authorities(authorities).build();
     }
 }

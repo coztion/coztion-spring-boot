@@ -7,11 +7,11 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserFilter {
+public class UserSearch {
 
     private String username;
 
-    public static UserFilter ofUsername(String username) {
-        return UserFilter.builder().username(username).build();
+    public static UserSearch ofUsername(String username) {
+        return UserSearch.builder().username(username).build();
     }
 }

@@ -18,7 +18,7 @@ import coz.springboot.common.enums.YesOrNo;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommonCodeSearch extends Pagination {
+public class CommonCodesSearch extends Pagination {
 
     @Schema(description = "Group Code")
     private String groupCode;
@@ -32,8 +32,8 @@ public class CommonCodeSearch extends Pagination {
     @Schema(description = "In Use", example = "Y")
     private YesOrNo useYn;
 
-    public static CommonCodeSearch ofGroupCodesInUse(List<String> groupCodes) {
-        return CommonCodeSearch.builder()
+    public static CommonCodesSearch ofGroupCodesInUse(List<String> groupCodes) {
+        return CommonCodesSearch.builder()
                 .groupCodes(groupCodes)
                 .useYn(YesOrNo.YES)
                 .build();

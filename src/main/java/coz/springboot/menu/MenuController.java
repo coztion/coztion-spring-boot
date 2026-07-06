@@ -17,9 +17,9 @@ import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
 import coz.springboot.common.helper.SessionHolder;
 import coz.springboot.menu.domain.Menu;
-import coz.springboot.menu.domain.MenuSearch;
 import coz.springboot.menu.domain.MenuTree;
 import coz.springboot.menu.domain.MenuUpdate;
+import coz.springboot.menu.domain.MenusSearch;
 import coz.springboot.user.domain.Authority;
 
 @Tag(name = "Menu", description = "Menu API")
@@ -30,30 +30,30 @@ public class MenuController {
 
     private final MenuService menuService;
 
-    @Operation(summary = "Get Menus", description = "Search menus based on search filter")
+    @Operation(summary = "Get Menus")
     @GetMapping
-    public RestResponse<PageResponse<Menu>> getMenus(@Valid @ModelAttribute MenuSearch menuSearch) {
-        Page<Menu> pagedMenus = menuService.searchMenus(menuSearch);
+    public RestResponse<PageResponse<Menu>> getMenus(@Valid @ModelAttribute MenusSearch menusSearch) {
+        Page<Menu> pagedMenus = menuService.searchMenus(menusSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(pagedMenus));
     }
 
-    @Operation(summary = "Get Menu Tree", description = "Get hierarchical menu tree for user")
+    @Operation(summary = "Get Menu Tree")
     @GetMapping("/menu-tree")
     public RestResponse<List<MenuTree>> getMenuTree() {
         List<Authority> authorities = SessionHolder.getAuthorities();
         return RestResponse.ofSuccess(menuService.getMenuTree(authorities));
     }
 
-    @Operation(summary = "Get Menu Ids", description = "Get menu ids for user")
+    @Operation(summary = "Get Menu Ids")
     @GetMapping("/ids")
     public RestResponse<List<String>> getMenuIds() {
         List<Authority> authorities = SessionHolder.getAuthorities();
-        Page<Menu> menus = menuService.searchMenus(MenuSearch.ofAuthorities(authorities));
+        Page<Menu> menus = menuService.searchMenus(MenusSearch.ofAuthorities(authorities));
         List<String> menuIds = menus.stream().map(Menu::getMenuId).toList();
         return RestResponse.ofSuccess(menuIds);
     }
 
-    @Operation(summary = "Update Menu", description = "Update menu information")
+    @Operation(summary = "Update Menu")
     @PatchMapping("/{menuId}")
     public RestResponse<Void> updateMenu(@PathVariable String menuId, @Valid @RequestBody MenuUpdate menuUpdate) {
         menuUpdate.setTargetMenuId(menuId);

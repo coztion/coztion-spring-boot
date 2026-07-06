@@ -9,24 +9,8 @@
         </collection>
     </resultMap>
 
-    <select id="findUsersByFilter"
-            parameterType="coz.springboot.user.domain.UserFilter"
-            resultMap="findUserByParamMap">
-        SELECT U.USERNAME
-             , U.PASSWORD
-             , A.AUTHORITY_CODE
-          FROM TB_USER U
-          LEFT JOIN TB_USER_AUTHORITY UA
-                 ON U.USERNAME = UA.USERNAME
-          LEFT JOIN TB_AUTHORITY A
-                 ON UA.AUTHORITY_CODE = A.AUTHORITY_CODE
-        <if test="username != null and username != ''">
-         WHERE U.USERNAME = #{username}
-        </if>
-    </select>
-
-    <select id="findUserByFilter"
-            parameterType="coz.springboot.user.domain.UserFilter"
+    <select id="selectUser"
+            parameterType="coz.springboot.user.domain.UserSearch"
             resultMap="findUserByParamMap">
         SELECT U.USERNAME
              , U.PASSWORD

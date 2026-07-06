@@ -34,8 +34,4 @@ public class GroupCodesSearch extends Pagination {
 
     @Schema(description = "Usage")
     private YesOrNo useYn;
-
-    public static GroupCodesSearch ofGroupCode(String groupCode) {
-        return GroupCodesSearch.builder().groupCode(groupCode).build();
-    }
 }

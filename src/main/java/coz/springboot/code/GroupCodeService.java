@@ -34,7 +34,7 @@ public class GroupCodeService {
     @Transactional(readOnly = true)
     public GroupCode getGroupCode(GroupCodeSearch groupCodeSearch) {
         return groupCodeRepository
-                .findGroupCode(groupCodeSearch)
+                .selectGroupCode(groupCodeSearch)
                 .orElseThrow(() -> new RestException(Message.Exception.NOT_FOUND, Label.Code.GROUP_CODE));
     }
 
@@ -45,8 +45,8 @@ public class GroupCodeService {
             throw new RestException(Message.Exception.CREATE_FAILURE, Label.Code.GROUP_CODE);
         }
 
-        GroupCodesSearch groupCodesSearch = GroupCodesSearch.ofGroupCode(groupCodeSave.getGroupCode());
-        Optional<GroupCode> foundGroupCode = groupCodeRepository.selectGroupCode(groupCodesSearch);
+        GroupCodeSearch groupCodeSearch = GroupCodeSearch.ofGroupCode(groupCodeSave.getGroupCode());
+        Optional<GroupCode> foundGroupCode = groupCodeRepository.selectGroupCode(groupCodeSearch);
 
         return foundGroupCode.orElseThrow(
                 () -> new RestException(Message.Exception.CREATE_FAILURE, Label.Code.GROUP_CODE));
@@ -54,9 +54,9 @@ public class GroupCodeService {
 
     @Transactional
     public GroupCode updateGroupCode(GroupCodeUpdate groupCodeUpdate) {
-        GroupCodesSearch groupCodesSearch = GroupCodesSearch.ofGroupCode(groupCodeUpdate.getTargetGroupCode());
+        GroupCodeSearch groupCodeSearch = GroupCodeSearch.ofGroupCode(groupCodeUpdate.getTargetGroupCode());
         GroupCode groupCode = groupCodeRepository
-                .selectGroupCode(groupCodesSearch)
+                .selectGroupCode(groupCodeSearch)
                 .orElseThrow(() -> new RestException(Message.Exception.NOT_FOUND, Label.Code.GROUP_CODE));
 
         int updatedCount = groupCodeRepository.updateGroupCode(groupCodeUpdate);
@@ -69,15 +69,15 @@ public class GroupCodeService {
         }
 
         return groupCodeRepository
-                .selectGroupCode(groupCodesSearch)
+                .selectGroupCode(groupCodeSearch)
                 .orElseThrow(() -> new RestException(Message.Exception.UPDATE_FAILURE, Label.Code.GROUP_CODE));
     }
 
     @Transactional
     public void deleteGroupCode(GroupCodeDelete groupCodeDelete) {
-        GroupCodesSearch groupCodesSearch = GroupCodesSearch.ofGroupCode(groupCodeDelete.getTargetGroupCode());
+        GroupCodeSearch groupCodeSearch = GroupCodeSearch.ofGroupCode(groupCodeDelete.getTargetGroupCode());
         GroupCode groupCode = groupCodeRepository
-                .selectGroupCode(groupCodesSearch)
+                .selectGroupCode(groupCodeSearch)
                 .orElseThrow(() -> new RestException(Message.Exception.NOT_FOUND, Label.Code.GROUP_CODE));
 
         if (groupCode.hasCommonCodes()) {

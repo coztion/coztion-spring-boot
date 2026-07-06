@@ -22,4 +22,8 @@ public class GroupCodeSearch {
 
     @Schema(description = "Usage")
     private YesOrNo useYn;
+
+    public static GroupCodeSearch ofGroupCode(String groupCode) {
+        return GroupCodeSearch.builder().groupCode(groupCode).build();
+    }
 }

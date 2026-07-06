@@ -18,9 +18,7 @@ public interface GroupCodeRepository {
 
     Page<GroupCode> selectGroupCodes(GroupCodesSearch groupCodesSearch);
 
-    Optional<GroupCode> selectGroupCode(GroupCodesSearch groupCodesSearch);
-
-    Optional<GroupCode> findGroupCode(GroupCodeSearch groupCodeSearch);
+    Optional<GroupCode> selectGroupCode(GroupCodeSearch groupCodeSearch);
 
     int insertGroupCode(GroupCodeSave groupCodeSave);
 

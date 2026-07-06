@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="coz.springboot.menu.MenuRepository">
 
-    <select id="findMenusByFilter"
-            parameterType="coz.springboot.menu.domain.MenuSearch"
+    <select id="selectMenus"
+            parameterType="coz.springboot.menu.domain.MenusSearch"
             resultType="coz.springboot.menu.domain.Menu">
         SELECT DISTINCT M.MENU_ID
              , M.MENU_NAME
@@ -37,7 +37,7 @@
     </select>
 
 
-    <select id="findMenuTree"
+    <select id="selectMenuTree"
             resultType="coz.springboot.menu.domain.MenuTree">
         WITH RECURSIVE MENU_TREE AS (
             SELECT M.MENU_ID

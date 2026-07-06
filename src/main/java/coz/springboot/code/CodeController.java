@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 import coz.springboot.code.domain.Code;
 import coz.springboot.code.domain.CommonCode;
-import coz.springboot.code.domain.CommonCodeSearch;
+import coz.springboot.code.domain.CommonCodesSearch;
 import coz.springboot.common.dto.RestResponse;
 
 @Tag(name = "Code", description = "Code API")
@@ -28,8 +28,8 @@ public class CodeController {
 
     @GetMapping
     public RestResponse<List<Code>> getCodes(@RequestParam List<String> groupCodes) {
-        CommonCodeSearch commonCodeSearch = CommonCodeSearch.ofGroupCodesInUse(groupCodes);
-        Page<CommonCode> commonCodes = commonCodeService.searchCommonCodes(commonCodeSearch);
+        CommonCodesSearch commonCodesSearch = CommonCodesSearch.ofGroupCodesInUse(groupCodes);
+        Page<CommonCode> commonCodes = commonCodeService.searchCommonCodes(commonCodesSearch);
         List<Code> codes = commonCodes.stream().map(CommonCode::toCode).toList();
         return RestResponse.ofSuccess(codes);
     }

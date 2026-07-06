@@ -17,9 +17,9 @@ import coz.springboot.common.constant.Label;
 import coz.springboot.common.constant.Message;
 import coz.springboot.common.exception.RestException;
 import coz.springboot.menu.domain.Menu;
-import coz.springboot.menu.domain.MenuSearch;
 import coz.springboot.menu.domain.MenuTree;
 import coz.springboot.menu.domain.MenuUpdate;
+import coz.springboot.menu.domain.MenusSearch;
 import coz.springboot.user.domain.Authority;
 
 @Service
@@ -29,14 +29,14 @@ public class MenuService {
     private final MenuRepository menuRepository;
 
     @Transactional(readOnly = true)
-    public Page<Menu> searchMenus(MenuSearch filter) {
-        filter.validatePageable();
-        return menuRepository.findMenusByFilter(filter);
+    public Page<Menu> searchMenus(MenusSearch menusSearch) {
+        menusSearch.validatePageable();
+        return menuRepository.selectMenus(menusSearch);
     }
 
     @Transactional(readOnly = true)
     public List<MenuTree> getMenuTree(List<Authority> authorities) {
-        List<MenuTree> menus = menuRepository.findMenuTree(authorities);
+        List<MenuTree> menus = menuRepository.selectMenuTree(authorities);
 
         Map<String, MenuTree> map = menus.stream().collect(Collectors.toMap(MenuTree::getMenuId, menu -> menu));
 
