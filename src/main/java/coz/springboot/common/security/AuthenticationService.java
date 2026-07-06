@@ -16,7 +16,7 @@ import coz.springboot.common.helper.MessageTranslator;
 import coz.springboot.user.UserService;
 import coz.springboot.user.domain.SessionUser;
 import coz.springboot.user.domain.User;
-import coz.springboot.user.domain.UserFilter;
+import coz.springboot.user.domain.UserSearch;
 
 @Slf4j
 @Service
@@ -29,8 +29,8 @@ public class AuthenticationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserFilter userFilter = UserFilter.ofUsername(username);
-        Optional<User> foundUser = userService.getUser(userFilter);
+        UserSearch userSearch = UserSearch.ofUsername(username);
+        Optional<User> foundUser = userService.getUser(userSearch);
 
         if (foundUser.isPresent()) {
             User user = foundUser.get();

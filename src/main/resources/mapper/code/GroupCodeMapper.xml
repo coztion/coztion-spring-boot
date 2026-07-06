@@ -15,7 +15,32 @@
         </collection>
     </resultMap>
 
-    <sql id="whereGroupCodeFilter">
+    <select id="selectGroupCodes"
+            parameterType="coz.springboot.code.domain.GroupCodesSearch"
+            resultMap="groupCodeMap">
+        SELECT GC.GROUP_CODE
+             , GC.GROUP_CODE_NAME
+             , GC.GROUP_CODE_DESC AS GROUP_CODE_DESCRIPTION
+             , GC.USE_YN
+             , GC.SORT_ORDER
+             , GC.CREATED_BY
+             , GC.CREATED_AT
+             , GC.UPDATED_BY
+             , GC.UPDATED_AT
+             , CC.GROUP_CODE AS COMMON_CODE_GROUP_CODE
+             , CC.COMMON_CODE
+             , CC.COMMON_CODE_NAME
+             , CC.COMMON_CODE_DESC AS COMMON_CODE_DESCRIPTION
+             , CC.USE_YN AS COMMON_CODE_IS_USE
+             , CC.SORT_ORDER
+             , CC.CREATED_AT AS COMMON_CODE_CREATED_AT
+             , CC.CREATED_BY AS COMMON_CODE_CREATED_BY
+             , CC.UPDATED_AT AS COMMON_CODE_UPDATED_AT
+             , CC.UPDATED_BY AS COMMON_CODE_UPDATED_BY
+          FROM TB_GROUP_CODE GC
+          LEFT JOIN TB_COMMON_CODE CC
+                 ON GC.GROUP_CODE = CC.GROUP_CODE
+                AND CC.DEL_YN != 'Y'
         <where>
             <if test="groupCodes != null and !groupCodes.isEmpty()">
            AND GC.GROUP_CODE IN
@@ -37,39 +62,10 @@
             </if>
            AND GC.DEL_YN != 'Y'
         </where>
-    </sql>
-
-    <select id="findGroupCodesByFilter"
-            parameterType="coz.springboot.code.domain.GroupCodeSearch"
-            resultMap="groupCodeMap">
-        SELECT GC.GROUP_CODE
-             , GC.GROUP_CODE_NAME
-             , GC.GROUP_CODE_DESC AS GROUP_CODE_DESCRIPTION
-             , GC.USE_YN
-             , GC.SORT_ORDER
-             , GC.CREATED_BY
-             , GC.CREATED_AT
-             , GC.UPDATED_BY
-             , GC.UPDATED_AT
-             , CC.GROUP_CODE AS COMMON_CODE_GROUP_CODE
-             , CC.COMMON_CODE
-             , CC.COMMON_CODE_NAME
-             , CC.COMMON_CODE_DESC AS COMMON_CODE_DESCRIPTION
-             , CC.USE_YN AS COMMON_CODE_IS_USE
-             , CC.SORT_ORDER
-             , CC.CREATED_AT AS COMMON_CODE_CREATED_AT
-             , CC.CREATED_BY AS COMMON_CODE_CREATED_BY
-             , CC.UPDATED_AT AS COMMON_CODE_UPDATED_AT
-             , CC.UPDATED_BY AS COMMON_CODE_UPDATED_BY
-          FROM TB_GROUP_CODE GC
-          LEFT JOIN TB_COMMON_CODE CC
-                 ON GC.GROUP_CODE = CC.GROUP_CODE
-                AND CC.DEL_YN != 'Y'
-        <include refid="whereGroupCodeFilter" />
          ORDER BY GC.SORT_ORDER, CC.SORT_ORDER
     </select>
 
-    <select id="findGroupCodeByFilter"
+    <select id="selectGroupCode"
             parameterType="coz.springboot.code.domain.GroupCodeSearch"
             resultMap="groupCodeMap">
         SELECT GC.GROUP_CODE
@@ -95,12 +91,20 @@
           LEFT JOIN TB_COMMON_CODE CC
                  ON GC.GROUP_CODE = CC.GROUP_CODE
                 AND CC.DEL_YN != 'Y'
-        <include refid="whereGroupCodeFilter" />
+        <where>
+            <if test="groupCode != null and groupCode != ''">
+           AND GC.GROUP_CODE = #{groupCode}
+            </if>
+            <if test="useYn != null">
+           AND GC.USE_YN = #{useYn}
+            </if>
+           AND GC.DEL_YN != 'Y'
+        </where>
          ORDER BY GC.SORT_ORDER, CC.SORT_ORDER
     </select>
 
     <insert id="insertGroupCode"
-            parameterType="coz.springboot.code.domain.GroupCodeCreate">
+            parameterType="coz.springboot.code.domain.GroupCodeSave">
         INSERT INTO TB_GROUP_CODE (
             GROUP_CODE
           , GROUP_CODE_NAME

@@ -16,7 +16,7 @@ import coz.springboot.common.enums.YesOrNo;
 @Getter
 @Setter
 @NoArgsConstructor
-public class GroupCodeCreate {
+public class GroupCodeSave {
 
     @Schema(description = "Group Code")
     @NotBlank(message = Label.Code.GROUP_CODE)

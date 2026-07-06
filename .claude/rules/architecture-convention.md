@@ -18,7 +18,7 @@ _how_ that split is usually implemented.
 | **Presentation** | **Controller** | Boundary validation, invoke use cases, map results to response DTOs.               |
 | **Application**  | **Service**    | Rules, orchestration, transaction boundaries where the app defines a unit of work. |
 |                  | **Repository** | Load and persist feature state behind a narrow surface.                            |
-|                  | **Domain**     | All domain types for a feature: models, filters, and command objects.              |
+|                  | **Domain**     | All domain types for a feature: models, and command objects.                       |
 
 ### Dependency Direction
 

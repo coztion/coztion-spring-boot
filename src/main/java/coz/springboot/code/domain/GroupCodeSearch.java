@@ -1,36 +1,24 @@
 package coz.springboot.code.domain;
 
-import java.util.List;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 
-import coz.springboot.common.domain.Pagination;
 import coz.springboot.common.enums.YesOrNo;
 
 @Getter
 @Setter
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupCodeSearch extends Pagination {
+public class GroupCodeSearch {
 
-    @Schema(description = "Group Codes")
-    private List<String> groupCodes;
-
-    @Schema(description = "Group Code")
+    @Schema(description = "Group Code", hidden = true)
     private String groupCode;
-
-    @Schema(description = "Group Code Name")
-    private String groupCodeName;
-
-    @Schema(description = "Common Code Name")
-    private String commonCodeName;
 
     @Schema(description = "Usage")
     private YesOrNo useYn;
