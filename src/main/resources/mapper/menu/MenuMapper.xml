@@ -37,9 +37,9 @@
     </select>
 
 
-    <select id="selectMenuTree"
-            resultType="coz.springboot.menu.domain.MenuTree">
-        WITH RECURSIVE MENU_TREE AS (
+    <select id="selectMenuInfos"
+            resultType="coz.springboot.menu.domain.MenuInfo">
+        WITH RECURSIVE MENU_INFO AS (
             SELECT M.MENU_ID
                  , M.MENU_NAME
                  , M.MENU_TYPE
@@ -63,7 +63,7 @@
                  , P.PARENT_MENU_ID
                  , P.SORT_ORDER
               FROM TB_MENU P
-             INNER JOIN MENU_TREE C ON P.MENU_ID = C.PARENT_MENU_ID
+             INNER JOIN MENU_INFO C ON P.MENU_ID = C.PARENT_MENU_ID
              WHERE P.USE_YN = 'Y'
         )
         SELECT DISTINCT MENU_ID
@@ -72,7 +72,7 @@
                       , URL
                       , PARENT_MENU_ID
                       , SORT_ORDER
-          FROM MENU_TREE
+          FROM MENU_INFO
          ORDER BY SORT_ORDER
     </select>
 

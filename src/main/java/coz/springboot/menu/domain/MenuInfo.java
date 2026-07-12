@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MenuTree {
+public class MenuInfo {
 
     @Schema(description = "Menu ID")
     private String menuId;
@@ -32,5 +32,5 @@ public class MenuTree {
     private Integer sortOrder;
 
     @Schema(description = "Sub Menu List")
-    private List<MenuTree> subMenus;
+    private List<MenuInfo> subMenus;
 }

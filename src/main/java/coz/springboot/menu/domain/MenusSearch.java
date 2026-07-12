@@ -26,8 +26,4 @@ public class MenusSearch extends Pagination {
 
     @Schema(description = "Authorities", hidden = true)
     private List<Authority> authorities;
-
-    public static MenusSearch ofAuthorities(List<Authority> authorities) {
-        return MenusSearch.builder().authorities(authorities).build();
-    }
 }
