@@ -17,7 +17,7 @@ import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
 import coz.springboot.common.helper.SessionHolder;
 import coz.springboot.menu.domain.Menu;
-import coz.springboot.menu.domain.MenuTree;
+import coz.springboot.menu.domain.MenuInfo;
 import coz.springboot.menu.domain.MenuUpdate;
 import coz.springboot.menu.domain.MenusSearch;
 import coz.springboot.user.domain.Authority;
@@ -37,20 +37,11 @@ public class MenuController {
         return RestResponse.ofSuccess(PageResponse.ofPage(pagedMenus));
     }
 
-    @Operation(summary = "Get Menu Tree")
-    @GetMapping("/menu-tree")
-    public RestResponse<List<MenuTree>> getMenuTree() {
+    @Operation(summary = "Get Menu Infos")
+    @GetMapping("/menu-infos")
+    public RestResponse<List<MenuInfo>> getMenuInfos() {
         List<Authority> authorities = SessionHolder.getAuthorities();
-        return RestResponse.ofSuccess(menuService.getMenuTree(authorities));
-    }
-
-    @Operation(summary = "Get Menu Ids")
-    @GetMapping("/ids")
-    public RestResponse<List<String>> getMenuIds() {
-        List<Authority> authorities = SessionHolder.getAuthorities();
-        Page<Menu> menus = menuService.searchMenus(MenusSearch.ofAuthorities(authorities));
-        List<String> menuIds = menus.stream().map(Menu::getMenuId).toList();
-        return RestResponse.ofSuccess(menuIds);
+        return RestResponse.ofSuccess(menuService.getMenuInfos(authorities));
     }
 
     @Operation(summary = "Update Menu")
