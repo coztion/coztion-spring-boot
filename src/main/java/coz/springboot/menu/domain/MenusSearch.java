@@ -8,7 +8,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import coz.springboot.common.domain.Pagination;
-import coz.springboot.common.enums.YesOrNo;
+import coz.springboot.common.enums.DataStatus;
 import coz.springboot.user.domain.Authority;
 
 @Getter
@@ -21,8 +21,8 @@ public class MenusSearch extends Pagination {
     @Schema(description = "Menu Type", example = "GRP_NAV")
     private MenuType menuType;
 
-    @Schema(description = "Usage Status", example = "Y")
-    private YesOrNo useYn;
+    @Schema(description = "Data Status", example = "ENABLED")
+    private DataStatus dataStatus;
 
     @Schema(description = "Authorities", hidden = true)
     private List<Authority> authorities;

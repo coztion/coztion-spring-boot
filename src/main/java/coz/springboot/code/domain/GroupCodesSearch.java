@@ -11,7 +11,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import coz.springboot.common.domain.Pagination;
-import coz.springboot.common.enums.YesOrNo;
+import coz.springboot.common.enums.DataStatus;
 
 @Getter
 @Setter
@@ -32,6 +32,6 @@ public class GroupCodesSearch extends Pagination {
     @Schema(description = "Common Code Name")
     private String commonCodeName;
 
-    @Schema(description = "Usage")
-    private YesOrNo useYn;
+    @Schema(description = "Data Status")
+    private DataStatus dataStatus;
 }

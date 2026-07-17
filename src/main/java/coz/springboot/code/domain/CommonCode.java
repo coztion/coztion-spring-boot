@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import coz.springboot.common.domain.DataRecord;
-import coz.springboot.common.enums.YesOrNo;
 
 @Getter
 @Setter
@@ -25,9 +24,6 @@ public class CommonCode extends DataRecord {
 
     @Schema(description = "Common Code Description")
     private String commonCodeDescription;
-
-    @Schema(description = "Usage Status")
-    private YesOrNo useYn = YesOrNo.YES;
 
     @Schema(description = "Sort Order")
     private Integer sortOrder;

@@ -28,8 +28,8 @@ public class CodeController {
 
     @GetMapping
     public RestResponse<List<Code>> getCodes(@RequestParam List<String> groupCodes) {
-        CommonCodesSearch commonCodesSearch = CommonCodesSearch.ofGroupCodesInUse(groupCodes);
-        Page<CommonCode> commonCodes = commonCodeService.searchCommonCodes(commonCodesSearch);
+        CommonCodesSearch commonCodesSearch = CommonCodesSearch.ofEnabledGroupCodes(groupCodes);
+        Page<CommonCode> commonCodes = commonCodeService.getCommonCodes(commonCodesSearch);
         List<Code> codes = commonCodes.stream().map(CommonCode::toCode).toList();
         return RestResponse.ofSuccess(codes);
     }

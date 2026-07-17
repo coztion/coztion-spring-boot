@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import coz.springboot.common.domain.DataRecord;
-import coz.springboot.common.enums.YesOrNo;
 
 @Getter
 @Setter
@@ -28,7 +27,4 @@ public class Menu extends DataRecord {
 
     @Schema(description = "Sort Order")
     private Integer sortOrder;
-
-    @Schema(description = "In Use")
-    private YesOrNo useYn = YesOrNo.YES;
 }

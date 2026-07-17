@@ -10,7 +10,7 @@
              , M.MENU_TYPE
              , M.PARENT_MENU_ID
              , M.SORT_ORDER
-             , M.USE_YN
+             , M.DATA_STATUS
              , M.CREATED_BY
              , M.CREATED_AT
              , M.UPDATED_BY
@@ -19,7 +19,7 @@
         <if test="authorities != null and !authorities.isEmpty()">
          INNER JOIN TB_MENU_AUTHORITY MA ON M.MENU_ID = MA.MENU_ID
         </if>
-        <where>
+         WHERE TRUE
             <if test="authorities != null and !authorities.isEmpty()">
            AND MA.AUTHORITY_CODE IN
                 <foreach item="authority" collection="authorities" open="(" separator="," close=")">
@@ -29,10 +29,10 @@
             <if test="menuType != null">
            AND M.MENU_TYPE = #{menuType}
             </if>
-            <if test="useYn != null">
-           AND M.USE_YN = #{useYn}
+            <if test="dataStatus != null">
+           AND M.DATA_STATUS = #{dataStatus}
             </if>
-        </where>
+           AND M.DATA_STATUS != 'DELETED'
          ORDER BY M.SORT_ORDER
     </select>
 
@@ -52,7 +52,7 @@
             <foreach item="authority" collection="authorities" open="(" separator="," close=")">
                 #{authority}
             </foreach>
-               AND M.USE_YN = 'Y'
+               AND M.DATA_STATUS = 'ENABLED'
 
              UNION
 
@@ -64,7 +64,7 @@
                  , P.SORT_ORDER
               FROM TB_MENU P
              INNER JOIN MENU_INFO C ON P.MENU_ID = C.PARENT_MENU_ID
-             WHERE P.USE_YN = 'Y'
+             WHERE P.DATA_STATUS = 'ENABLED'
         )
         SELECT DISTINCT MENU_ID
                       , MENU_NAME
@@ -82,7 +82,7 @@
         UPDATE TB_MENU
         <set>
             <if test="menuName != null">MENU_NAME = #{menuName},</if>
-            <if test="useYn != null">USE_YN = #{useYn},</if>
+            <if test="dataStatus != null">DATA_STATUS = #{dataStatus},</if>
             UPDATED_BY = #{author},
         </set>
          WHERE MENU_ID = #{targetMenuId}

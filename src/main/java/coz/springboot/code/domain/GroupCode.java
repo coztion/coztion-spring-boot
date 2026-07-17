@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import coz.springboot.common.domain.DataRecord;
-import coz.springboot.common.enums.YesOrNo;
 
 @Getter
 @Setter
@@ -26,9 +25,6 @@ public class GroupCode extends DataRecord {
 
     @Schema(description = "Group Code Description")
     private String groupCodeDescription;
-
-    @Schema(description = "In Use")
-    private YesOrNo useYn = YesOrNo.YES;
 
     @Schema(description = "Sort Order")
     private Integer sortOrder;

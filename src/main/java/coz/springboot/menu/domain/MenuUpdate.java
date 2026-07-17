@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import coz.springboot.common.enums.YesOrNo;
+import coz.springboot.common.enums.DataStatus;
 
 @Getter
 @Setter
@@ -22,8 +22,8 @@ public class MenuUpdate {
     @Size(min = 1, max = 100)
     private String menuName;
 
-    @Schema(description = "In Use")
-    private YesOrNo useYn;
+    @Schema(description = "Data Status")
+    private DataStatus dataStatus;
 
     @Schema(description = "Author", hidden = true)
     private String author;

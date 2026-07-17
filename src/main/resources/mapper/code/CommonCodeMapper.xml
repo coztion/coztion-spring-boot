@@ -9,7 +9,7 @@
              , COMMON_CODE
              , COMMON_CODE_NAME
              , COMMON_CODE_DESC AS COMMON_CODE_DESCRIPTION
-             , USE_YN
+             , DATA_STATUS
              , SORT_ORDER
              , CREATED_BY
              , CREATED_AT
@@ -29,10 +29,10 @@
         <if test="commonCode != null and commonCode != ''">
            AND COMMON_CODE = #{commonCode}
         </if>
-        <if test="useYn != null">
-           AND USE_YN = #{useYn}
+        <if test="dataStatus != null">
+           AND DATA_STATUS = #{dataStatus}
         </if>
-           AND DEL_YN != 'Y'
+           AND DATA_STATUS = 'ENABLED'
          ORDER BY SORT_ORDER
     </select>
 

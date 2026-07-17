@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import coz.springboot.common.constant.Label;
-import coz.springboot.common.enums.YesOrNo;
+import coz.springboot.common.enums.DataStatus;
 
 @Getter
 @Setter
@@ -29,8 +29,8 @@ public class GroupCodeSave {
     @Schema(description = "Group Code Description")
     private String groupCodeDescription;
 
-    @Schema(description = "Usage Status")
-    private YesOrNo useYn = YesOrNo.YES;
+    @Schema(description = "Data Status")
+    private DataStatus dataStatus = DataStatus.ENABLED;
 
     @Schema(description = "Sort Order")
     @NotNull(message = Label.Common.SORT_ORDER)

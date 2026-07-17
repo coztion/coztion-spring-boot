@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import coz.springboot.common.enums.YesOrNo;
+import coz.springboot.common.enums.DataStatus;
 
 @Getter
 @Setter
@@ -20,8 +20,8 @@ public class GroupCodeSearch {
     @Schema(description = "Group Code", hidden = true)
     private String groupCode;
 
-    @Schema(description = "Usage")
-    private YesOrNo useYn;
+    @Schema(description = "Data Status")
+    private DataStatus dataStatus;
 
     public static GroupCodeSearch ofGroupCode(String groupCode) {
         return GroupCodeSearch.builder().groupCode(groupCode).build();
