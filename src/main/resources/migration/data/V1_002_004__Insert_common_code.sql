@@ -1,3 +1,4 @@
-INSERT INTO TB_COMMON_CODE(GROUP_CODE, COMMON_CODE, COMMON_CODE_NAME, COMMON_CODE_DESC, USE_YN, SORT_ORDER)
-VALUES ('USAGE', 'Y', 'Yes', 'Use status Y', 'Y', 1)
-     , ('USAGE', 'N', 'No', 'Use status N', 'Y', 2)
+INSERT INTO TB_COMMON_CODE(GROUP_CODE, COMMON_CODE, COMMON_CODE_NAME, COMMON_CODE_DESC, DATA_STATUS, SORT_ORDER)
+VALUES ('DATA_STATUS', 'ENABLE', 'Enable', 'Data status Enable', 'ENABLE', 1)
+     , ('DATA_STATUS', 'DISABLE', 'Disable', 'Data status Disable', 'ENABLE', 2)
+     , ('DATA_STATUS', 'DELETED', 'Deleted', 'Data status Deleted', 'ENABLE', 3)
