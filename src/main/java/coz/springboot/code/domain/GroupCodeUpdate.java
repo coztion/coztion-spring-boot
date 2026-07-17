@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import coz.springboot.common.constant.Label;
-import coz.springboot.common.enums.YesOrNo;
+import coz.springboot.common.enums.DataStatus;
 
 @Getter
 @Setter
@@ -29,14 +29,14 @@ public class GroupCodeUpdate {
     @Schema(description = "Group Code Description")
     private String groupCodeDescription;
 
-    @Schema(description = "Use YN", example = "Y")
-    @NotNull(message = Label.Common.USE_YN)
-    private YesOrNo useYn;
+    @Schema(description = "Data Status", example = "ENABLED")
+    @NotNull(message = Label.Common.DATA_STATUS)
+    private DataStatus dataStatus;
 
     @Schema(description = "Author", hidden = true)
     private String author;
 
-    public boolean hasUsageChanged(GroupCode groupCode) {
-        return !useYn.equals(groupCode.getUseYn());
+    public boolean hasDataStatusChanged(GroupCode groupCode) {
+        return !dataStatus.equals(groupCode.getDataStatus());
     }
 }

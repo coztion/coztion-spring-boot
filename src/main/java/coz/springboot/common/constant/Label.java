@@ -6,7 +6,7 @@ public class Label {
 
         public static final String SORT_ORDER = "label.common.SORT_ORDER";
 
-        public static final String USE_YN = "label.common.USE_YN";
+        public static final String DATA_STATUS = "label.common.DATA_STATUS";
     }
 
     public static class User {

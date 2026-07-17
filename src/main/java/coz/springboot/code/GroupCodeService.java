@@ -64,7 +64,7 @@ public class GroupCodeService {
             throw new RestException(Message.Exception.UPDATE_FAILURE, Label.Code.GROUP_CODE);
         }
 
-        if (groupCodeUpdate.hasUsageChanged(groupCode)) {
+        if (groupCodeUpdate.hasDataStatusChanged(groupCode)) {
             groupCodeRepository.updateCommonCodesByGroupCodeUpdate(groupCodeUpdate);
         }
 

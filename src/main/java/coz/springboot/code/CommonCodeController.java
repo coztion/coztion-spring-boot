@@ -28,7 +28,7 @@ public class CommonCodeController {
     @Operation(summary = "Get Common Codes")
     @GetMapping
     public RestResponse<PageResponse<CommonCode>> getCommonCodes(@ModelAttribute CommonCodesSearch commonCodesSearch) {
-        Page<CommonCode> commonCodes = commonCodeService.searchCommonCodes(commonCodesSearch);
+        Page<CommonCode> commonCodes = commonCodeService.getCommonCodes(commonCodesSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(commonCodes));
     }
 }

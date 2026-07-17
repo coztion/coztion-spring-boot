@@ -17,7 +17,7 @@ class CommonCodeService {
     private final CommonCodeRepository commonCodeRepository;
 
     @Transactional(readOnly = true)
-    public Page<CommonCode> searchCommonCodes(CommonCodesSearch commonCodesSearch) {
+    public Page<CommonCode> getCommonCodes(CommonCodesSearch commonCodesSearch) {
         commonCodesSearch.validatePageable();
         return commonCodeRepository.selectCommonCodes(commonCodesSearch);
     }

@@ -29,7 +29,7 @@ public class MenuService {
     private final MenuRepository menuRepository;
 
     @Transactional(readOnly = true)
-    public Page<Menu> searchMenus(MenusSearch menusSearch) {
+    public Page<Menu> getMenus(MenusSearch menusSearch) {
         menusSearch.validatePageable();
         return menuRepository.selectMenus(menusSearch);
     }

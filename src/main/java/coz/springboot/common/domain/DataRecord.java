@@ -8,10 +8,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import coz.springboot.common.enums.DataStatus;
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class DataRecord {
+
+    @Schema(description = "Data Status")
+    private DataStatus dataStatus = DataStatus.ENABLED;
 
     @Schema(description = "Creator", example = "system")
     private String createdBy = "system";

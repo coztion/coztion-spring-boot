@@ -33,7 +33,7 @@ public class MenuController {
     @Operation(summary = "Get Menus")
     @GetMapping
     public RestResponse<PageResponse<Menu>> getMenus(@Valid @ModelAttribute MenusSearch menusSearch) {
-        Page<Menu> pagedMenus = menuService.searchMenus(menusSearch);
+        Page<Menu> pagedMenus = menuService.getMenus(menusSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(pagedMenus));
     }
 
