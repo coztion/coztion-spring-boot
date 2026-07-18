@@ -6,6 +6,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import tools.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -15,7 +17,9 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
+import coz.springboot.common.dto.RestResponse;
 import coz.springboot.common.helper.RedisRepository;
 import coz.springboot.common.helper.SessionFactory;
 import coz.springboot.user.domain.SessionUser;
@@ -41,11 +45,16 @@ public class AuthenticationHandler
 
     private final RedisRepository redisRepository;
 
+    private final ObjectMapper objectMapper;
+
+    @SneakyThrows
     @Override
     public void onAuthenticationSuccess(
             HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         SessionUser sessionUser = (SessionUser) authentication.getPrincipal();
         handleAuthenticationSuccess(sessionUser, response);
+        response.setContentType("application/json");
+        response.getWriter().write(objectMapper.writeValueAsString(RestResponse.ofSuccess(null)));
     }
 
     @Override

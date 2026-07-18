@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import coz.springboot.common.dto.RestResponse;
 import coz.springboot.common.helper.SessionHolder;
 import coz.springboot.common.security.AuthenticationHandler;
-import coz.springboot.user.domain.SessionLogin;
 import coz.springboot.user.domain.SessionUser;
 import coz.springboot.user.domain.SessionUserInfo;
 
@@ -32,12 +31,6 @@ public class SessionController {
         SessionUser sessionUser = SessionHolder.getSessionUser();
         SessionUserInfo sessionUserInfo = sessionUser.toPublicInfo();
         return RestResponse.ofSuccess(sessionUserInfo);
-    }
-
-    @Operation(summary = "Login", description = "Authenticate with username and password")
-    @PostMapping("/login")
-    public RestResponse<Void> login(@RequestBody SessionLogin request) {
-        return RestResponse.ofSuccess(null);
     }
 
     @Operation(
