@@ -40,16 +40,22 @@ public class GroupCodeService {
 
     @Transactional
     public GroupCode saveGroupCode(GroupCodeSave groupCodeSave) {
+        GroupCodeSearch searchForExistingGroupCode = GroupCodeSearch.ofGroupCode(groupCodeSave.getGroupCode());
+        Optional<GroupCode> optionalExistingGroupCode = groupCodeRepository.selectGroupCode(searchForExistingGroupCode);
+        if (optionalExistingGroupCode.isPresent()) {
+            throw new RestException(Message.Exception.SAVE_EXIST_FAILURE, Label.Code.GROUP_CODE);
+        }
+
         int createdCount = groupCodeRepository.insertGroupCode(groupCodeSave);
         if (createdCount == 0) {
-            throw new RestException(Message.Exception.CREATE_FAILURE, Label.Code.GROUP_CODE);
+            throw new RestException(Message.Exception.SAVE_FAILURE, Label.Code.GROUP_CODE);
         }
 
         GroupCodeSearch groupCodeSearch = GroupCodeSearch.ofGroupCode(groupCodeSave.getGroupCode());
         Optional<GroupCode> foundGroupCode = groupCodeRepository.selectGroupCode(groupCodeSearch);
 
         return foundGroupCode.orElseThrow(
-                () -> new RestException(Message.Exception.CREATE_FAILURE, Label.Code.GROUP_CODE));
+                () -> new RestException(Message.Exception.SAVE_FAILURE, Label.Code.GROUP_CODE));
     }
 
     @Transactional
