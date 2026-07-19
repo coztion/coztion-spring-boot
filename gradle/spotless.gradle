@@ -1,7 +1,7 @@
 spotless {
     java {
         target('/src/main/java/**/*.java', '/src/test/java/**/*.java')
-        palantirJavaFormat()
+        palantirJavaFormat('2.71.0')
         importOrder('java', 'javax', 'jakarta', '', 'com', '', 'org', '', 'io', '', 'lombok', 'coz')
         removeUnusedImports()
         leadingTabsToSpaces(4)
