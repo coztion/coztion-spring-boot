@@ -33,4 +33,10 @@ public class Message {
 
         public static final String RANGE_SIZE_INVALID = "message.validation.RANGE_SIZE_INVALID";
     }
+
+    public static class Code {
+
+        public static final String GROUP_CODE_COMMON_CODE_ENABLED_DELETE_FAILURE =
+                "message.code.GROUP_CODE_COMMON_CODE_ENABLED_DELETE_FAILURE";
+    }
 }

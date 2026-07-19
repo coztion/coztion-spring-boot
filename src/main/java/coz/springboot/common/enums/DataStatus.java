@@ -11,4 +11,8 @@ public enum DataStatus implements ValueEnum {
     DELETED("DELETED");
 
     private final String value;
+
+    public boolean isEnabled() {
+        return this.equals(ENABLED);
+    }
 }
