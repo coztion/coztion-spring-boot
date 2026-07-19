@@ -1,4 +1,4 @@
-package coz.springboot.common.security;
+package coz.springboot.core.security;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -15,64 +15,71 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import coz.springboot.common.helper.SessionFactory;
+import coz.springboot.common.redis.RedisRepository;
 import coz.springboot.user.domain.SessionUser;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AuthenticationTokenFilter extends OncePerRequestFilter {
+public class AuthenticationRefreshFilter extends OncePerRequestFilter {
 
-    @Value("${spring.security.cookie.access-token}")
-    private String accessTokenCookieName;
-
-    @Value("${spring.security.url.login}")
-    private String loginUrl;
+    @Value("${spring.security.cookie.refresh-token}")
+    private String refreshTokenCookieName;
 
     @Value("${spring.security.url.refresh}")
     private String refreshUrl;
 
-    private final SessionFactory sessionFactory;
+    private final AuthenticationFactory authenticationFactory;
 
     private final AuthenticationHandler authenticationHandler;
 
+    private final RedisRepository redisRepository;
+
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        String uri = request.getRequestURI();
-        return loginUrl.equals(uri) || (refreshUrl.equals(uri) && "PUT".equals(request.getMethod()));
+        return !(refreshUrl.equals(request.getRequestURI()) && "PUT".equals(request.getMethod()));
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        Optional<String> optionalAccessToken = extractAccessTokenFromCookie(request);
-
-        if (optionalAccessToken.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        String refreshToken = extractRefreshTokenFromCookie(request);
+        if (!StringUtils.hasText(refreshToken)) {
+            authenticationHandler.handleAuthenticationFailure(response);
             return;
         }
 
         try {
-            String accessToken = optionalAccessToken.get();
-            SessionUser sessionUser = sessionFactory.validateAccessToken(accessToken);
+            SessionUser sessionUser = authenticationFactory.validateRefreshToken(refreshToken);
+
+            Optional<String> cachedRefreshToken = redisRepository.findAndDelete(sessionUser.getUsername());
+            if (cachedRefreshToken.isEmpty()) {
+                log.warn("No refresh token found in Redis for user: {}", sessionUser.getUsername());
+                authenticationHandler.handleAuthenticationFailure(response);
+                return;
+            }
+
+            if (!cachedRefreshToken.get().equals(refreshToken)) {
+                log.warn("Refresh token mismatch for user: {}", sessionUser.getUsername());
+                authenticationHandler.handleAuthenticationFailure(response);
+                return;
+            }
+
+            authenticationHandler.handleAuthenticationSuccess(sessionUser, response);
+
             Authentication authentication =
                     UsernamePasswordAuthenticationToken.authenticated(sessionUser, null, sessionUser.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (ExpiredJwtException e) {
-            log.warn(
-                    "Access token has been expired for user : {}", e.getClaims().getSubject());
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
         } catch (JwtException e) {
-            log.warn("Access token is invalid : {}", e.getMessage());
+            log.warn("Invalid or expired refresh token: {}", e.getMessage());
             authenticationHandler.handleAuthenticationFailure(response);
             return;
         }
@@ -80,15 +87,15 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private Optional<String> extractAccessTokenFromCookie(HttpServletRequest request) {
+    private String extractRefreshTokenFromCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        if (Objects.isNull(cookies)) return Optional.empty();
+        if (Objects.isNull(cookies)) return null;
 
         for (Cookie cookie : cookies) {
-            if (accessTokenCookieName.equals(cookie.getName())) {
-                return Optional.of(cookie.getValue());
+            if (refreshTokenCookieName.equals(cookie.getName())) {
+                return cookie.getValue();
             }
         }
-        return Optional.empty();
+        return null;
     }
 }

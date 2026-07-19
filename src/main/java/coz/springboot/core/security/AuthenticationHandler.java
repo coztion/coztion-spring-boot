@@ -1,4 +1,4 @@
-package coz.springboot.common.security;
+package coz.springboot.core.security;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -21,8 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
 import coz.springboot.common.dto.RestResponse;
-import coz.springboot.common.helper.RedisRepository;
-import coz.springboot.common.helper.SessionFactory;
+import coz.springboot.common.redis.RedisRepository;
 import coz.springboot.user.domain.SessionUser;
 
 @Component
@@ -42,7 +41,7 @@ public class AuthenticationHandler
     @Value("${spring.security.cookie.secure}")
     private boolean secureCookie;
 
-    private final SessionFactory sessionFactory;
+    private final AuthenticationFactory authenticationFactory;
 
     private final RedisRepository redisRepository;
 
@@ -66,27 +65,27 @@ public class AuthenticationHandler
     }
 
     public void handleAuthenticationSuccess(SessionUser sessionUser, HttpServletResponse response) {
-        String accessToken = sessionFactory.generateAccessToken(sessionUser);
-        String refreshToken = sessionFactory.generateRefreshToken(sessionUser);
+        String accessToken = authenticationFactory.generateAccessToken(sessionUser);
+        String refreshToken = authenticationFactory.generateRefreshToken(sessionUser);
 
         Cookie accessTokenCookie = new Cookie(accessTokenCookieName, accessToken);
         accessTokenCookie.setHttpOnly(true);
         accessTokenCookie.setSecure(secureCookie);
         accessTokenCookie.setPath("/");
-        accessTokenCookie.setMaxAge(sessionFactory.getAccessTokenExpirationSeconds());
+        accessTokenCookie.setMaxAge(authenticationFactory.getAccessTokenExpirationSeconds());
         response.addCookie(accessTokenCookie);
 
         Cookie refreshTokenCookie = new Cookie(refreshTokenCookieName, refreshToken);
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(secureCookie);
         refreshTokenCookie.setPath(refreshUrl);
-        refreshTokenCookie.setMaxAge(sessionFactory.getRefreshTokenExpirationSeconds());
+        refreshTokenCookie.setMaxAge(authenticationFactory.getRefreshTokenExpirationSeconds());
         response.addCookie(refreshTokenCookie);
 
         redisRepository.save(
                 sessionUser.getUsername(),
                 refreshToken,
-                Duration.ofSeconds(sessionFactory.getRefreshTokenExpirationSeconds()));
+                Duration.ofSeconds(authenticationFactory.getRefreshTokenExpirationSeconds()));
     }
 
     @SneakyThrows

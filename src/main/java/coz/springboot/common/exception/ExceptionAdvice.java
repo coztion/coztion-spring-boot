@@ -10,8 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import coz.springboot.common.constant.Message;
 import coz.springboot.common.dto.RestResponse;
-import coz.springboot.common.helper.MessageTranslator;
-import coz.springboot.common.helper.ValidationTranslator;
+import coz.springboot.common.translator.MessageTranslator;
+import coz.springboot.common.translator.ValidationTranslator;
 
 @Slf4j
 @RestControllerAdvice

@@ -1,4 +1,4 @@
-package coz.springboot.common.config;
+package coz.springboot.core.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

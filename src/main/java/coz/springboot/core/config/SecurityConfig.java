@@ -1,4 +1,4 @@
-package coz.springboot.common.config;
+package coz.springboot.core.config;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,10 +20,10 @@ import org.springframework.web.cors.CorsConfiguration;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.common.security.AuthenticationFilter;
-import coz.springboot.common.security.AuthenticationHandler;
-import coz.springboot.common.security.AuthenticationTokenFilter;
-import coz.springboot.common.security.RefreshTokenFilter;
+import coz.springboot.core.security.AuthenticationFilter;
+import coz.springboot.core.security.AuthenticationHandler;
+import coz.springboot.core.security.AuthenticationRefreshFilter;
+import coz.springboot.core.security.AuthenticationTokenFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -41,7 +41,7 @@ public class SecurityConfig {
             HttpSecurity http,
             AuthenticationFilter authenticationFilter,
             AuthenticationTokenFilter authenticationTokenFilter,
-            RefreshTokenFilter refreshTokenFilter,
+            AuthenticationRefreshFilter authenticationRefreshFilter,
             AuthenticationHandler authenticationHandler)
             throws Exception {
         return http.httpBasic(AbstractHttpConfigurer::disable)
@@ -56,8 +56,8 @@ public class SecurityConfig {
                                 .authenticated())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationHandler))
                 .addFilter(authenticationFilter)
-                .addFilterBefore(refreshTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(authenticationTokenFilter, RefreshTokenFilter.class)
+                .addFilterBefore(authenticationRefreshFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(authenticationTokenFilter, AuthenticationRefreshFilter.class)
                 .build();
     }
 

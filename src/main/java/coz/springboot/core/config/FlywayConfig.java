@@ -1,4 +1,4 @@
-package coz.springboot.common.config;
+package coz.springboot.core.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.flyway.autoconfigure.FlywayMigrationStrategy;

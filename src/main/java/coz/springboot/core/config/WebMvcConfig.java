@@ -1,4 +1,4 @@
-package coz.springboot.common.config;
+package coz.springboot.core.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.common.converter.ValueEnumConverter;
+import coz.springboot.core.converter.ValueEnumConverter;
 
 @Configuration
 @RequiredArgsConstructor
