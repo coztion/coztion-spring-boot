@@ -1,8 +1,6 @@
 package coz.springboot.common.exception;
 
-import java.util.Arrays;
-
-import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import lombok.Getter;
@@ -29,6 +27,6 @@ public class RestException extends RuntimeException {
     }
 
     public boolean hasLabelKeys() {
-        return !CollectionUtils.isEmpty(Arrays.asList(labelKeys));
+        return !ObjectUtils.isEmpty(labelKeys);
     }
 }
