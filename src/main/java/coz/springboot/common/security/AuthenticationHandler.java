@@ -1,5 +1,6 @@
 package coz.springboot.common.security;
 
+import java.io.IOException;
 import java.time.Duration;
 
 import jakarta.servlet.http.Cookie;
@@ -53,14 +54,15 @@ public class AuthenticationHandler
             HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         SessionUser sessionUser = (SessionUser) authentication.getPrincipal();
         handleAuthenticationSuccess(sessionUser, response);
-        response.setContentType("application/json");
-        response.getWriter().write(objectMapper.writeValueAsString(RestResponse.ofSuccess(null)));
+        writeJson(response, RestResponse.ofSuccess(null));
     }
 
+    @SneakyThrows
     @Override
     public void onAuthenticationFailure(
             HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
         handleAuthenticationFailure(response);
+        writeJson(response, RestResponse.ofFailure(exception.getMessage()));
     }
 
     public void handleAuthenticationSuccess(SessionUser sessionUser, HttpServletResponse response) {
@@ -87,10 +89,18 @@ public class AuthenticationHandler
                 Duration.ofSeconds(sessionFactory.getRefreshTokenExpirationSeconds()));
     }
 
+    @SneakyThrows
     @Override
     public void commence(
             HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
         handleAuthenticationFailure(response);
+        writeJson(response, RestResponse.ofFailure(authException.getMessage()));
+    }
+
+    private void writeJson(HttpServletResponse response, RestResponse<?> body) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(objectMapper.writeValueAsString(body));
     }
 
     public void handleAuthenticationFailure(HttpServletResponse response) {
