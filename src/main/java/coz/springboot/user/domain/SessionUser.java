@@ -52,4 +52,8 @@ public class SessionUser implements UserDetails {
                 .authorityCodes(authorityCodes)
                 .build();
     }
+
+    public List<Authority> getAuthorityList() {
+        return authorityCodes.stream().map(Authority::ofValue).toList();
+    }
 }

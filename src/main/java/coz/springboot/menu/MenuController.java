@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 
 import com.github.pagehelper.Page;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,12 +16,12 @@ import lombok.RequiredArgsConstructor;
 
 import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
-import coz.springboot.common.helper.SessionHolder;
 import coz.springboot.menu.domain.Menu;
 import coz.springboot.menu.domain.MenuInfo;
 import coz.springboot.menu.domain.MenuUpdate;
 import coz.springboot.menu.domain.MenusSearch;
 import coz.springboot.user.domain.Authority;
+import coz.springboot.user.domain.SessionUser;
 
 @Tag(name = "Menu", description = "Menu API")
 @RestController
@@ -39,16 +40,19 @@ public class MenuController {
 
     @Operation(summary = "Get Menu Infos")
     @GetMapping("/menu-infos")
-    public RestResponse<List<MenuInfo>> getMenuInfos() {
-        List<Authority> authorities = SessionHolder.getAuthorities();
+    public RestResponse<List<MenuInfo>> getMenuInfos(@AuthenticationPrincipal SessionUser sessionUser) {
+        List<Authority> authorities = sessionUser.getAuthorityList();
         return RestResponse.ofSuccess(menuService.getMenuInfos(authorities));
     }
 
     @Operation(summary = "Update Menu")
     @PatchMapping("/{menuId}")
-    public RestResponse<Void> updateMenu(@PathVariable String menuId, @Valid @RequestBody MenuUpdate menuUpdate) {
+    public RestResponse<Void> updateMenu(
+            @PathVariable String menuId,
+            @Valid @RequestBody MenuUpdate menuUpdate,
+            @AuthenticationPrincipal SessionUser sessionUser) {
         menuUpdate.setTargetMenuId(menuId);
-        menuUpdate.setAuthor(SessionHolder.getUsername());
+        menuUpdate.setAuthor(sessionUser.getUsername());
         menuService.updateMenu(menuUpdate);
         return RestResponse.ofSuccess(null);
     }
