@@ -86,6 +86,10 @@ public class GroupCodeService {
                 .selectGroupCode(groupCodeSearch)
                 .orElseThrow(() -> new RestException(Message.Exception.NOT_FOUND, Label.Code.GROUP_CODE));
 
+        if (groupCode.hasEnabledCommonCodes()) {
+            throw new RestException(Message.Code.GROUP_CODE_DELETE_FAILURE_BY_ENABLED_COMMON_CODE);
+        }
+
         if (groupCode.hasCommonCodes()) {
             groupCodeRepository.deleteCommonCodesByGroupCodeDelete(groupCodeDelete);
         }

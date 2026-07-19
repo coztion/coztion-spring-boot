@@ -29,4 +29,8 @@ public class DataRecord {
 
     @Schema(description = "Updated Date Time", example = "2024-01-02T12:00:00")
     private LocalDateTime updatedAt = LocalDateTime.now();
+
+    public boolean isEnabled() {
+        return dataStatus.isEnabled();
+    }
 }

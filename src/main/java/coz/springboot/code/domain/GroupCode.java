@@ -32,6 +32,13 @@ public class GroupCode extends DataRecord {
     @Schema(description = "Common Code List")
     private List<CommonCode> commonCodes;
 
+    public boolean hasEnabledCommonCodes() {
+        if (CollectionUtils.isEmpty(commonCodes)) {
+            return false;
+        }
+        return commonCodes.stream().anyMatch(DataRecord::isEnabled);
+    }
+
     public boolean hasCommonCodes() {
         return !CollectionUtils.isEmpty(commonCodes);
     }
