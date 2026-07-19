@@ -36,7 +36,7 @@ public class Message {
 
     public static class Code {
 
-        public static final String GROUP_CODE_COMMON_CODE_ENABLED_DELETE_FAILURE =
-                "message.code.GROUP_CODE_COMMON_CODE_ENABLED_DELETE_FAILURE";
+        public static final String GROUP_CODE_DELETE_FAILURE_BY_ENABLED_COMMON_CODE =
+                "message.code.GROUP_CODE_DELETE_FAILURE_BY_ENABLED_COMMON_CODE";
     }
 }
