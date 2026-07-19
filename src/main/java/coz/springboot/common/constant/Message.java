@@ -10,7 +10,9 @@ public class Message {
 
         public static final String INTERNAL_SERVER_ERROR = "message.exception.INTERNAL_SERVER_ERROR";
 
-        public static final String CREATE_FAILURE = "message.exception.CREATE_FAILURE";
+        public static final String SAVE_FAILURE = "message.exception.SAVE_FAILURE";
+
+        public static final String SAVE_EXIST_FAILURE = "message.exception.SAVE_EXIST_FAILURE";
 
         public static final String UPDATE_FAILURE = "message.exception.UPDATE_FAILURE";
 

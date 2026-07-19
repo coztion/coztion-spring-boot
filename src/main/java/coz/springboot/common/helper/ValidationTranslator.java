@@ -19,6 +19,7 @@ public class ValidationTranslator {
         return switch (constraintName) {
             case "NotNull", "NotBlank", "NotEmpty" -> translateRequired(fieldError);
             case "Size" -> translateSize(fieldError);
+            case "Min", "Max" -> translateBound(fieldError, constraintName);
             default -> messageTranslator.translate(Message.Exception.BAD_REQUEST);
         };
     }
@@ -55,5 +56,18 @@ public class ValidationTranslator {
             return messageTranslator.translateWithArgs(Message.Validation.MAX_SIZE_INVALID, fieldLabel, max);
         }
         return messageTranslator.translateWithArgs(Message.Validation.INVALID_SIZE, fieldLabel);
+    }
+
+    private String translateBound(FieldError fieldError, String constraintName) {
+        String fieldLabel = messageTranslator.translate(fieldError.getDefaultMessage());
+        Object[] args = fieldError.getArguments();
+        if (args == null || args.length < 2) {
+            return messageTranslator.translate(Message.Exception.BAD_REQUEST);
+        }
+
+        String messageCode = "Min".equals(constraintName)
+                ? Message.Validation.MIN_SIZE_INVALID
+                : Message.Validation.MAX_SIZE_INVALID;
+        return messageTranslator.translateWithArgs(messageCode, fieldLabel, args[1]);
     }
 }
