@@ -1,5 +1,5 @@
 INSERT INTO TB_MENU (MENU_ID, MENU_NAME, MENU_TYPE, URL, PARENT_MENU_ID, SORT_ORDER)
 VALUES ('MAIN', 'Main', 'PAGE', '/', NULL, 100)
      , ('ADMIN', 'Admin', 'GRP_NAV', '/admin', NULL, 900)
-     , ('CODE_MANAGEMENT', 'Code', 'NAV', '/admin/code-management', 'ADMIN', 910)
-     , ('MENU_MANAGEMENT', 'Menu', 'NAV', '/admin/menu-management', 'ADMIN', 920)
+     , ('CODE_MANAGEMENT', 'Code Management', 'NAV', '/admin/code-management', 'ADMIN', 910)
+     , ('MENU_MANAGEMENT', 'Menu Management', 'NAV', '/admin/menu-management', 'ADMIN', 920)
