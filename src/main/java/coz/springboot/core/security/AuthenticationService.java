@@ -1,4 +1,4 @@
-package coz.springboot.common.security;
+package coz.springboot.core.security;
 
 import java.util.Optional;
 
@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import coz.springboot.common.constant.Label;
 import coz.springboot.common.constant.Message;
-import coz.springboot.common.helper.MessageTranslator;
+import coz.springboot.common.translator.MessageTranslator;
 import coz.springboot.user.UserService;
 import coz.springboot.user.domain.SessionUser;
 import coz.springboot.user.domain.User;

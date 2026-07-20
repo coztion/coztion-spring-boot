@@ -1,4 +1,4 @@
-package coz.springboot.common.helper;
+package coz.springboot.common.translator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;

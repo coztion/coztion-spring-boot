@@ -1,4 +1,4 @@
-package coz.springboot.common.helper;
+package coz.springboot.core.security;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
@@ -21,7 +21,7 @@ import io.jsonwebtoken.security.Keys;
 import coz.springboot.user.domain.SessionUser;
 
 @Component
-public class SessionFactory {
+public class AuthenticationFactory {
 
     @Value("${spring.security.secret.token}")
     private String tokenSecret;

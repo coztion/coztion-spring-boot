@@ -1,4 +1,4 @@
-package coz.springboot.common.security;
+package coz.springboot.core.security;
 
 import java.util.Map;
 
