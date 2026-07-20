@@ -23,7 +23,7 @@ import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import coz.springboot.common.redis.RedisRepository;
+import coz.springboot.common.cache.RedisRepository;
 import coz.springboot.user.domain.SessionUser;
 
 @Slf4j

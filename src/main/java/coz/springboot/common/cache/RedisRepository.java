@@ -1,4 +1,4 @@
-package coz.springboot.common.redis;
+package coz.springboot.common.cache;
 
 import java.time.Duration;
 import java.util.Optional;

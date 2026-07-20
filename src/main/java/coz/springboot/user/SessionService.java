@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.common.redis.RedisRepository;
+import coz.springboot.common.cache.RedisRepository;
 
 @Service
 @RequiredArgsConstructor
