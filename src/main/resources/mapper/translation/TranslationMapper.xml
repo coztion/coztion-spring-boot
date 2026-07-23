@@ -32,6 +32,9 @@
         <if test="dataStatus != null">
            AND DATA_STATUS = #{dataStatus}
         </if>
+        <if test="translationKey != null and translationKey != ''">
+           AND CONCAT(TRANSLATION_GROUP, '.', TRANSLATION_TYPE, '.', TRANSLATION_CODE) LIKE CONCAT('%', #{translationKey}, '%')
+        </if>
     </select>
 
 </mapper>

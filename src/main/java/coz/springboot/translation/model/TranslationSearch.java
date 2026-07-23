@@ -33,6 +33,9 @@ public class TranslationSearch extends Pagination {
     @Schema(description = "Data Status")
     private DataStatus dataStatus;
 
+    @Schema(description = "Translation Key(group.type.code)")
+    private String translationKey;
+
     public static TranslationSearch ofEnabled() {
         return TranslationSearch.builder().dataStatus(DataStatus.ENABLED).build();
     }
