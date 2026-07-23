@@ -9,12 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.code.domain.GroupCode;
-import coz.springboot.code.domain.GroupCodeDelete;
-import coz.springboot.code.domain.GroupCodeSave;
-import coz.springboot.code.domain.GroupCodeSearch;
-import coz.springboot.code.domain.GroupCodeUpdate;
-import coz.springboot.code.domain.GroupCodesSearch;
+import coz.springboot.code.model.GroupCode;
+import coz.springboot.code.model.GroupCodeDelete;
+import coz.springboot.code.model.GroupCodeSave;
+import coz.springboot.code.model.GroupCodeSearch;
+import coz.springboot.code.model.GroupCodeUpdate;
+import coz.springboot.code.model.GroupCodesSearch;
 import coz.springboot.common.constant.Message;
 import coz.springboot.common.exception.RestException;
 

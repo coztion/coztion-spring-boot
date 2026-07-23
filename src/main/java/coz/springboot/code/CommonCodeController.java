@@ -12,8 +12,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.code.domain.CommonCode;
-import coz.springboot.code.domain.CommonCodesSearch;
+import coz.springboot.code.model.CommonCode;
+import coz.springboot.code.model.CommonCodesSearch;
 import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
 

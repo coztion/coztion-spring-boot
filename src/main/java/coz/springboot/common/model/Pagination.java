@@ -1,4 +1,4 @@
-package coz.springboot.common.domain;
+package coz.springboot.common.model;
 
 import java.util.Objects;
 

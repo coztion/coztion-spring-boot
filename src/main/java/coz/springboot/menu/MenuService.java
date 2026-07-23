@@ -15,11 +15,11 @@ import lombok.RequiredArgsConstructor;
 
 import coz.springboot.common.constant.Message;
 import coz.springboot.common.exception.RestException;
-import coz.springboot.menu.domain.Menu;
-import coz.springboot.menu.domain.MenuInfo;
-import coz.springboot.menu.domain.MenuUpdate;
-import coz.springboot.menu.domain.MenusSearch;
-import coz.springboot.user.domain.Authority;
+import coz.springboot.menu.model.Menu;
+import coz.springboot.menu.model.MenuInfo;
+import coz.springboot.menu.model.MenuUpdate;
+import coz.springboot.menu.model.MenusSearch;
+import coz.springboot.user.model.Authority;
 
 @Service
 @RequiredArgsConstructor

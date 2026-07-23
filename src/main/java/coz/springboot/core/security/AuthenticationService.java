@@ -11,9 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import coz.springboot.user.UserService;
-import coz.springboot.user.domain.SessionUser;
-import coz.springboot.user.domain.User;
-import coz.springboot.user.domain.UserSearch;
+import coz.springboot.user.model.SessionUser;
+import coz.springboot.user.model.User;
+import coz.springboot.user.model.UserSearch;
 
 @Slf4j
 @Service

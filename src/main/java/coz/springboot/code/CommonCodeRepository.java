@@ -4,8 +4,8 @@ import com.github.pagehelper.Page;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import coz.springboot.code.domain.CommonCode;
-import coz.springboot.code.domain.CommonCodesSearch;
+import coz.springboot.code.model.CommonCode;
+import coz.springboot.code.model.CommonCodesSearch;
 
 @Mapper
 public interface CommonCodeRepository {

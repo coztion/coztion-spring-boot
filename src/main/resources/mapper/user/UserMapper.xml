@@ -2,15 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="coz.springboot.user.UserRepository">
 
-    <resultMap id="findUserByParamMap" type="coz.springboot.user.domain.User">
+    <resultMap id="findUserByParamMap" type="coz.springboot.user.model.User">
         <id property="username" column="USERNAME" />
-        <collection property="authorities" ofType="coz.springboot.user.domain.Authority">
+        <collection property="authorities" ofType="coz.springboot.user.model.Authority">
             <result property="authorityCode" column="AUTHORITY_CODE"/>
         </collection>
     </resultMap>
 
     <select id="selectUser"
-            parameterType="coz.springboot.user.domain.UserSearch"
+            parameterType="coz.springboot.user.model.UserSearch"
             resultMap="findUserByParamMap">
         SELECT U.USERNAME
              , U.PASSWORD

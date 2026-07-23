@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="coz.springboot.code.GroupCodeRepository">
 
-    <resultMap id="groupCodeMap" type="coz.springboot.code.domain.GroupCode">
+    <resultMap id="groupCodeMap" type="coz.springboot.code.model.GroupCode">
         <id property="groupCode" column="GROUP_CODE" />
-        <collection property="commonCodes" ofType="coz.springboot.code.domain.CommonCode">
+        <collection property="commonCodes" ofType="coz.springboot.code.model.CommonCode">
             <id property="commonCode" column="COMMON_CODE" />
             <result property="groupCode" column="COMMON_CODE_GROUP_CODE" />
             <result property="dataStatus" column="COMMON_CODE_DATA_STATUS" />
@@ -16,7 +16,7 @@
     </resultMap>
 
     <select id="selectGroupCodes"
-            parameterType="coz.springboot.code.domain.GroupCodesSearch"
+            parameterType="coz.springboot.code.model.GroupCodesSearch"
             resultMap="groupCodeMap">
         SELECT GC.GROUP_CODE
              , GC.GROUP_CODE_NAME
@@ -65,7 +65,7 @@
     </select>
 
     <select id="selectGroupCode"
-            parameterType="coz.springboot.code.domain.GroupCodeSearch"
+            parameterType="coz.springboot.code.model.GroupCodeSearch"
             resultMap="groupCodeMap">
         SELECT GC.GROUP_CODE
              , GC.GROUP_CODE_NAME
@@ -102,7 +102,7 @@
     </select>
 
     <insert id="insertGroupCode"
-            parameterType="coz.springboot.code.domain.GroupCodeSave">
+            parameterType="coz.springboot.code.model.GroupCodeSave">
         INSERT INTO TB_GROUP_CODE (
             GROUP_CODE
           , GROUP_CODE_NAME
@@ -123,7 +123,7 @@
     </insert>
 
     <update id="updateGroupCode"
-            parameterType="coz.springboot.code.domain.GroupCodeUpdate">
+            parameterType="coz.springboot.code.model.GroupCodeUpdate">
         UPDATE TB_GROUP_CODE
            SET GROUP_CODE_NAME = #{groupCodeName}
              , GROUP_CODE_DESC = #{groupCodeDescription}
@@ -135,7 +135,7 @@
     </update>
 
     <update id="updateCommonCodesByGroupCodeUpdate"
-            parameterType="coz.springboot.code.domain.GroupCodeUpdate">
+            parameterType="coz.springboot.code.model.GroupCodeUpdate">
         UPDATE TB_COMMON_CODE
            SET DATA_STATUS = #{dataStatus}
              , UPDATED_BY  = #{author}
@@ -145,7 +145,7 @@
     </update>
 
     <update id="deleteGroupCode"
-            parameterType="coz.springboot.code.domain.GroupCodeDelete">
+            parameterType="coz.springboot.code.model.GroupCodeDelete">
         UPDATE TB_GROUP_CODE
            SET DATA_STATUS = 'DELETED'
              , UPDATED_BY  = #{author}
@@ -154,7 +154,7 @@
     </update>
 
     <update id="deleteCommonCodesByGroupCodeDelete"
-            parameterType="coz.springboot.code.domain.GroupCodeDelete">
+            parameterType="coz.springboot.code.model.GroupCodeDelete">
         UPDATE TB_COMMON_CODE
            SET DATA_STATUS = 'DELETED'
              , UPDATED_BY  = #{author}

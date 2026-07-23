@@ -1,4 +1,4 @@
-package coz.springboot.menu.domain;
+package coz.springboot.menu.model;
 
 import java.util.List;
 
@@ -7,9 +7,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import coz.springboot.common.domain.Pagination;
 import coz.springboot.common.enums.DataStatus;
-import coz.springboot.user.domain.Authority;
+import coz.springboot.common.model.Pagination;
+import coz.springboot.user.model.Authority;
 
 @Getter
 @Setter

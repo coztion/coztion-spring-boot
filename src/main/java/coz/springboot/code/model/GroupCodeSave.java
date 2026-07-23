@@ -1,4 +1,4 @@
-package coz.springboot.code.domain;
+package coz.springboot.code.model;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
