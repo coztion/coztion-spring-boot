@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coz.springboot.translation.TranslationRepository">
+
+    <select id="selectTranslations"
+            parameterType="coz.springboot.translation.model.TranslationSearch"
+            resultType="coz.springboot.translation.model.Translation">
+        SELECT TRANSLATION_GROUP
+             , TRANSLATION_TYPE
+             , TRANSLATION_CODE
+             , TRANSLATION_LOCALE
+             , TRANSLATION_CONTENT
+             , DATA_STATUS
+             , CREATED_BY
+             , CREATED_AT
+             , UPDATED_BY
+             , UPDATED_AT
+          FROM TRANSLATION
+         WHERE TRUE
+        <if test="translationGroup != null and translationGroup != ''">
+           AND TRANSLATION_GROUP = #{translationGroup}
+        </if>
+        <if test="translationType != null and translationType != ''">
+           AND TRANSLATION_TYPE = #{translationType}
+        </if>
+        <if test="translationCode != null and translationCode != ''">
+           AND TRANSLATION_CODE = #{translationCode}
+        </if>
+        <if test="translationLocale != null and translationLocale != ''">
+           AND TRANSLATION_LOCALE = #{translationLocale}
+        </if>
+        <if test="dataStatus != null">
+           AND DATA_STATUS = #{dataStatus}
+        </if>
+    </select>
+
+</mapper>
