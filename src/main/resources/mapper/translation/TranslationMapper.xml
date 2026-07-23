@@ -24,7 +24,7 @@
            AND TRANSLATION_TYPE = #{translationType}
         </if>
         <if test="translationCode != null and translationCode != ''">
-           AND TRANSLATION_CODE = #{translationCode}
+           AND TRANSLATION_CODE LIKE CONCAT('%', #{translationCode}, '%')
         </if>
         <if test="translationLocale != null and translationLocale != ''">
            AND TRANSLATION_LOCALE = #{translationLocale}
