@@ -9,9 +9,7 @@ import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;
 
-import coz.springboot.common.constant.Message;
 import coz.springboot.common.enums.ValueEnum;
-import coz.springboot.common.exception.RestException;
 
 @MappedTypes(ValueEnum.class)
 public class ValueEnumTypeHandler<E extends Enum<E> & ValueEnum> extends BaseTypeHandler<E> {
@@ -54,6 +52,6 @@ public class ValueEnumTypeHandler<E extends Enum<E> & ValueEnum> extends BaseTyp
                 return e;
             }
         }
-        throw new RestException(Message.Exception.INTERNAL_SERVER_ERROR);
+        throw new IllegalArgumentException();
     }
 }

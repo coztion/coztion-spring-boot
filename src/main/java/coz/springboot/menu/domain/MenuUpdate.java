@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import coz.springboot.common.constant.Message;
 import coz.springboot.common.enums.DataStatus;
 
 @Getter
@@ -19,7 +20,7 @@ public class MenuUpdate {
     private String targetMenuId;
 
     @Schema(description = "Menu Name")
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 100, message = Message.Menu.Label.MENU_NAME)
     private String menuName;
 
     @Schema(description = "Data Status")

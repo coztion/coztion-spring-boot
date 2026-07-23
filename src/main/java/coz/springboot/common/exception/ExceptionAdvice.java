@@ -27,33 +27,39 @@ public class ExceptionAdvice {
         String errorMessage = validationTranslator.translate(
                 exception.getBindingResult().getFieldErrors().getFirst());
         log.error("[VALIDATION] : {}", errorMessage);
-        return ResponseEntity.ok().body(RestResponse.ofFailure(errorMessage));
+        return ResponseEntity.ok().body(RestResponse.ofFailureMessage(errorMessage));
     }
 
     @ExceptionHandler(RestException.class)
     public ResponseEntity<RestResponse<String>> handleRestException(RestException exception) {
-        String errorMessage = translateMessage(exception);
-        log.error("[FAILURE] : {}", errorMessage);
-        return ResponseEntity.ok(RestResponse.ofFailure(errorMessage));
+        boolean hasExistingMessageCode = messageTranslator.hasExistingMessageCode(exception.getMessageCode());
+        if (hasExistingMessageCode) {
+            final String failureMessage = translateMessage(exception);
+            log.error("[FAILURE] : {}", failureMessage);
+            return ResponseEntity.ok().body(RestResponse.ofFailureMessage(failureMessage));
+        }
+
+        log.error("[FAILURE] : {}", exception.getMessageCode());
+        return ResponseEntity.ok(RestResponse.ofFailureCode(exception.getMessageCode()));
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<RestResponse<String>> handleException(Exception exception) {
+    public ResponseEntity<RestResponse<Void>> handleException(Exception exception) {
         log.error("[ERROR] : {}", exception.getMessage());
 
-        String errorMessage = messageTranslator.translate(Message.Exception.INTERNAL_SERVER_ERROR);
-        return ResponseEntity.internalServerError().body(RestResponse.ofFailure(errorMessage));
+        return ResponseEntity.internalServerError()
+                .body(RestResponse.ofFailureCode(Message.Common.Failure.INTERNAL_SERVER_ERROR_FAILURE));
     }
 
     private String translateMessage(RestException exception) {
         if (exception.hasMessageKey() && exception.hasLabelKeys()) {
-            return messageTranslator.translate(exception.getMessageKey(), exception.getLabelKeys());
+            return messageTranslator.translate(exception.getMessageCode(), exception.getLabelCodes());
         }
 
         if (exception.hasMessageKey()) {
-            return messageTranslator.translate(exception.getMessageKey());
+            return messageTranslator.translate(exception.getMessageCode());
         }
 
-        return exception.getMessageKey();
+        return exception.getMessageCode();
     }
 }

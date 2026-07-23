@@ -10,23 +10,30 @@ import lombok.*;
 @AllArgsConstructor
 public class RestResponse<T> {
 
-    @Schema(description = "Succeed or Failure", example = "true")
+    @Schema(description = "Succeed or Failure")
     private boolean succeed;
 
-    @Schema(description = "Core Data")
+    @Schema(description = "Response data")
     private T data;
 
-    @Schema(description = "Message for failure")
+    @Schema(description = "Failure code")
+    private String failureCode;
+
+    @Schema(description = "Failure message")
     private String failureMessage;
 
     public static <T> RestResponse<T> ofSuccess(T data) {
         return RestResponse.<T>builder().succeed(true).data(data).build();
     }
 
-    public static RestResponse<String> ofFailure(String message) {
+    public static <T> RestResponse<T> ofFailureCode(String failureCode) {
+        return RestResponse.<T>builder().succeed(false).failureCode(failureCode).build();
+    }
+
+    public static RestResponse<String> ofFailureMessage(String failureMessage) {
         return RestResponse.<String>builder()
                 .succeed(false)
-                .failureMessage(message)
+                .failureMessage(failureMessage)
                 .build();
     }
 }

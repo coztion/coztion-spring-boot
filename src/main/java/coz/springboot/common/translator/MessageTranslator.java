@@ -12,7 +12,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MessageTranslator {
 
+    private static final String UNRESOLVED_MESSAGE_CODE = "__UNRESOLVED_MESSAGE_CODE__";
+
     private final MessageSource messageSource;
+
+    public boolean hasExistingMessageCode(String messageCode) {
+        String resolved =
+                messageSource.getMessage(messageCode, null, UNRESOLVED_MESSAGE_CODE, LocaleContextHolder.getLocale());
+        return !UNRESOLVED_MESSAGE_CODE.equals(resolved);
+    }
 
     public String translate(String messageCode) {
         return messageSource.getMessage(messageCode, null, LocaleContextHolder.getLocale());
