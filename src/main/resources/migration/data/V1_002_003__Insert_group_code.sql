@@ -1,2 +1,5 @@
 INSERT INTO TB_GROUP_CODE(GROUP_CODE, GROUP_CODE_NAME, GROUP_CODE_DESC, DATA_STATUS, SORT_ORDER)
 VALUES ('DATA_STATUS', 'Data Status', 'Data status', 'ENABLED', 1)
+     , ('TRANSLATION_GROUP', 'Translation Group', 'Translation Group', 'ENABLED', 2)
+     , ('TRANSLATION_TYPE', 'Translation Type', 'Translation Type(LABEL/MESSAGE)', 'ENABLED', 3)
+     , ('TRANSLATION_LOCALE', 'Translation Locale', 'Translation Locale(Language Code)', 'ENABLED', 4)
