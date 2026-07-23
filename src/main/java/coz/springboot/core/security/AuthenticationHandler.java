@@ -22,7 +22,7 @@ import lombok.SneakyThrows;
 
 import coz.springboot.common.cache.RedisRepository;
 import coz.springboot.common.dto.RestResponse;
-import coz.springboot.user.domain.SessionUser;
+import coz.springboot.user.model.SessionUser;
 
 @Component
 @RequiredArgsConstructor

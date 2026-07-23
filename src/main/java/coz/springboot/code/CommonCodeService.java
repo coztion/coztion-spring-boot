@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.code.domain.CommonCode;
-import coz.springboot.code.domain.CommonCodesSearch;
+import coz.springboot.code.model.CommonCode;
+import coz.springboot.code.model.CommonCodesSearch;
 
 @Service
 @RequiredArgsConstructor

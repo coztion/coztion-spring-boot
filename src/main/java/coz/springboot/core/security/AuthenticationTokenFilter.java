@@ -23,7 +23,7 @@ import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import coz.springboot.user.domain.SessionUser;
+import coz.springboot.user.model.SessionUser;
 
 @Slf4j
 @Component

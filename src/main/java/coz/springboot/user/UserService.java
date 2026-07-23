@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.user.domain.User;
-import coz.springboot.user.domain.UserSearch;
+import coz.springboot.user.model.User;
+import coz.springboot.user.model.UserSearch;
 
 @Service
 @RequiredArgsConstructor

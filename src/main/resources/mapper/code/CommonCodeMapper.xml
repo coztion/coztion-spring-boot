@@ -3,8 +3,8 @@
 <mapper namespace="coz.springboot.code.CommonCodeRepository">
 
     <select id="selectCommonCodes"
-            parameterType="coz.springboot.code.domain.CommonCodesSearch"
-            resultType="coz.springboot.code.domain.CommonCode">
+            parameterType="coz.springboot.code.model.CommonCodesSearch"
+            resultType="coz.springboot.code.model.CommonCode">
         SELECT GROUP_CODE
              , COMMON_CODE
              , COMMON_CODE_NAME

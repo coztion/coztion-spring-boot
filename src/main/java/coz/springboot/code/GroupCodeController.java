@@ -12,15 +12,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.code.domain.GroupCode;
-import coz.springboot.code.domain.GroupCodeDelete;
-import coz.springboot.code.domain.GroupCodeSave;
-import coz.springboot.code.domain.GroupCodeSearch;
-import coz.springboot.code.domain.GroupCodeUpdate;
-import coz.springboot.code.domain.GroupCodesSearch;
+import coz.springboot.code.model.GroupCode;
+import coz.springboot.code.model.GroupCodeDelete;
+import coz.springboot.code.model.GroupCodeSave;
+import coz.springboot.code.model.GroupCodeSearch;
+import coz.springboot.code.model.GroupCodeUpdate;
+import coz.springboot.code.model.GroupCodesSearch;
 import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
-import coz.springboot.user.domain.SessionUser;
+import coz.springboot.user.model.SessionUser;
 
 @Tag(name = "Group Code", description = "Group Code API")
 @RestController

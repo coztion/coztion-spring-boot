@@ -3,8 +3,8 @@
 <mapper namespace="coz.springboot.menu.MenuRepository">
 
     <select id="selectMenus"
-            parameterType="coz.springboot.menu.domain.MenusSearch"
-            resultType="coz.springboot.menu.domain.Menu">
+            parameterType="coz.springboot.menu.model.MenusSearch"
+            resultType="coz.springboot.menu.model.Menu">
         SELECT DISTINCT M.MENU_ID
              , M.MENU_NAME
              , M.MENU_TYPE
@@ -38,7 +38,7 @@
 
 
     <select id="selectMenuInfos"
-            resultType="coz.springboot.menu.domain.MenuInfo">
+            resultType="coz.springboot.menu.model.MenuInfo">
         WITH RECURSIVE MENU_INFO AS (
             SELECT M.MENU_ID
                  , M.MENU_NAME
@@ -78,7 +78,7 @@
 
 
     <update id="updateMenu"
-            parameterType="coz.springboot.menu.domain.MenuUpdate">
+            parameterType="coz.springboot.menu.model.MenuUpdate">
         UPDATE TB_MENU
         <set>
             <if test="menuName != null">MENU_NAME = #{menuName},</if>
