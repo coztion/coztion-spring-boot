@@ -27,4 +27,13 @@ public class Translation extends DataRecord {
 
     @Schema(description = "Translation Content")
     private String translationContent;
+
+    public TranslationInfo toTranslationInfo() {
+        return TranslationInfo.builder()
+                .translationGroup(translationGroup)
+                .translationType(translationType)
+                .translationCode(translationCode)
+                .translationContent(translationContent)
+                .build();
+    }
 }
