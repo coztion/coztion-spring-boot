@@ -61,7 +61,7 @@ public class AuthenticationHandler
     public void onAuthenticationFailure(
             HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
         handleAuthenticationFailure(response);
-        writeJson(response, RestResponse.ofFailure(exception.getMessage()));
+        writeJson(response, RestResponse.ofFailureMessage(exception.getMessage()));
     }
 
     public void handleAuthenticationSuccess(SessionUser sessionUser, HttpServletResponse response) {
@@ -93,7 +93,7 @@ public class AuthenticationHandler
     public void commence(
             HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
         handleAuthenticationFailure(response);
-        writeJson(response, RestResponse.ofFailure(authException.getMessage()));
+        writeJson(response, RestResponse.ofFailureMessage(authException.getMessage()));
     }
 
     private void writeJson(HttpServletResponse response, RestResponse<?> body) throws IOException {

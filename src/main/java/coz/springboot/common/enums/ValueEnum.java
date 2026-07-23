@@ -4,19 +4,16 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 import org.springframework.util.StringUtils;
 
-import coz.springboot.common.constant.Message;
-import coz.springboot.common.exception.RestException;
-
 public interface ValueEnum {
 
-    static <E extends Enum<E> & ValueEnum> E ofValue(Class<E> type, String value, String label) {
+    static <E extends Enum<E> & ValueEnum> E ofValue(Class<E> type, String value) {
         if (!StringUtils.hasText(value)) return null;
 
         for (E e : type.getEnumConstants()) {
             if (e.getValue().equals(value)) return e;
         }
 
-        throw new RestException(Message.Exception.BAD_REQUEST, label);
+        throw new IllegalArgumentException();
     }
 
     @JsonValue

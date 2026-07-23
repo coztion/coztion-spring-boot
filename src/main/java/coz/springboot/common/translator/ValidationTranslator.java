@@ -1,7 +1,6 @@
 package coz.springboot.common.translator;
 
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.FieldError;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,7 @@ public class ValidationTranslator {
             case "NotNull", "NotBlank", "NotEmpty" -> translateRequired(fieldError);
             case "Size" -> translateSize(fieldError);
             case "Min", "Max" -> translateBound(fieldError, constraintName);
-            default -> messageTranslator.translate(Message.Exception.BAD_REQUEST);
+            default -> messageTranslator.translate(Message.Common.Failure.REQUEST_VALIDATION_FAILURE);
         };
     }
 
@@ -30,44 +29,46 @@ public class ValidationTranslator {
     }
 
     private String translateRequired(FieldError fieldError) {
-        if (!StringUtils.hasText(fieldError.getDefaultMessage())) {
-            return messageTranslator.translate(Message.Validation.REQUIRED_MISSING);
-        }
-        return messageTranslator.translate(Message.Validation.FIELD_IS_REQUIRED, fieldError.getDefaultMessage());
+        return messageTranslator.translate(
+                Message.Common.Failure.REQUIRED_VALIDATION_FAILURE, fieldError.getDefaultMessage());
     }
 
     private String translateSize(FieldError fieldError) {
         String fieldLabel = messageTranslator.translate(fieldError.getDefaultMessage());
         Object[] args = fieldError.getArguments();
         if (args == null || args.length < 3) {
-            return messageTranslator.translateWithArgs(Message.Validation.INVALID_SIZE, fieldLabel);
+            return messageTranslator.translate(Message.Common.Failure.REQUEST_VALIDATION_FAILURE);
         }
 
         int max = (Integer) args[1];
         int min = (Integer) args[2];
 
         if (min > 0 && max < Integer.MAX_VALUE) {
-            return messageTranslator.translateWithArgs(Message.Validation.RANGE_SIZE_INVALID, fieldLabel, min, max);
+            return messageTranslator.translateWithArgs(
+                    Message.Common.Failure.RANGE_SIZE_VALIDATION_FAILURE, fieldLabel, min, max);
         }
         if (min > 0) {
-            return messageTranslator.translateWithArgs(Message.Validation.MIN_SIZE_INVALID, fieldLabel, min);
+            return messageTranslator.translateWithArgs(
+                    Message.Common.Failure.MIN_SIZE_VALIDATION_FAILURE, fieldLabel, min);
         }
         if (max < Integer.MAX_VALUE) {
-            return messageTranslator.translateWithArgs(Message.Validation.MAX_SIZE_INVALID, fieldLabel, max);
+            return messageTranslator.translateWithArgs(
+                    Message.Common.Failure.MAX_SIZE_VALIDATION_FAILURE, fieldLabel, max);
         }
-        return messageTranslator.translateWithArgs(Message.Validation.INVALID_SIZE, fieldLabel);
+
+        return messageTranslator.translate(Message.Common.Failure.REQUEST_VALIDATION_FAILURE);
     }
 
     private String translateBound(FieldError fieldError, String constraintName) {
         String fieldLabel = messageTranslator.translate(fieldError.getDefaultMessage());
         Object[] args = fieldError.getArguments();
         if (args == null || args.length < 2) {
-            return messageTranslator.translate(Message.Exception.BAD_REQUEST);
+            return messageTranslator.translate(Message.Common.Failure.REQUEST_VALIDATION_FAILURE);
         }
 
         String messageCode = "Min".equals(constraintName)
-                ? Message.Validation.MIN_SIZE_INVALID
-                : Message.Validation.MAX_SIZE_INVALID;
+                ? Message.Common.Failure.MIN_SIZE_VALIDATION_FAILURE
+                : Message.Common.Failure.MAX_SIZE_VALIDATION_FAILURE;
         return messageTranslator.translateWithArgs(messageCode, fieldLabel, args[1]);
     }
 }

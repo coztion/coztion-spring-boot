@@ -8,25 +8,25 @@ import lombok.Getter;
 @Getter
 public class RestException extends RuntimeException {
 
-    private final String messageKey;
+    private final String messageCode;
 
-    private final String[] labelKeys;
+    private final String[] labelCodes;
 
-    public RestException(String messageKey) {
-        this.messageKey = messageKey;
-        this.labelKeys = null;
+    public RestException(String messageCode) {
+        this.messageCode = messageCode;
+        this.labelCodes = null;
     }
 
-    public RestException(String messageKey, String... labelKeys) {
-        this.messageKey = messageKey;
-        this.labelKeys = labelKeys;
+    public RestException(String messageCode, String... labelCodes) {
+        this.messageCode = messageCode;
+        this.labelCodes = labelCodes;
     }
 
     public boolean hasMessageKey() {
-        return StringUtils.hasText(messageKey);
+        return StringUtils.hasText(messageCode);
     }
 
     public boolean hasLabelKeys() {
-        return !ObjectUtils.isEmpty(labelKeys);
+        return !ObjectUtils.isEmpty(labelCodes);
     }
 }
