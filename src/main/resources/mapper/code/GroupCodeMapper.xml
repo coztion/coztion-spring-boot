@@ -17,7 +17,7 @@
 
     <select id="selectGroupCodes"
             parameterType="coz.springboot.code.model.GroupCodesSearch"
-            resultMap="groupCodeMap">
+            resultType="coz.springboot.code.model.GroupCode">
         SELECT GC.GROUP_CODE
              , GC.GROUP_CODE_NAME
              , GC.GROUP_CODE_DESC AS GROUP_CODE_DESCRIPTION
@@ -27,20 +27,7 @@
              , GC.CREATED_AT
              , GC.UPDATED_BY
              , GC.UPDATED_AT
-             , CC.GROUP_CODE AS COMMON_CODE_GROUP_CODE
-             , CC.COMMON_CODE
-             , CC.COMMON_CODE_NAME
-             , CC.COMMON_CODE_DESC AS COMMON_CODE_DESCRIPTION
-             , CC.DATA_STATUS AS COMMON_CODE_DATA_STATUS
-             , CC.SORT_ORDER
-             , CC.CREATED_AT AS COMMON_CODE_CREATED_AT
-             , CC.CREATED_BY AS COMMON_CODE_CREATED_BY
-             , CC.UPDATED_AT AS COMMON_CODE_UPDATED_AT
-             , CC.UPDATED_BY AS COMMON_CODE_UPDATED_BY
           FROM TB_GROUP_CODE GC
-          LEFT JOIN TB_COMMON_CODE CC
-                 ON GC.GROUP_CODE = CC.GROUP_CODE
-                AND CC.DATA_STATUS != 'DELETED'
          WHERE TRUE
             <if test="groupCodes != null and !groupCodes.isEmpty()">
            AND GC.GROUP_CODE IN
@@ -55,13 +42,18 @@
            AND GC.GROUP_CODE_NAME LIKE CONCAT('%', #{groupCodeName}, '%')
             </if>
             <if test="commonCodeName != null and commonCodeName != ''">
-           AND CC.COMMON_CODE_NAME LIKE CONCAT('%', #{commonCodeName}, '%')
+           AND EXISTS (
+               SELECT 1 FROM TB_COMMON_CODE CC
+                WHERE CC.GROUP_CODE = GC.GROUP_CODE
+                  AND CC.DATA_STATUS != 'DELETED'
+                  AND CC.COMMON_CODE_NAME LIKE CONCAT('%', #{commonCodeName}, '%')
+           )
             </if>
             <if test="dataStatus != null">
            AND GC.DATA_STATUS = #{dataStatus}
             </if>
            AND GC.DATA_STATUS != 'DELETED'
-         ORDER BY GC.SORT_ORDER, CC.SORT_ORDER
+         ORDER BY GC.SORT_ORDER
     </select>
 
     <select id="selectGroupCode"
