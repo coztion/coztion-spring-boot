@@ -24,6 +24,6 @@ public class TranslationInfo {
     @SuppressWarnings("unused")
     @Schema(description = "Translation Key(group.type.code)")
     public String getTranslationKey() {
-        return translationGroup + "." + translationType + "." + translationCode;
+        return translationGroup.toLowerCase() + "." + translationType.toLowerCase() + "." + translationCode;
     }
 }
