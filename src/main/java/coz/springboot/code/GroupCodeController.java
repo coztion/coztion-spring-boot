@@ -20,6 +20,8 @@ import coz.springboot.code.model.GroupCodeUpdate;
 import coz.springboot.code.model.GroupCodesSearch;
 import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
+import coz.springboot.core.security.Authorize;
+import coz.springboot.menu.model.MenuId;
 import coz.springboot.user.model.SessionUser;
 
 @Tag(name = "Group Code", description = "Group Code API")
@@ -32,6 +34,7 @@ public class GroupCodeController {
 
     @Operation(summary = "Get Group Codes")
     @GetMapping
+    @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
     public RestResponse<PageResponse<GroupCode>> getGroupCodes(
             @Valid @ModelAttribute GroupCodesSearch groupCodesSearch) {
         Page<GroupCode> groupCodes = groupCodeService.getGroupCodes(groupCodesSearch);
@@ -40,6 +43,7 @@ public class GroupCodeController {
 
     @Operation(summary = "Get Group Code")
     @GetMapping("/{groupCode}")
+    @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
     public RestResponse<GroupCode> getGroupCode(
             @PathVariable String groupCode, @ModelAttribute GroupCodeSearch groupCodeSearch) {
         groupCodeSearch.setGroupCode(groupCode);
@@ -49,6 +53,7 @@ public class GroupCodeController {
 
     @Operation(summary = "Post Group Code")
     @PostMapping
+    @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
     public RestResponse<GroupCode> postGroupCode(
             @Valid @RequestBody GroupCodeSave groupCodeSave, @AuthenticationPrincipal SessionUser sessionUser) {
         groupCodeSave.setAuthor(sessionUser.getUsername());
@@ -58,6 +63,7 @@ public class GroupCodeController {
 
     @Operation(summary = "Put Group Code")
     @PutMapping("/{groupCode}")
+    @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
     public RestResponse<GroupCode> putGroupCode(
             @PathVariable String groupCode,
             @Valid @RequestBody GroupCodeUpdate groupCodeUpdate,
@@ -70,6 +76,7 @@ public class GroupCodeController {
 
     @Operation(summary = "Delete Group Code")
     @DeleteMapping("/{groupCode}")
+    @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
     public RestResponse<Boolean> deleteGroupCode(
             @PathVariable String groupCode, @AuthenticationPrincipal SessionUser sessionUser) {
         GroupCodeDelete groupCodeDelete = GroupCodeDelete.builder()

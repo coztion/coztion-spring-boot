@@ -16,10 +16,8 @@ import lombok.RequiredArgsConstructor;
 
 import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
-import coz.springboot.menu.model.Menu;
-import coz.springboot.menu.model.MenuInfo;
-import coz.springboot.menu.model.MenuUpdate;
-import coz.springboot.menu.model.MenusSearch;
+import coz.springboot.core.security.Authorize;
+import coz.springboot.menu.model.*;
 import coz.springboot.user.model.Authority;
 import coz.springboot.user.model.SessionUser;
 
@@ -33,6 +31,7 @@ public class MenuController {
 
     @Operation(summary = "Get Menus")
     @GetMapping
+    @Authorize(menuIds = MenuId.MENU_MANAGEMENT)
     public RestResponse<PageResponse<Menu>> getMenus(@Valid @ModelAttribute MenusSearch menusSearch) {
         Page<Menu> pagedMenus = menuService.getMenus(menusSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(pagedMenus));
@@ -47,6 +46,7 @@ public class MenuController {
 
     @Operation(summary = "Update Menu")
     @PatchMapping("/{menuId}")
+    @Authorize(menuIds = MenuId.MENU_MANAGEMENT)
     public RestResponse<Void> updateMenu(
             @PathVariable String menuId,
             @Valid @RequestBody MenuUpdate menuUpdate,
