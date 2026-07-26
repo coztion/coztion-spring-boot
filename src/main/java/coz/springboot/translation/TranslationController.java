@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 
 import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
+import coz.springboot.core.security.Authorize;
+import coz.springboot.menu.model.MenuId;
 import coz.springboot.translation.model.Translation;
 import coz.springboot.translation.model.TranslationInfo;
 import coz.springboot.translation.model.TranslationSearch;
@@ -30,6 +32,7 @@ public class TranslationController {
 
     @Operation(summary = "Get Translations")
     @GetMapping
+    @Authorize(menuIds = MenuId.TRANSLATION_MANAGEMENT)
     public RestResponse<PageResponse<Translation>> getTranslations(
             @ModelAttribute TranslationSearch translationSearch) {
         Page<Translation> translations = translationService.getTranslations(translationSearch);

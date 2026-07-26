@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coz.springboot.menu.MenuAuthorityRepository">
+
+    <select id="selectMenuAuthorities"
+            parameterType="coz.springboot.menu.model.MenuAuthoritiesSearch"
+            resultType="coz.springboot.menu.model.MenuAuthority">
+        SELECT MA.MENU_ID
+             , MA.AUTHORITY_CODE AS AUTHORITY
+          FROM TB_MENU_AUTHORITY MA
+         WHERE MA.MENU_ID IN
+        <foreach collection="menuIds" item="menuId" open="(" separator="," close=")">
+            #{menuId}
+        </foreach>
+    </select>
+
+</mapper>

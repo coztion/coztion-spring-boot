@@ -16,15 +16,22 @@
              , M.UPDATED_BY
              , M.UPDATED_AT
           FROM TB_MENU M
-        <if test="authorities != null and !authorities.isEmpty()">
-         INNER JOIN TB_MENU_AUTHORITY MA ON M.MENU_ID = MA.MENU_ID
-        </if>
          WHERE TRUE
-            <if test="authorities != null and !authorities.isEmpty()">
-           AND MA.AUTHORITY_CODE IN
-                <foreach item="authority" collection="authorities" open="(" separator="," close=")">
-                    #{authority}
+            <if test="menuIds != null and !menuIds.isEmpty()">
+           AND M.MENU_ID IN
+                <foreach item="menuId" collection="menuIds" open="(" separator="," close=")">
+                    #{menuId}
                 </foreach>
+            </if>
+            <if test="authorities != null and !authorities.isEmpty()">
+           AND EXISTS (
+               SELECT 1 FROM TB_MENU_AUTHORITY MA
+                WHERE MA.MENU_ID = M.MENU_ID
+                  AND MA.AUTHORITY_CODE IN
+                    <foreach item="authority" collection="authorities" open="(" separator="," close=")">
+                        #{authority}
+                    </foreach>
+           )
             </if>
             <if test="menuType != null">
            AND M.MENU_TYPE = #{menuType}
@@ -35,7 +42,6 @@
            AND M.DATA_STATUS != 'DELETED'
          ORDER BY M.SORT_ORDER
     </select>
-
 
     <select id="selectMenuInfos"
             resultType="coz.springboot.menu.model.MenuInfo">
@@ -75,7 +81,6 @@
           FROM MENU_INFO
          ORDER BY SORT_ORDER
     </select>
-
 
     <update id="updateMenu"
             parameterType="coz.springboot.menu.model.MenuUpdate">

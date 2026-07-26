@@ -16,6 +16,8 @@ import coz.springboot.code.model.CommonCode;
 import coz.springboot.code.model.CommonCodesSearch;
 import coz.springboot.common.dto.PageResponse;
 import coz.springboot.common.dto.RestResponse;
+import coz.springboot.core.security.Authorize;
+import coz.springboot.menu.model.MenuId;
 
 @Tag(name = "Common Code", description = "Common Code API")
 @RestController
@@ -27,6 +29,7 @@ public class CommonCodeController {
 
     @Operation(summary = "Get Common Codes")
     @GetMapping
+    @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
     public RestResponse<PageResponse<CommonCode>> getCommonCodes(@ModelAttribute CommonCodesSearch commonCodesSearch) {
         Page<CommonCode> commonCodes = commonCodeService.getCommonCodes(commonCodesSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(commonCodes));
