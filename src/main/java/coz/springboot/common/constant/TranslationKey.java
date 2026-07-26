@@ -43,6 +43,7 @@ public class TranslationKey {
         public static class Message {
 
             public static final String AUTHENTICATION_FAILURE = "user.message.AUTHENTICATION_FAILURE";
+            public static final String AUTHORIZATION_FAILURE = "user.message.AUTHORIZATION_FAILURE";
         }
     }
 
