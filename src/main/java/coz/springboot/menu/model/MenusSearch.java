@@ -18,6 +18,9 @@ import coz.springboot.user.model.Authority;
 @AllArgsConstructor
 public class MenusSearch extends Pagination {
 
+    @Schema(description = "Menu Ids")
+    private List<MenuId> menuIds;
+
     @Schema(description = "Menu Type", example = "GRP_NAV")
     private MenuType menuType;
 
@@ -26,4 +29,7 @@ public class MenusSearch extends Pagination {
 
     @Schema(description = "Authorities", hidden = true)
     private List<Authority> authorities;
+
+    @Schema(description = "Include Authorities in Result")
+    private boolean includeAuthorities;
 }

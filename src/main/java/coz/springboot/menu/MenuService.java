@@ -10,15 +10,13 @@ import com.github.pagehelper.Page;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import lombok.RequiredArgsConstructor;
 
 import coz.springboot.common.constant.TranslationKey;
 import coz.springboot.common.exception.RestException;
-import coz.springboot.menu.model.Menu;
-import coz.springboot.menu.model.MenuInfo;
-import coz.springboot.menu.model.MenuUpdate;
-import coz.springboot.menu.model.MenusSearch;
+import coz.springboot.menu.model.*;
 import coz.springboot.user.model.Authority;
 
 @Service
@@ -27,10 +25,26 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
 
+    private final MenuAuthorityRepository menuAuthorityRepository;
+
     @Transactional(readOnly = true)
     public Page<Menu> getMenus(MenusSearch menusSearch) {
         menusSearch.validatePageable();
-        return menuRepository.selectMenus(menusSearch);
+        Page<Menu> menus = menuRepository.selectMenus(menusSearch);
+
+        boolean hasMenus = !CollectionUtils.isEmpty(menus);
+        if (hasMenus && menusSearch.isIncludeAuthorities()) {
+            List<MenuId> menuIds = menus.stream().map(Menu::getMenuId).toList();
+            List<MenuAuthority> menuAuthorities =
+                    menuAuthorityRepository.selectMenuAuthorities(MenuAuthoritiesSearch.ofMenuIds(menuIds));
+            Map<MenuId, List<Authority>> menuIdMenuAuthorities = menuAuthorities.stream()
+                    .collect(Collectors.groupingBy(
+                            MenuAuthority::getMenuId,
+                            Collectors.mapping(MenuAuthority::getAuthority, Collectors.toList())));
+            menus.forEach(menu -> menu.setAuthorities(menuIdMenuAuthorities.getOrDefault(menu.getMenuId(), List.of())));
+        }
+
+        return menus;
     }
 
     @Transactional(readOnly = true)
