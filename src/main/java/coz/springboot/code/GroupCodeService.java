@@ -43,19 +43,27 @@ public class GroupCodeService {
         GroupCodeSearch searchForExistingGroupCode = GroupCodeSearch.ofGroupCode(groupCodeSave.getGroupCode());
         Optional<GroupCode> optionalExistingGroupCode = groupCodeRepository.selectGroupCode(searchForExistingGroupCode);
         if (optionalExistingGroupCode.isPresent()) {
-            throw new RestException(TranslationKey.Common.Message.DUPLICATE_FAILURE, TranslationKey.Code.Label.GROUP_CODE);
+            throw new RestException(
+                    TranslationKey.Common.Message.DUPLICATE_FAILURE,
+                    TranslationKey.Code.Label.GROUP_CODE,
+                    groupCodeSave.getGroupCode());
         }
 
         int createdCount = groupCodeRepository.insertGroupCode(groupCodeSave);
         if (createdCount == 0) {
-            throw new RestException(TranslationKey.Common.Message.CREATE_FAILURE, TranslationKey.Code.Label.GROUP_CODE);
+            throw new RestException(
+                    TranslationKey.Common.Message.CREATE_FAILURE,
+                    TranslationKey.Code.Label.GROUP_CODE,
+                    groupCodeSave.getGroupCode());
         }
 
         GroupCodeSearch groupCodeSearch = GroupCodeSearch.ofGroupCode(groupCodeSave.getGroupCode());
         Optional<GroupCode> foundGroupCode = groupCodeRepository.selectGroupCode(groupCodeSearch);
 
-        return foundGroupCode.orElseThrow(
-                () -> new RestException(TranslationKey.Common.Message.CREATE_FAILURE, TranslationKey.Code.Label.GROUP_CODE));
+        return foundGroupCode.orElseThrow(() -> new RestException(
+                TranslationKey.Common.Message.CREATE_FAILURE,
+                TranslationKey.Code.Label.GROUP_CODE,
+                groupCodeSave.getGroupCode()));
     }
 
     @Transactional
@@ -68,7 +76,10 @@ public class GroupCodeService {
 
         int updatedCount = groupCodeRepository.updateGroupCode(groupCodeUpdate);
         if (updatedCount == 0) {
-            throw new RestException(TranslationKey.Common.Message.UPDATE_FAILURE, TranslationKey.Code.Label.GROUP_CODE);
+            throw new RestException(
+                    TranslationKey.Common.Message.UPDATE_FAILURE,
+                    TranslationKey.Code.Label.GROUP_CODE,
+                    groupCodeUpdate.getTargetGroupCode());
         }
 
         if (groupCodeUpdate.hasDataStatusChanged(groupCode)) {
@@ -78,7 +89,9 @@ public class GroupCodeService {
         return groupCodeRepository
                 .selectGroupCode(groupCodeSearch)
                 .orElseThrow(() -> new RestException(
-                        TranslationKey.Common.Message.UPDATE_FAILURE, TranslationKey.Code.Label.GROUP_CODE));
+                        TranslationKey.Common.Message.UPDATE_FAILURE,
+                        TranslationKey.Code.Label.GROUP_CODE,
+                        groupCodeUpdate.getTargetGroupCode()));
     }
 
     @Transactional
@@ -98,7 +111,10 @@ public class GroupCodeService {
 
         int deletedCount = groupCodeRepository.deleteGroupCode(groupCodeDelete);
         if (deletedCount == 0) {
-            throw new RestException(TranslationKey.Common.Message.DELETE_FAILURE, TranslationKey.Code.Label.GROUP_CODE);
+            throw new RestException(
+                    TranslationKey.Common.Message.DELETE_FAILURE,
+                    TranslationKey.Code.Label.GROUP_CODE,
+                    groupCodeDelete.getTargetGroupCode());
         }
     }
 }

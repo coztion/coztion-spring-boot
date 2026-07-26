@@ -58,10 +58,13 @@ public class MenuService {
     }
 
     @Transactional
-    public void updateMenu(MenuUpdate update) {
-        int updatedMenuCount = menuRepository.updateMenu(update);
+    public void updateMenu(MenuUpdate menuUpdate) {
+        int updatedMenuCount = menuRepository.updateMenu(menuUpdate);
         if (updatedMenuCount == 0) {
-            throw new RestException(TranslationKey.Common.Message.UPDATE_FAILURE, TranslationKey.Menu.Label.MENU);
+            throw new RestException(
+                    TranslationKey.Common.Message.UPDATE_FAILURE,
+                    TranslationKey.Menu.Label.MENU,
+                    menuUpdate.getTargetMenuId());
         }
     }
 }
