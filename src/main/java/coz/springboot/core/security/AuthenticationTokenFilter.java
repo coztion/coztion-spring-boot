@@ -1,6 +1,7 @@
 package coz.springboot.core.security;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -30,6 +32,8 @@ import coz.springboot.user.model.SessionUser;
 @RequiredArgsConstructor
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
+    private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
+
     @Value("${spring.security.cookie.access-token}")
     private String accessTokenCookieName;
 
@@ -39,6 +43,9 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     @Value("${spring.security.url.refresh}")
     private String refreshUrl;
 
+    @Value("${spring.security.url.unauthenticated}")
+    private String[] unauthenticatedUrls;
+
     private final AuthenticationFactory authenticationFactory;
 
     private final AuthenticationHandler authenticationHandler;
@@ -46,7 +53,9 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String uri = request.getRequestURI();
-        return loginUrl.equals(uri) || (refreshUrl.equals(uri) && "PUT".equals(request.getMethod()));
+        return loginUrl.equals(uri)
+                || (refreshUrl.equals(uri) && "PUT".equals(request.getMethod()))
+                || Arrays.stream(unauthenticatedUrls).anyMatch(pattern -> PATH_MATCHER.match(pattern, uri));
     }
 
     @Override
