@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
 import coz.springboot.common.cache.RedisRepository;
+import coz.springboot.common.constant.TranslationKey;
 import coz.springboot.common.dto.RestResponse;
 import coz.springboot.user.model.SessionUser;
 
@@ -61,7 +62,7 @@ public class AuthenticationHandler
     public void onAuthenticationFailure(
             HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
         handleAuthenticationFailure(response);
-        writeJson(response, RestResponse.ofFailureMessage(exception.getMessage()));
+        writeJson(response, RestResponse.ofFailure(TranslationKey.User.Message.AUTHENTICATION_FAILURE));
     }
 
     public void handleAuthenticationSuccess(SessionUser sessionUser, HttpServletResponse response) {
@@ -93,7 +94,7 @@ public class AuthenticationHandler
     public void commence(
             HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
         handleAuthenticationFailure(response);
-        writeJson(response, RestResponse.ofFailureMessage(authException.getMessage()));
+        writeJson(response, RestResponse.ofFailure(TranslationKey.User.Message.AUTHENTICATION_FAILURE));
     }
 
     private void writeJson(HttpServletResponse response, RestResponse<?> body) throws IOException {

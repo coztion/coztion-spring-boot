@@ -3,7 +3,7 @@ spring:
     name: spring-boot
 
   messages:
-    basename: messages/code, messages/common, messages/menu
+    basename: message/common
     encoding: UTF-8
     fallback-to-system-locale: false
     always-use-message-format: true

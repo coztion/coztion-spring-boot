@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import coz.springboot.common.constant.Message;
+import coz.springboot.common.constant.TranslationKey;
 import coz.springboot.common.dto.RestResponse;
-import coz.springboot.common.translator.MessageTranslator;
+import coz.springboot.common.dto.RestResponse.Failure;
 import coz.springboot.common.translator.ValidationTranslator;
 
 @Slf4j
@@ -18,29 +18,23 @@ import coz.springboot.common.translator.ValidationTranslator;
 @RequiredArgsConstructor
 public class ExceptionAdvice {
 
-    private final MessageTranslator messageTranslator;
-
     private final ValidationTranslator validationTranslator;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<RestResponse<String>> handleValidationException(MethodArgumentNotValidException exception) {
-        String errorMessage = validationTranslator.translate(
+    public ResponseEntity<RestResponse<Void>> handleValidationException(MethodArgumentNotValidException exception) {
+        Failure failure = validationTranslator.translate(
                 exception.getBindingResult().getFieldErrors().getFirst());
-        log.error("[VALIDATION] : {}", errorMessage);
-        return ResponseEntity.ok().body(RestResponse.ofFailureMessage(errorMessage));
+        log.error("[VALIDATION] : {}", failure.getFailureMessageKey());
+        return ResponseEntity.ok().body(RestResponse.ofFailure(failure));
     }
 
     @ExceptionHandler(RestException.class)
-    public ResponseEntity<RestResponse<String>> handleRestException(RestException exception) {
-        boolean hasExistingMessageCode = messageTranslator.hasExistingMessageCode(exception.getMessageCode());
-        if (hasExistingMessageCode) {
-            final String failureMessage = translateMessage(exception);
-            log.error("[FAILURE] : {}", failureMessage);
-            return ResponseEntity.ok().body(RestResponse.ofFailureMessage(failureMessage));
-        }
+    public ResponseEntity<RestResponse<Void>> handleRestException(RestException exception) {
+        log.error("[FAILURE] : {}", exception.getTranslationMessageKey());
 
-        log.error("[FAILURE] : {}", exception.getMessageCode());
-        return ResponseEntity.ok(RestResponse.ofFailureCode(exception.getMessageCode()));
+        return ResponseEntity.ok()
+                .body(RestResponse.ofFailure(
+                        exception.getTranslationMessageKey(), exception.getTranslationLabelKeys()));
     }
 
     @ExceptionHandler(Exception.class)
@@ -48,18 +42,6 @@ public class ExceptionAdvice {
         log.error("[ERROR] : {}", exception.getMessage());
 
         return ResponseEntity.internalServerError()
-                .body(RestResponse.ofFailureCode(Message.Common.Failure.INTERNAL_SERVER_ERROR_FAILURE));
-    }
-
-    private String translateMessage(RestException exception) {
-        if (exception.hasMessageKey() && exception.hasLabelKeys()) {
-            return messageTranslator.translate(exception.getMessageCode(), exception.getLabelCodes());
-        }
-
-        if (exception.hasMessageKey()) {
-            return messageTranslator.translate(exception.getMessageCode());
-        }
-
-        return exception.getMessageCode();
+                .body(RestResponse.ofFailure(TranslationKey.Common.Message.INTERNAL_SERVER_ERROR_FAILURE));
     }
 }

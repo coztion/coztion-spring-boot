@@ -6,6 +6,7 @@ VALUES ('DATA_STATUS', 'ENABLED', 'Enabled', 'Data status Enabled', 'ENABLED', 1
      , ('TRANSLATION_GROUP', 'USER', 'User', 'User Translation', 'ENABLED', 2)
      , ('TRANSLATION_GROUP', 'CODE', 'Code', 'Code Translation', 'ENABLED', 3)
      , ('TRANSLATION_GROUP', 'MENU', 'Menu', 'Menu Translation', 'ENABLED', 4)
+     , ('TRANSLATION_GROUP', 'TRANSLATION', 'Translation', 'Translation Translation', 'ENABLED', 5)
      , ('TRANSLATION_TYPE', 'LABEL', 'Label', 'Label Type Translation', 'ENABLED', 1)
      , ('TRANSLATION_TYPE', 'MESSAGE', 'Message', 'Message Type Translation', 'ENABLED', 2)
      , ('TRANSLATION_LOCALE', 'EN', 'English', 'English Locale', 'ENABLED', 1)

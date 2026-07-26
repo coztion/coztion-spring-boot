@@ -3,23 +3,19 @@ package coz.springboot.common.translator;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
 
-import lombok.RequiredArgsConstructor;
-
-import coz.springboot.common.constant.Message;
+import coz.springboot.common.constant.TranslationKey;
+import coz.springboot.common.dto.RestResponse.Failure;
 
 @Component
-@RequiredArgsConstructor
 public class ValidationTranslator {
 
-    private final MessageTranslator messageTranslator;
-
-    public String translate(FieldError fieldError) {
+    public Failure translate(FieldError fieldError) {
         String constraintName = extractConstraintName(fieldError);
         return switch (constraintName) {
             case "NotNull", "NotBlank", "NotEmpty" -> translateRequired(fieldError);
             case "Size" -> translateSize(fieldError);
             case "Min", "Max" -> translateBound(fieldError, constraintName);
-            default -> messageTranslator.translate(Message.Common.Failure.REQUEST_VALIDATION_FAILURE);
+            default -> Failure.of(TranslationKey.Common.Message.REQUEST_VALIDATION_FAILURE);
         };
     }
 
@@ -28,47 +24,49 @@ public class ValidationTranslator {
         return (codes != null && codes.length > 0) ? codes[codes.length - 1] : "";
     }
 
-    private String translateRequired(FieldError fieldError) {
-        return messageTranslator.translate(
-                Message.Common.Failure.REQUIRED_VALIDATION_FAILURE, fieldError.getDefaultMessage());
+    private Failure translateRequired(FieldError fieldError) {
+        return Failure.of(TranslationKey.Common.Message.REQUIRED_VALIDATION_FAILURE, fieldError.getDefaultMessage());
     }
 
-    private String translateSize(FieldError fieldError) {
-        String fieldLabel = messageTranslator.translate(fieldError.getDefaultMessage());
+    private Failure translateSize(FieldError fieldError) {
+        String fieldLabelKey = fieldError.getDefaultMessage();
         Object[] args = fieldError.getArguments();
         if (args == null || args.length < 3) {
-            return messageTranslator.translate(Message.Common.Failure.REQUEST_VALIDATION_FAILURE);
+            return Failure.of(TranslationKey.Common.Message.REQUEST_VALIDATION_FAILURE);
         }
 
         int max = (Integer) args[1];
         int min = (Integer) args[2];
 
         if (min > 0 && max < Integer.MAX_VALUE) {
-            return messageTranslator.translateWithArgs(
-                    Message.Common.Failure.RANGE_SIZE_VALIDATION_FAILURE, fieldLabel, min, max);
+            return Failure.of(
+                    TranslationKey.Common.Message.RANGE_SIZE_VALIDATION_FAILURE,
+                    fieldLabelKey,
+                    String.valueOf(min),
+                    String.valueOf(max));
         }
         if (min > 0) {
-            return messageTranslator.translateWithArgs(
-                    Message.Common.Failure.MIN_SIZE_VALIDATION_FAILURE, fieldLabel, min);
+            return Failure.of(
+                    TranslationKey.Common.Message.MIN_SIZE_VALIDATION_FAILURE, fieldLabelKey, String.valueOf(min));
         }
         if (max < Integer.MAX_VALUE) {
-            return messageTranslator.translateWithArgs(
-                    Message.Common.Failure.MAX_SIZE_VALIDATION_FAILURE, fieldLabel, max);
+            return Failure.of(
+                    TranslationKey.Common.Message.MAX_SIZE_VALIDATION_FAILURE, fieldLabelKey, String.valueOf(max));
         }
 
-        return messageTranslator.translate(Message.Common.Failure.REQUEST_VALIDATION_FAILURE);
+        return Failure.of(TranslationKey.Common.Message.REQUEST_VALIDATION_FAILURE);
     }
 
-    private String translateBound(FieldError fieldError, String constraintName) {
-        String fieldLabel = messageTranslator.translate(fieldError.getDefaultMessage());
+    private Failure translateBound(FieldError fieldError, String constraintName) {
+        String fieldLabelKey = fieldError.getDefaultMessage();
         Object[] args = fieldError.getArguments();
         if (args == null || args.length < 2) {
-            return messageTranslator.translate(Message.Common.Failure.REQUEST_VALIDATION_FAILURE);
+            return Failure.of(TranslationKey.Common.Message.REQUEST_VALIDATION_FAILURE);
         }
 
-        String messageCode = "Min".equals(constraintName)
-                ? Message.Common.Failure.MIN_SIZE_VALIDATION_FAILURE
-                : Message.Common.Failure.MAX_SIZE_VALIDATION_FAILURE;
-        return messageTranslator.translateWithArgs(messageCode, fieldLabel, args[1]);
+        String messageKey = "Min".equals(constraintName)
+                ? TranslationKey.Common.Message.MIN_SIZE_VALIDATION_FAILURE
+                : TranslationKey.Common.Message.MAX_SIZE_VALIDATION_FAILURE;
+        return Failure.of(messageKey, fieldLabelKey, String.valueOf(args[1]));
     }
 }

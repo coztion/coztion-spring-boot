@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
+@Deprecated(since = "2026.07.26 - MessageSource replaced with Translation domain")
 @Component
 @RequiredArgsConstructor
 public class MessageTranslator {
