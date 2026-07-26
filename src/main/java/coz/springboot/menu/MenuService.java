@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import coz.springboot.common.constant.Message;
+import coz.springboot.common.constant.TranslationKey;
 import coz.springboot.common.exception.RestException;
 import coz.springboot.menu.model.Menu;
 import coz.springboot.menu.model.MenuInfo;
@@ -58,10 +58,13 @@ public class MenuService {
     }
 
     @Transactional
-    public void updateMenu(MenuUpdate update) {
-        int updatedMenuCount = menuRepository.updateMenu(update);
+    public void updateMenu(MenuUpdate menuUpdate) {
+        int updatedMenuCount = menuRepository.updateMenu(menuUpdate);
         if (updatedMenuCount == 0) {
-            throw new RestException(Message.Common.Failure.UPDATE_FAILURE);
+            throw new RestException(
+                    TranslationKey.Common.Message.UPDATE_FAILURE,
+                    TranslationKey.Menu.Label.MENU,
+                    menuUpdate.getTargetMenuId());
         }
     }
 }

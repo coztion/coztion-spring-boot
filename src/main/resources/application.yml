@@ -3,7 +3,7 @@ spring:
     name: spring-boot
 
   messages:
-    basename: messages/code, messages/common, messages/menu
+    basename: message/common
     encoding: UTF-8
     fallback-to-system-locale: false
     always-use-message-format: true
@@ -20,6 +20,7 @@ spring:
     url:
       login: /session/login
       refresh: /session/refresh
+      unauthenticated: /swagger-ui/**,/v3/api-docs/**,/error,/translations/translation-infos
 
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml

@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import coz.springboot.common.constant.Message;
+import coz.springboot.common.constant.TranslationKey;
 import coz.springboot.common.enums.DataStatus;
 
 @Getter
@@ -22,15 +22,15 @@ public class GroupCodeUpdate {
     private String targetGroupCode;
 
     @Schema(description = "Group Code Name", example = "Usage")
-    @NotBlank(message = Message.Code.Label.GROUP_CODE_NAME)
-    @Size(min = 1, max = 100, message = Message.Code.Label.GROUP_CODE_NAME)
+    @NotBlank(message = TranslationKey.Code.Label.GROUP_CODE_NAME)
+    @Size(min = 1, max = 100, message = TranslationKey.Code.Label.GROUP_CODE_NAME)
     private String groupCodeName;
 
     @Schema(description = "Group Code Description")
     private String groupCodeDescription;
 
     @Schema(description = "Data Status", example = "ENABLED")
-    @NotNull(message = Message.Common.Label.DATA_STATUS)
+    @NotNull(message = TranslationKey.Common.Label.DATA_STATUS)
     private DataStatus dataStatus;
 
     @Schema(description = "Author", hidden = true)

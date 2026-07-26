@@ -15,7 +15,7 @@ import coz.springboot.code.model.GroupCodeSave;
 import coz.springboot.code.model.GroupCodeSearch;
 import coz.springboot.code.model.GroupCodeUpdate;
 import coz.springboot.code.model.GroupCodesSearch;
-import coz.springboot.common.constant.Message;
+import coz.springboot.common.constant.TranslationKey;
 import coz.springboot.common.exception.RestException;
 
 @Service
@@ -34,7 +34,8 @@ public class GroupCodeService {
     public GroupCode getGroupCode(GroupCodeSearch groupCodeSearch) {
         return groupCodeRepository
                 .selectGroupCode(groupCodeSearch)
-                .orElseThrow(() -> new RestException(Message.Common.Failure.NOT_FOUND_FAILURE));
+                .orElseThrow(() -> new RestException(
+                        TranslationKey.Common.Message.NOT_FOUND_FAILURE, TranslationKey.Code.Label.GROUP_CODE));
     }
 
     @Transactional
@@ -42,18 +43,27 @@ public class GroupCodeService {
         GroupCodeSearch searchForExistingGroupCode = GroupCodeSearch.ofGroupCode(groupCodeSave.getGroupCode());
         Optional<GroupCode> optionalExistingGroupCode = groupCodeRepository.selectGroupCode(searchForExistingGroupCode);
         if (optionalExistingGroupCode.isPresent()) {
-            throw new RestException(Message.Common.Failure.DUPLICATE_FAILURE);
+            throw new RestException(
+                    TranslationKey.Common.Message.DUPLICATE_FAILURE,
+                    TranslationKey.Code.Label.GROUP_CODE,
+                    groupCodeSave.getGroupCode());
         }
 
         int createdCount = groupCodeRepository.insertGroupCode(groupCodeSave);
         if (createdCount == 0) {
-            throw new RestException(Message.Common.Failure.SAVE_FAILURE);
+            throw new RestException(
+                    TranslationKey.Common.Message.CREATE_FAILURE,
+                    TranslationKey.Code.Label.GROUP_CODE,
+                    groupCodeSave.getGroupCode());
         }
 
         GroupCodeSearch groupCodeSearch = GroupCodeSearch.ofGroupCode(groupCodeSave.getGroupCode());
         Optional<GroupCode> foundGroupCode = groupCodeRepository.selectGroupCode(groupCodeSearch);
 
-        return foundGroupCode.orElseThrow(() -> new RestException(Message.Common.Failure.SAVE_FAILURE));
+        return foundGroupCode.orElseThrow(() -> new RestException(
+                TranslationKey.Common.Message.CREATE_FAILURE,
+                TranslationKey.Code.Label.GROUP_CODE,
+                groupCodeSave.getGroupCode()));
     }
 
     @Transactional
@@ -61,11 +71,15 @@ public class GroupCodeService {
         GroupCodeSearch groupCodeSearch = GroupCodeSearch.ofGroupCode(groupCodeUpdate.getTargetGroupCode());
         GroupCode groupCode = groupCodeRepository
                 .selectGroupCode(groupCodeSearch)
-                .orElseThrow(() -> new RestException(Message.Common.Failure.NOT_FOUND_FAILURE));
+                .orElseThrow(() -> new RestException(
+                        TranslationKey.Common.Message.NOT_FOUND_FAILURE, TranslationKey.Code.Label.GROUP_CODE));
 
         int updatedCount = groupCodeRepository.updateGroupCode(groupCodeUpdate);
         if (updatedCount == 0) {
-            throw new RestException(Message.Common.Failure.UPDATE_FAILURE);
+            throw new RestException(
+                    TranslationKey.Common.Message.UPDATE_FAILURE,
+                    TranslationKey.Code.Label.GROUP_CODE,
+                    groupCodeUpdate.getTargetGroupCode());
         }
 
         if (groupCodeUpdate.hasDataStatusChanged(groupCode)) {
@@ -74,7 +88,10 @@ public class GroupCodeService {
 
         return groupCodeRepository
                 .selectGroupCode(groupCodeSearch)
-                .orElseThrow(() -> new RestException(Message.Common.Failure.UPDATE_FAILURE));
+                .orElseThrow(() -> new RestException(
+                        TranslationKey.Common.Message.UPDATE_FAILURE,
+                        TranslationKey.Code.Label.GROUP_CODE,
+                        groupCodeUpdate.getTargetGroupCode()));
     }
 
     @Transactional
@@ -82,10 +99,10 @@ public class GroupCodeService {
         GroupCodeSearch groupCodeSearch = GroupCodeSearch.ofGroupCode(groupCodeDelete.getTargetGroupCode());
         GroupCode groupCode = groupCodeRepository
                 .selectGroupCode(groupCodeSearch)
-                .orElseThrow(() -> new RestException(Message.Common.Failure.NOT_FOUND_FAILURE));
+                .orElseThrow(() -> new RestException(TranslationKey.Common.Message.NOT_FOUND_FAILURE));
 
         if (groupCode.hasEnabledCommonCodes()) {
-            throw new RestException(Message.Code.Failure.GROUP_CODE_DELETE_FAILURE_BY_ENABLED_COMMON_CODE);
+            throw new RestException(TranslationKey.Code.Message.GROUP_CODE_DELETE_FAILURE_BY_ENABLED_COMMON_CODE);
         }
 
         if (groupCode.hasCommonCodes()) {
@@ -94,7 +111,10 @@ public class GroupCodeService {
 
         int deletedCount = groupCodeRepository.deleteGroupCode(groupCodeDelete);
         if (deletedCount == 0) {
-            throw new RestException(Message.Common.Failure.DELETE_FAILURE);
+            throw new RestException(
+                    TranslationKey.Common.Message.DELETE_FAILURE,
+                    TranslationKey.Code.Label.GROUP_CODE,
+                    groupCodeDelete.getTargetGroupCode());
         }
     }
 }

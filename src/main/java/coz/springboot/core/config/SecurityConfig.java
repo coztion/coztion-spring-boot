@@ -36,6 +36,9 @@ public class SecurityConfig {
     @Value("${spring.security.url.login}")
     private String loginUrl;
 
+    @Value("${spring.security.url.unauthenticated}")
+    private String[] unauthenticatedUrls;
+
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
@@ -49,11 +52,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(customizer -> customizer.configurationSource(request -> corsConfiguration()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(
-                        request -> request.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/error", loginUrl)
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated())
+                .authorizeHttpRequests(request -> request.requestMatchers(unauthenticatedUrls)
+                        .permitAll()
+                        .requestMatchers(loginUrl)
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationHandler))
                 .addFilter(authenticationFilter)
                 .addFilterBefore(authenticationRefreshFilter, UsernamePasswordAuthenticationFilter.class)
