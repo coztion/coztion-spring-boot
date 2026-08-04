@@ -5,7 +5,7 @@ plugins {
     id 'com.diffplug.spotless' version '7.0.3'
 }
 
-group = 'coz'
+group = 'com'
 version = '0.0.1-SNAPSHOT'
 description = 'coztion'
 
