@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="coz.springboot.code.CommonCodeRepository">
+<mapper namespace="com.coztion.code.CommonCodeRepository">
 
     <select id="selectCommonCodes"
-            parameterType="coz.springboot.code.model.CommonCodesSearch"
-            resultType="coz.springboot.code.model.CommonCode">
+            parameterType="com.coztion.code.model.CommonCodesSearch"
+            resultType="com.coztion.code.model.CommonCode">
         SELECT GROUP_CODE
              , COMMON_CODE
              , COMMON_CODE_NAME

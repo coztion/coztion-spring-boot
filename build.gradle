@@ -7,7 +7,7 @@ plugins {
 
 group = 'coz'
 version = '0.0.1-SNAPSHOT'
-description = 'spring-boot'
+description = 'coztion'
 
 java {
     toolchain {

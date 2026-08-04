@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="coz.springboot.menu.MenuRepository">
+<mapper namespace="com.coztion.menu.MenuRepository">
 
     <select id="selectMenus"
-            parameterType="coz.springboot.menu.model.MenusSearch"
-            resultType="coz.springboot.menu.model.Menu">
+            parameterType="com.coztion.menu.model.MenusSearch"
+            resultType="com.coztion.menu.model.Menu">
         SELECT DISTINCT M.MENU_ID
              , M.MENU_NAME
              , M.MENU_TYPE
@@ -44,7 +44,7 @@
     </select>
 
     <select id="selectMenuInfos"
-            resultType="coz.springboot.menu.model.MenuInfo">
+            resultType="com.coztion.menu.model.MenuInfo">
         WITH RECURSIVE MENU_INFO AS (
             SELECT M.MENU_ID
                  , M.MENU_NAME
@@ -83,7 +83,7 @@
     </select>
 
     <update id="updateMenu"
-            parameterType="coz.springboot.menu.model.MenuUpdate">
+            parameterType="com.coztion.menu.model.MenuUpdate">
         UPDATE TB_MENU
         <set>
             <if test="menuName != null">MENU_NAME = #{menuName},</if>
