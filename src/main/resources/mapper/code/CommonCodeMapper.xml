@@ -32,7 +32,7 @@
         <if test="dataStatus != null">
            AND DATA_STATUS = #{dataStatus}
         </if>
-           AND DATA_STATUS = 'ENABLED'
+           AND DATA_STATUS != 'DELETED'
          ORDER BY SORT_ORDER
     </select>
 
