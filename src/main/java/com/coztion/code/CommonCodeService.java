@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.coztion.code.model.CommonCode;
 import com.coztion.code.model.CommonCodeSave;
 import com.coztion.code.model.CommonCodeSearch;
+import com.coztion.code.model.CommonCodeUpdate;
 import com.coztion.code.model.CommonCodesSearch;
 import com.coztion.common.constant.TranslationKey;
 import com.coztion.common.exception.RestException;
@@ -56,5 +57,30 @@ class CommonCodeService {
                 TranslationKey.Common.Message.CREATE_FAILURE,
                 TranslationKey.Code.Label.COMMON_CODE,
                 commonCodeSave.getCommonCode()));
+    }
+
+    @Transactional
+    public CommonCode updateCommonCode(CommonCodeUpdate commonCodeUpdate) {
+        CommonCodeSearch commonCodeSearch =
+                CommonCodeSearch.ofCode(commonCodeUpdate.getTargetGroupCode(), commonCodeUpdate.getTargetCommonCode());
+        commonCodeRepository
+                .selectCommonCode(commonCodeSearch)
+                .orElseThrow(() -> new RestException(
+                        TranslationKey.Common.Message.NOT_FOUND_FAILURE, TranslationKey.Code.Label.COMMON_CODE));
+
+        int updatedCount = commonCodeRepository.updateCommonCode(commonCodeUpdate);
+        if (updatedCount == 0) {
+            throw new RestException(
+                    TranslationKey.Common.Message.UPDATE_FAILURE,
+                    TranslationKey.Code.Label.COMMON_CODE,
+                    commonCodeUpdate.getTargetCommonCode());
+        }
+
+        return commonCodeRepository
+                .selectCommonCode(commonCodeSearch)
+                .orElseThrow(() -> new RestException(
+                        TranslationKey.Common.Message.UPDATE_FAILURE,
+                        TranslationKey.Code.Label.COMMON_CODE,
+                        commonCodeUpdate.getTargetCommonCode()));
     }
 }

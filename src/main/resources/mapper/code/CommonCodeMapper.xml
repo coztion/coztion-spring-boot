@@ -86,4 +86,17 @@
         )
     </insert>
 
+    <update id="updateCommonCode"
+            parameterType="com.coztion.code.model.CommonCodeUpdate">
+        UPDATE TB_COMMON_CODE
+           SET COMMON_CODE_NAME = #{commonCodeName}
+             , COMMON_CODE_DESC = #{commonCodeDescription}
+             , DATA_STATUS      = #{dataStatus}
+             , UPDATED_BY       = #{author}
+             , UPDATED_AT       = NOW()
+         WHERE GROUP_CODE       = #{targetGroupCode}
+           AND COMMON_CODE      = #{targetCommonCode}
+           AND DATA_STATUS     != 'DELETED'
+    </update>
+
 </mapper>
