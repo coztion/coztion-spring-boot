@@ -32,7 +32,9 @@
         <if test="dataStatus != null">
            AND DATA_STATUS = #{dataStatus}
         </if>
+        <if test="!includeDeletedData">
            AND DATA_STATUS != 'DELETED'
+        </if>
          ORDER BY SORT_ORDER
     </select>
 
@@ -60,7 +62,9 @@
         <if test="dataStatus != null">
            AND DATA_STATUS = #{dataStatus}
         </if>
+        <if test="!includeDeletedData">
            AND DATA_STATUS != 'DELETED'
+        </if>
     </select>
 
     <insert id="insertCommonCode"

@@ -32,4 +32,7 @@ public class MenusSearch extends Pagination {
 
     @Schema(description = "Include Authorities in Result")
     private boolean includeAuthorities;
+
+    @Schema(description = "Include Deleted Data")
+    private boolean includeDeletedData;
 }
