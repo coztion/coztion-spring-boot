@@ -3,6 +3,7 @@ package com.coztion.code;
 import jakarta.validation.Valid;
 
 import com.coztion.code.model.CommonCode;
+import com.coztion.code.model.CommonCodeDelete;
 import com.coztion.code.model.CommonCodeSave;
 import com.coztion.code.model.CommonCodeUpdate;
 import com.coztion.code.model.CommonCodesSearch;
@@ -14,6 +15,7 @@ import com.coztion.user.model.SessionUser;
 import com.github.pagehelper.Page;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,5 +67,18 @@ public class CommonCodeController {
         commonCodeUpdate.setAuthor(sessionUser.getUsername());
         CommonCode updatedCommonCode = commonCodeService.updateCommonCode(commonCodeUpdate);
         return RestResponse.ofSuccess(updatedCommonCode);
+    }
+
+    @Operation(summary = "Delete Common Code")
+    @DeleteMapping("/{commonCode}")
+    @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
+    public RestResponse<Boolean> deleteCommonCode(
+            @PathVariable String commonCode,
+            @Valid @RequestBody CommonCodeDelete commonCodeDelete,
+            @AuthenticationPrincipal SessionUser sessionUser) {
+        commonCodeDelete.setTargetCommonCode(commonCode);
+        commonCodeDelete.setAuthor(sessionUser.getUsername());
+        commonCodeService.deleteCommonCode(commonCodeDelete);
+        return RestResponse.ofSuccess(true);
     }
 }

@@ -3,6 +3,7 @@ package com.coztion.code;
 import java.util.Optional;
 
 import com.coztion.code.model.CommonCode;
+import com.coztion.code.model.CommonCodeDelete;
 import com.coztion.code.model.CommonCodeSave;
 import com.coztion.code.model.CommonCodeSearch;
 import com.coztion.code.model.CommonCodeUpdate;
@@ -82,5 +83,22 @@ class CommonCodeService {
                         TranslationKey.Common.Message.UPDATE_FAILURE,
                         TranslationKey.Code.Label.COMMON_CODE,
                         commonCodeUpdate.getTargetCommonCode()));
+    }
+
+    @Transactional
+    public void deleteCommonCode(CommonCodeDelete commonCodeDelete) {
+        CommonCodeSearch commonCodeSearch =
+                CommonCodeSearch.ofCode(commonCodeDelete.getTargetGroupCode(), commonCodeDelete.getTargetCommonCode());
+        commonCodeRepository
+                .selectCommonCode(commonCodeSearch)
+                .orElseThrow(() -> new RestException(TranslationKey.Common.Message.NOT_FOUND_FAILURE));
+
+        int deletedCount = commonCodeRepository.deleteCommonCode(commonCodeDelete);
+        if (deletedCount == 0) {
+            throw new RestException(
+                    TranslationKey.Common.Message.DELETE_FAILURE,
+                    TranslationKey.Code.Label.COMMON_CODE,
+                    commonCodeDelete.getTargetCommonCode());
+        }
     }
 }

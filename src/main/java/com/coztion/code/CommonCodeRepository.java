@@ -3,6 +3,7 @@ package com.coztion.code;
 import java.util.Optional;
 
 import com.coztion.code.model.CommonCode;
+import com.coztion.code.model.CommonCodeDelete;
 import com.coztion.code.model.CommonCodeSave;
 import com.coztion.code.model.CommonCodeSearch;
 import com.coztion.code.model.CommonCodeUpdate;
@@ -21,4 +22,6 @@ public interface CommonCodeRepository {
     int insertCommonCode(CommonCodeSave commonCodeSave);
 
     int updateCommonCode(CommonCodeUpdate commonCodeUpdate);
+
+    int deleteCommonCode(CommonCodeDelete commonCodeDelete);
 }

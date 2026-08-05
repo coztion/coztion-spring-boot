@@ -99,4 +99,14 @@
            AND DATA_STATUS     != 'DELETED'
     </update>
 
+    <update id="deleteCommonCode"
+            parameterType="com.coztion.code.model.CommonCodeDelete">
+        UPDATE TB_COMMON_CODE
+           SET DATA_STATUS = 'DELETED'
+             , UPDATED_BY  = #{author}
+             , UPDATED_AT  = NOW()
+         WHERE GROUP_CODE  = #{targetGroupCode}
+           AND COMMON_CODE = #{targetCommonCode}
+    </update>
+
 </mapper>
