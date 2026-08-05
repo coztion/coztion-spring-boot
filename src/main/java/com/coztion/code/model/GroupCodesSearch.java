@@ -34,4 +34,7 @@ public class GroupCodesSearch extends Pagination {
 
     @Schema(description = "Data Status")
     private DataStatus dataStatus;
+
+    @Schema(description = "Include Deleted Data")
+    private boolean includeDeletedData;
 }

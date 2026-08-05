@@ -15,6 +15,7 @@ public class TranslationKey {
             public static final String UPDATE_FAILURE = "common.message.UPDATE_FAILURE";
             public static final String DELETE_FAILURE = "common.message.DELETE_FAILURE";
             public static final String DUPLICATE_FAILURE = "common.message.DUPLICATE_FAILURE";
+            public static final String DUPLICATE_DELETED_FAILURE = "common.message.DUPLICATE_DELETED_FAILURE";
             public static final String REQUEST_VALIDATION_FAILURE = "common.message.REQUEST_VALIDATION_FAILURE";
             public static final String REQUIRED_VALIDATION_FAILURE = "common.message.REQUIRED_VALIDATION_FAILURE";
             public static final String MIN_SIZE_VALIDATION_FAILURE = "common.message.MIN_SIZE_VALIDATION_FAILURE";
@@ -30,6 +31,8 @@ public class TranslationKey {
         public static class Label {
             public static final String GROUP_CODE = "code.label.GROUP_CODE";
             public static final String GROUP_CODE_NAME = "code.label.GROUP_CODE_NAME";
+            public static final String COMMON_CODE = "code.label.COMMON_CODE";
+            public static final String COMMON_CODE_NAME = "code.label.COMMON_CODE_NAME";
         }
 
         public static class Message {

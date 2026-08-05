@@ -23,7 +23,17 @@ public class GroupCodeSearch {
     @Schema(description = "Data Status")
     private DataStatus dataStatus;
 
+    @Schema(description = "Include Deleted Data")
+    private boolean includeDeletedData;
+
     public static GroupCodeSearch ofGroupCode(String groupCode) {
         return GroupCodeSearch.builder().groupCode(groupCode).build();
+    }
+
+    public static GroupCodeSearch ofGroupCodeIncludingDeletedData(String groupCode) {
+        return GroupCodeSearch.builder()
+                .groupCode(groupCode)
+                .includeDeletedData(true)
+                .build();
     }
 }

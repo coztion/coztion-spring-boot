@@ -52,7 +52,9 @@
             <if test="dataStatus != null">
            AND GC.DATA_STATUS = #{dataStatus}
             </if>
+            <if test="!includeDeletedData">
            AND GC.DATA_STATUS != 'DELETED'
+            </if>
          ORDER BY GC.SORT_ORDER
     </select>
 
@@ -89,7 +91,9 @@
             <if test="dataStatus != null">
            AND GC.DATA_STATUS = #{dataStatus}
             </if>
+            <if test="!includeDeletedData">
            AND GC.DATA_STATUS != 'DELETED'
+            </if>
          ORDER BY GC.SORT_ORDER, CC.SORT_ORDER
     </select>
 

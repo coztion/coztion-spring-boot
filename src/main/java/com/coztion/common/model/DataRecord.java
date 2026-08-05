@@ -33,4 +33,8 @@ public class DataRecord {
     public boolean isEnabled() {
         return dataStatus.isEnabled();
     }
+
+    public boolean isDeleted() {
+        return dataStatus.isDeleted();
+    }
 }

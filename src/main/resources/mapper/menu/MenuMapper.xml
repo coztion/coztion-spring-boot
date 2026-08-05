@@ -39,7 +39,9 @@
             <if test="dataStatus != null">
            AND M.DATA_STATUS = #{dataStatus}
             </if>
+            <if test="!includeDeletedData">
            AND M.DATA_STATUS != 'DELETED'
+            </if>
          ORDER BY M.SORT_ORDER
     </select>
 

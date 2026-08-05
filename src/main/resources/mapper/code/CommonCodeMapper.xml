@@ -32,8 +32,85 @@
         <if test="dataStatus != null">
            AND DATA_STATUS = #{dataStatus}
         </if>
-           AND DATA_STATUS = 'ENABLED'
+        <if test="!includeDeletedData">
+           AND DATA_STATUS != 'DELETED'
+        </if>
          ORDER BY SORT_ORDER
     </select>
+
+    <select id="selectCommonCode"
+            parameterType="com.coztion.code.model.CommonCodeSearch"
+            resultType="com.coztion.code.model.CommonCode">
+        SELECT GROUP_CODE
+             , COMMON_CODE
+             , COMMON_CODE_NAME
+             , COMMON_CODE_DESC AS COMMON_CODE_DESCRIPTION
+             , DATA_STATUS
+             , SORT_ORDER
+             , CREATED_BY
+             , CREATED_AT
+             , UPDATED_BY
+             , UPDATED_AT
+          FROM TB_COMMON_CODE
+         WHERE TRUE
+        <if test="groupCode != null and groupCode != ''">
+           AND GROUP_CODE = #{groupCode}
+        </if>
+        <if test="commonCode != null and commonCode != ''">
+           AND COMMON_CODE = #{commonCode}
+        </if>
+        <if test="dataStatus != null">
+           AND DATA_STATUS = #{dataStatus}
+        </if>
+        <if test="!includeDeletedData">
+           AND DATA_STATUS != 'DELETED'
+        </if>
+    </select>
+
+    <insert id="insertCommonCode"
+            parameterType="com.coztion.code.model.CommonCodeSave">
+        INSERT INTO TB_COMMON_CODE (
+            GROUP_CODE
+          , COMMON_CODE
+          , COMMON_CODE_NAME
+          , COMMON_CODE_DESC
+          , DATA_STATUS
+          , SORT_ORDER
+          , CREATED_BY
+          , UPDATED_BY
+        ) VALUES (
+            #{groupCode}
+          , #{commonCode}
+          , #{commonCodeName}
+          , #{commonCodeDescription}
+          , #{dataStatus}
+          , #{sortOrder}
+          , #{author}
+          , #{author}
+        )
+    </insert>
+
+    <update id="updateCommonCode"
+            parameterType="com.coztion.code.model.CommonCodeUpdate">
+        UPDATE TB_COMMON_CODE
+           SET COMMON_CODE_NAME = #{commonCodeName}
+             , COMMON_CODE_DESC = #{commonCodeDescription}
+             , DATA_STATUS      = #{dataStatus}
+             , UPDATED_BY       = #{author}
+             , UPDATED_AT       = NOW()
+         WHERE GROUP_CODE       = #{targetGroupCode}
+           AND COMMON_CODE      = #{targetCommonCode}
+           AND DATA_STATUS     != 'DELETED'
+    </update>
+
+    <update id="deleteCommonCode"
+            parameterType="com.coztion.code.model.CommonCodeDelete">
+        UPDATE TB_COMMON_CODE
+           SET DATA_STATUS = 'DELETED'
+             , UPDATED_BY  = #{author}
+             , UPDATED_AT  = NOW()
+         WHERE GROUP_CODE  = #{targetGroupCode}
+           AND COMMON_CODE = #{targetCommonCode}
+    </update>
 
 </mapper>
