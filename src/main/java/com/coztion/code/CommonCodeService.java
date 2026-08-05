@@ -31,13 +31,16 @@ class CommonCodeService {
 
     @Transactional
     public CommonCode saveCommonCode(CommonCodeSave commonCodeSave) {
-        CommonCodeSearch searchForExistingCommonCode =
-                CommonCodeSearch.ofCode(commonCodeSave.getGroupCode(), commonCodeSave.getCommonCode());
+        CommonCodeSearch searchForExistingCommonCode = CommonCodeSearch.ofCodeIncludingDeletedData(
+                commonCodeSave.getGroupCode(), commonCodeSave.getCommonCode());
         Optional<CommonCode> optionalExistingCommonCode =
                 commonCodeRepository.selectCommonCode(searchForExistingCommonCode);
         if (optionalExistingCommonCode.isPresent()) {
+            CommonCode existingCommonCode = optionalExistingCommonCode.get();
             throw new RestException(
-                    TranslationKey.Common.Message.DUPLICATE_FAILURE,
+                    existingCommonCode.isDeleted()
+                            ? TranslationKey.Common.Message.DUPLICATE_DELETED_FAILURE
+                            : TranslationKey.Common.Message.DUPLICATE_FAILURE,
                     TranslationKey.Code.Label.COMMON_CODE,
                     commonCodeSave.getCommonCode());
         }

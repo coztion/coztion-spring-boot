@@ -29,4 +29,11 @@ public class GroupCodeSearch {
     public static GroupCodeSearch ofGroupCode(String groupCode) {
         return GroupCodeSearch.builder().groupCode(groupCode).build();
     }
+
+    public static GroupCodeSearch ofGroupCodeIncludingDeletedData(String groupCode) {
+        return GroupCodeSearch.builder()
+                .groupCode(groupCode)
+                .includeDeletedData(true)
+                .build();
+    }
 }

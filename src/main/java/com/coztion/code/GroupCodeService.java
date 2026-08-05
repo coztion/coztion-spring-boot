@@ -39,11 +39,15 @@ public class GroupCodeService {
 
     @Transactional
     public GroupCode saveGroupCode(GroupCodeSave groupCodeSave) {
-        GroupCodeSearch searchForExistingGroupCode = GroupCodeSearch.ofGroupCode(groupCodeSave.getGroupCode());
+        GroupCodeSearch searchForExistingGroupCode =
+                GroupCodeSearch.ofGroupCodeIncludingDeletedData(groupCodeSave.getGroupCode());
         Optional<GroupCode> optionalExistingGroupCode = groupCodeRepository.selectGroupCode(searchForExistingGroupCode);
         if (optionalExistingGroupCode.isPresent()) {
+            GroupCode existingGroupCode = optionalExistingGroupCode.get();
             throw new RestException(
-                    TranslationKey.Common.Message.DUPLICATE_FAILURE,
+                    existingGroupCode.isDeleted()
+                            ? TranslationKey.Common.Message.DUPLICATE_DELETED_FAILURE
+                            : TranslationKey.Common.Message.DUPLICATE_FAILURE,
                     TranslationKey.Code.Label.GROUP_CODE,
                     groupCodeSave.getGroupCode());
         }

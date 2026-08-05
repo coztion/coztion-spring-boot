@@ -35,4 +35,12 @@ public class CommonCodeSearch {
                 .commonCode(commonCode)
                 .build();
     }
+
+    public static CommonCodeSearch ofCodeIncludingDeletedData(String groupCode, String commonCode) {
+        return CommonCodeSearch.builder()
+                .groupCode(groupCode)
+                .commonCode(commonCode)
+                .includeDeletedData(true)
+                .build();
+    }
 }
