@@ -36,4 +36,54 @@
          ORDER BY SORT_ORDER
     </select>
 
+    <select id="selectCommonCode"
+            parameterType="com.coztion.code.model.CommonCodeSearch"
+            resultType="com.coztion.code.model.CommonCode">
+        SELECT GROUP_CODE
+             , COMMON_CODE
+             , COMMON_CODE_NAME
+             , COMMON_CODE_DESC AS COMMON_CODE_DESCRIPTION
+             , DATA_STATUS
+             , SORT_ORDER
+             , CREATED_BY
+             , CREATED_AT
+             , UPDATED_BY
+             , UPDATED_AT
+          FROM TB_COMMON_CODE
+         WHERE TRUE
+        <if test="groupCode != null and groupCode != ''">
+           AND GROUP_CODE = #{groupCode}
+        </if>
+        <if test="commonCode != null and commonCode != ''">
+           AND COMMON_CODE = #{commonCode}
+        </if>
+        <if test="dataStatus != null">
+           AND DATA_STATUS = #{dataStatus}
+        </if>
+           AND DATA_STATUS != 'DELETED'
+    </select>
+
+    <insert id="insertCommonCode"
+            parameterType="com.coztion.code.model.CommonCodeSave">
+        INSERT INTO TB_COMMON_CODE (
+            GROUP_CODE
+          , COMMON_CODE
+          , COMMON_CODE_NAME
+          , COMMON_CODE_DESC
+          , DATA_STATUS
+          , SORT_ORDER
+          , CREATED_BY
+          , UPDATED_BY
+        ) VALUES (
+            #{groupCode}
+          , #{commonCode}
+          , #{commonCodeName}
+          , #{commonCodeDescription}
+          , #{dataStatus}
+          , #{sortOrder}
+          , #{author}
+          , #{author}
+        )
+    </insert>
+
 </mapper>

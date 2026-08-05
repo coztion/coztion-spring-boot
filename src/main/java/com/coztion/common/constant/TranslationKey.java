@@ -30,6 +30,8 @@ public class TranslationKey {
         public static class Label {
             public static final String GROUP_CODE = "code.label.GROUP_CODE";
             public static final String GROUP_CODE_NAME = "code.label.GROUP_CODE_NAME";
+            public static final String COMMON_CODE = "code.label.COMMON_CODE";
+            public static final String COMMON_CODE_NAME = "code.label.COMMON_CODE_NAME";
         }
 
         public static class Message {
