@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import com.coztion.code.model.CommonCode;
 import com.coztion.code.model.CommonCodeDelete;
 import com.coztion.code.model.CommonCodeSave;
+import com.coztion.code.model.CommonCodeSearch;
 import com.coztion.code.model.CommonCodeUpdate;
 import com.coztion.code.model.CommonCodesSearch;
 import com.coztion.common.dto.PageResponse;
@@ -44,6 +45,16 @@ public class CommonCodeController {
     public RestResponse<PageResponse<CommonCode>> getCommonCodes(@ModelAttribute CommonCodesSearch commonCodesSearch) {
         Page<CommonCode> commonCodes = commonCodeService.getCommonCodes(commonCodesSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(commonCodes));
+    }
+
+    @Operation(summary = "Get Common Code")
+    @GetMapping("/{commonCode}")
+    @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
+    public RestResponse<CommonCode> getCommonCode(
+            @PathVariable String commonCode, @ModelAttribute CommonCodeSearch commonCodeSearch) {
+        commonCodeSearch.setCommonCode(commonCode);
+        CommonCode foundCommonCode = commonCodeService.getCommonCode(commonCodeSearch);
+        return RestResponse.ofSuccess(foundCommonCode);
     }
 
     @Operation(summary = "Post Common Code")
