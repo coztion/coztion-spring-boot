@@ -1,5 +1,7 @@
 package com.coztion.menu.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import com.coztion.common.constant.TranslationKey;
@@ -20,10 +22,12 @@ public class MenuUpdate {
     private String targetMenuId;
 
     @Schema(description = "Menu Name")
+    @NotBlank(message = TranslationKey.Menu.Label.MENU_NAME)
     @Size(min = 1, max = 100, message = TranslationKey.Menu.Label.MENU_NAME)
     private String menuName;
 
-    @Schema(description = "Data Status")
+    @Schema(description = "Data Status", example = "ENABLED")
+    @NotNull(message = TranslationKey.Common.Label.DATA_STATUS)
     private DataStatus dataStatus;
 
     @Schema(description = "Author", hidden = true)

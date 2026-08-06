@@ -25,6 +25,9 @@ public class Menu extends DataRecord {
     @Schema(description = "Menu Type")
     private MenuType menuType;
 
+    @Schema(description = "URL")
+    private String url;
+
     @Schema(description = "Parent Menu ID")
     private MenuId parentMenuId;
 

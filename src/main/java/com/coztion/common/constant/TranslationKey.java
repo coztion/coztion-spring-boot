@@ -55,7 +55,11 @@ public class TranslationKey {
         public static class Label {
 
             public static final String MENU = "menu.label.MENU";
+            public static final String MENU_ID = "menu.label.MENU_ID";
             public static final String MENU_NAME = "menu.label.MENU_NAME";
+            public static final String MENU_TYPE = "menu.label.MENU_TYPE";
+            public static final String PARENT_MENU_ID = "menu.label.PARENT_MENU_ID";
+            public static final String URL = "menu.label.URL";
         }
     }
 }
