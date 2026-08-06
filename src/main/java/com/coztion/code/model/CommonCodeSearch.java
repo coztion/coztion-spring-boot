@@ -1,5 +1,8 @@
 package com.coztion.code.model;
 
+import jakarta.validation.constraints.NotBlank;
+
+import com.coztion.common.constant.TranslationKey;
 import com.coztion.common.enums.DataStatus;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,7 +20,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CommonCodeSearch {
 
-    @Schema(description = "Group Code", hidden = true)
+    @Schema(description = "Group Code")
+    @NotBlank(message = TranslationKey.Code.Label.GROUP_CODE)
     private String groupCode;
 
     @Schema(description = "Common Code", hidden = true)

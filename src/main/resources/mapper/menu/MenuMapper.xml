@@ -8,6 +8,7 @@
         SELECT DISTINCT M.MENU_ID
              , M.MENU_NAME
              , M.MENU_TYPE
+             , M.URL
              , M.PARENT_MENU_ID
              , M.SORT_ORDER
              , M.DATA_STATUS
@@ -17,11 +18,17 @@
              , M.UPDATED_AT
           FROM TB_MENU M
          WHERE TRUE
+            <if test="menuId != null">
+           AND M.MENU_ID = #{menuId}
+            </if>
             <if test="menuIds != null and !menuIds.isEmpty()">
            AND M.MENU_ID IN
                 <foreach item="menuId" collection="menuIds" open="(" separator="," close=")">
                     #{menuId}
                 </foreach>
+            </if>
+            <if test="menuName != null and menuName != ''">
+           AND M.MENU_NAME LIKE CONCAT('%', #{menuName}, '%')
             </if>
             <if test="authorities != null and !authorities.isEmpty()">
            AND EXISTS (
@@ -43,6 +50,33 @@
            AND M.DATA_STATUS != 'DELETED'
             </if>
          ORDER BY M.SORT_ORDER
+    </select>
+
+    <select id="selectMenu"
+            parameterType="com.coztion.menu.model.MenuSearch"
+            resultType="com.coztion.menu.model.Menu">
+        SELECT M.MENU_ID
+             , M.MENU_NAME
+             , M.MENU_TYPE
+             , M.URL
+             , M.PARENT_MENU_ID
+             , M.SORT_ORDER
+             , M.DATA_STATUS
+             , M.CREATED_BY
+             , M.CREATED_AT
+             , M.UPDATED_BY
+             , M.UPDATED_AT
+          FROM TB_MENU M
+         WHERE TRUE
+            <if test="menuId != null">
+           AND M.MENU_ID = #{menuId}
+            </if>
+            <if test="dataStatus != null">
+           AND M.DATA_STATUS = #{dataStatus}
+            </if>
+            <if test="!includeDeletedData">
+           AND M.DATA_STATUS != 'DELETED'
+            </if>
     </select>
 
     <select id="selectMenuInfos"
@@ -84,15 +118,49 @@
          ORDER BY SORT_ORDER
     </select>
 
+    <insert id="insertMenu"
+            parameterType="com.coztion.menu.model.MenuSave">
+        INSERT INTO TB_MENU (
+            MENU_ID
+          , MENU_NAME
+          , MENU_TYPE
+          , URL
+          , PARENT_MENU_ID
+          , SORT_ORDER
+          , DATA_STATUS
+          , CREATED_BY
+          , UPDATED_BY
+        ) VALUES (
+            #{menuId}
+          , #{menuName}
+          , #{menuType}
+          , #{url}
+          , #{parentMenuId}
+          , #{sortOrder}
+          , #{dataStatus}
+          , #{author}
+          , #{author}
+        )
+    </insert>
+
     <update id="updateMenu"
             parameterType="com.coztion.menu.model.MenuUpdate">
         UPDATE TB_MENU
-        <set>
-            <if test="menuName != null">MENU_NAME = #{menuName},</if>
-            <if test="dataStatus != null">DATA_STATUS = #{dataStatus},</if>
-            UPDATED_BY = #{author},
-        </set>
-         WHERE MENU_ID = #{targetMenuId}
+           SET MENU_NAME   = #{menuName}
+             , DATA_STATUS = #{dataStatus}
+             , UPDATED_BY  = #{author}
+             , UPDATED_AT  = NOW()
+         WHERE MENU_ID     = #{targetMenuId}
+           AND DATA_STATUS != 'DELETED'
+    </update>
+
+    <update id="deleteMenu"
+            parameterType="com.coztion.menu.model.MenuDelete">
+        UPDATE TB_MENU
+           SET DATA_STATUS = 'DELETED'
+             , UPDATED_BY  = #{author}
+             , UPDATED_AT  = NOW()
+         WHERE MENU_ID     = #{targetMenuId}
     </update>
 
 </mapper>

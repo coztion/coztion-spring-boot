@@ -18,8 +18,14 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class MenusSearch extends Pagination {
 
+    @Schema(description = "Menu Id")
+    private MenuId menuId;
+
     @Schema(description = "Menu Ids")
     private List<MenuId> menuIds;
+
+    @Schema(description = "Menu Name")
+    private String menuName;
 
     @Schema(description = "Menu Type", example = "GRP_NAV")
     private MenuType menuType;

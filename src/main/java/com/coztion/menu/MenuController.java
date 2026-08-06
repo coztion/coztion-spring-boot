@@ -36,6 +36,15 @@ public class MenuController {
         return RestResponse.ofSuccess(PageResponse.ofPage(pagedMenus));
     }
 
+    @Operation(summary = "Get Menu")
+    @GetMapping("/{menuId}")
+    @Authorize(menuIds = MenuId.MENU_MANAGEMENT)
+    public RestResponse<Menu> getMenu(@PathVariable MenuId menuId, @ModelAttribute MenuSearch menuSearch) {
+        menuSearch.setMenuId(menuId);
+        Menu foundMenu = menuService.getMenu(menuSearch);
+        return RestResponse.ofSuccess(foundMenu);
+    }
+
     @Operation(summary = "Get Menu Infos")
     @GetMapping("/menu-infos")
     public RestResponse<List<MenuInfo>> getMenuInfos(@AuthenticationPrincipal SessionUser sessionUser) {
@@ -43,10 +52,20 @@ public class MenuController {
         return RestResponse.ofSuccess(menuService.getMenuInfos(authorities));
     }
 
-    @Operation(summary = "Update Menu")
-    @PatchMapping("/{menuId}")
+    @Operation(summary = "Post Menu")
+    @PostMapping
     @Authorize(menuIds = MenuId.MENU_MANAGEMENT)
-    public RestResponse<Void> updateMenu(
+    public RestResponse<Menu> postMenu(
+            @Valid @RequestBody MenuSave menuSave, @AuthenticationPrincipal SessionUser sessionUser) {
+        menuSave.setAuthor(sessionUser.getUsername());
+        Menu createdMenu = menuService.saveMenu(menuSave);
+        return RestResponse.ofSuccess(createdMenu);
+    }
+
+    @Operation(summary = "Put Menu")
+    @PutMapping("/{menuId}")
+    @Authorize(menuIds = MenuId.MENU_MANAGEMENT)
+    public RestResponse<Void> putMenu(
             @PathVariable String menuId,
             @Valid @RequestBody MenuUpdate menuUpdate,
             @AuthenticationPrincipal SessionUser sessionUser) {
@@ -54,5 +73,18 @@ public class MenuController {
         menuUpdate.setAuthor(sessionUser.getUsername());
         menuService.updateMenu(menuUpdate);
         return RestResponse.ofSuccess(null);
+    }
+
+    @Operation(summary = "Delete Menu")
+    @DeleteMapping("/{menuId}")
+    @Authorize(menuIds = MenuId.MENU_MANAGEMENT)
+    public RestResponse<Boolean> deleteMenu(
+            @PathVariable MenuId menuId, @AuthenticationPrincipal SessionUser sessionUser) {
+        MenuDelete menuDelete = MenuDelete.builder()
+                .targetMenuId(menuId)
+                .author(sessionUser.getUsername())
+                .build();
+        menuService.deleteMenu(menuDelete);
+        return RestResponse.ofSuccess(true);
     }
 }

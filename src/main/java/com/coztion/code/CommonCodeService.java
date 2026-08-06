@@ -29,6 +29,14 @@ class CommonCodeService {
         return commonCodeRepository.selectCommonCodes(commonCodesSearch);
     }
 
+    @Transactional(readOnly = true)
+    public CommonCode getCommonCode(CommonCodeSearch commonCodeSearch) {
+        return commonCodeRepository
+                .selectCommonCode(commonCodeSearch)
+                .orElseThrow(() -> new RestException(
+                        TranslationKey.Common.Message.NOT_FOUND_FAILURE, TranslationKey.Code.Label.COMMON_CODE));
+    }
+
     @Transactional
     public CommonCode saveCommonCode(CommonCodeSave commonCodeSave) {
         CommonCodeSearch searchForExistingCommonCode = CommonCodeSearch.ofCodeIncludingDeletedData(
@@ -94,7 +102,8 @@ class CommonCodeService {
                 CommonCodeSearch.ofCode(commonCodeDelete.getTargetGroupCode(), commonCodeDelete.getTargetCommonCode());
         commonCodeRepository
                 .selectCommonCode(commonCodeSearch)
-                .orElseThrow(() -> new RestException(TranslationKey.Common.Message.NOT_FOUND_FAILURE));
+                .orElseThrow(() -> new RestException(
+                        TranslationKey.Common.Message.NOT_FOUND_FAILURE, TranslationKey.Code.Label.COMMON_CODE));
 
         int deletedCount = commonCodeRepository.deleteCommonCode(commonCodeDelete);
         if (deletedCount == 0) {
