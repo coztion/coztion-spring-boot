@@ -17,11 +17,17 @@
              , M.UPDATED_AT
           FROM TB_MENU M
          WHERE TRUE
+            <if test="menuId != null">
+           AND M.MENU_ID = #{menuId}
+            </if>
             <if test="menuIds != null and !menuIds.isEmpty()">
            AND M.MENU_ID IN
                 <foreach item="menuId" collection="menuIds" open="(" separator="," close=")">
                     #{menuId}
                 </foreach>
+            </if>
+            <if test="menuName != null and menuName != ''">
+           AND M.MENU_NAME LIKE CONCAT('%', #{menuName}, '%')
             </if>
             <if test="authorities != null and !authorities.isEmpty()">
            AND EXISTS (
