@@ -126,7 +126,8 @@ public class MenuService {
         MenuSearch menuSearch = MenuSearch.ofMenuId(menuDelete.getTargetMenuId());
         menuRepository
                 .selectMenu(menuSearch)
-                .orElseThrow(() -> new RestException(TranslationKey.Common.Message.NOT_FOUND_FAILURE));
+                .orElseThrow(() -> new RestException(
+                        TranslationKey.Common.Message.NOT_FOUND_FAILURE, TranslationKey.Menu.Label.MENU));
 
         int deletedCount = menuRepository.deleteMenu(menuDelete);
         if (deletedCount == 0) {
