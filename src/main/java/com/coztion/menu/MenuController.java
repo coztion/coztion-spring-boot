@@ -54,7 +54,7 @@ public class MenuController {
 
     @Operation(summary = "Post Menu")
     @PostMapping
-    @Authorize(menuIds = MenuId.MENU_MANAGEMENT)
+    @Authorize(menuIds = MenuId.MENU_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<Menu> postMenu(
             @Valid @RequestBody MenuSave menuSave, @AuthenticationPrincipal SessionUser sessionUser) {
         menuSave.setAuthor(sessionUser.getUsername());
@@ -64,7 +64,7 @@ public class MenuController {
 
     @Operation(summary = "Put Menu")
     @PutMapping("/{menuId}")
-    @Authorize(menuIds = MenuId.MENU_MANAGEMENT)
+    @Authorize(menuIds = MenuId.MENU_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<Void> putMenu(
             @PathVariable String menuId,
             @Valid @RequestBody MenuUpdate menuUpdate,
@@ -77,7 +77,7 @@ public class MenuController {
 
     @Operation(summary = "Delete Menu")
     @DeleteMapping("/{menuId}")
-    @Authorize(menuIds = MenuId.MENU_MANAGEMENT)
+    @Authorize(menuIds = MenuId.MENU_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<Boolean> deleteMenu(
             @PathVariable MenuId menuId, @AuthenticationPrincipal SessionUser sessionUser) {
         MenuDelete menuDelete = MenuDelete.builder()

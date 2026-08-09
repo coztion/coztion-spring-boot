@@ -11,6 +11,7 @@ import com.coztion.code.model.GroupCodesSearch;
 import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
 import com.coztion.core.security.Authorize;
+import com.coztion.menu.model.AuthorityType;
 import com.coztion.menu.model.MenuId;
 import com.coztion.user.model.SessionUser;
 import com.github.pagehelper.Page;
@@ -52,7 +53,7 @@ public class GroupCodeController {
 
     @Operation(summary = "Post Group Code")
     @PostMapping
-    @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
+    @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<GroupCode> postGroupCode(
             @Valid @RequestBody GroupCodeSave groupCodeSave, @AuthenticationPrincipal SessionUser sessionUser) {
         groupCodeSave.setAuthor(sessionUser.getUsername());
@@ -62,7 +63,7 @@ public class GroupCodeController {
 
     @Operation(summary = "Put Group Code")
     @PutMapping("/{groupCode}")
-    @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
+    @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<GroupCode> putGroupCode(
             @PathVariable String groupCode,
             @Valid @RequestBody GroupCodeUpdate groupCodeUpdate,
@@ -75,7 +76,7 @@ public class GroupCodeController {
 
     @Operation(summary = "Delete Group Code")
     @DeleteMapping("/{groupCode}")
-    @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
+    @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<Boolean> deleteGroupCode(
             @PathVariable String groupCode, @AuthenticationPrincipal SessionUser sessionUser) {
         GroupCodeDelete groupCodeDelete = GroupCodeDelete.builder()

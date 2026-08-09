@@ -11,6 +11,7 @@ import com.coztion.code.model.CommonCodesSearch;
 import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
 import com.coztion.core.security.Authorize;
+import com.coztion.menu.model.AuthorityType;
 import com.coztion.menu.model.MenuId;
 import com.coztion.user.model.SessionUser;
 import com.github.pagehelper.Page;
@@ -59,7 +60,7 @@ public class CommonCodeController {
 
     @Operation(summary = "Post Common Code")
     @PostMapping
-    @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
+    @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<CommonCode> postCommonCode(
             @Valid @RequestBody CommonCodeSave commonCodeSave, @AuthenticationPrincipal SessionUser sessionUser) {
         commonCodeSave.setAuthor(sessionUser.getUsername());
@@ -69,7 +70,7 @@ public class CommonCodeController {
 
     @Operation(summary = "Put Common Code")
     @PutMapping("/{commonCode}")
-    @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
+    @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<CommonCode> putCommonCode(
             @PathVariable String commonCode,
             @Valid @RequestBody CommonCodeUpdate commonCodeUpdate,
@@ -82,7 +83,7 @@ public class CommonCodeController {
 
     @Operation(summary = "Delete Common Code")
     @DeleteMapping("/{commonCode}")
-    @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
+    @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<Boolean> deleteCommonCode(
             @PathVariable String commonCode,
             @Valid @RequestBody CommonCodeDelete commonCodeDelete,
