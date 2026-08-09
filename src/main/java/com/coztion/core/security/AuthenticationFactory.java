@@ -65,7 +65,7 @@ public class AuthenticationFactory {
 
     private String generateToken(SessionUser sessionUser, long expirationMillis) {
         Map<String, Object> claims =
-                Map.of("username", sessionUser.getUsername(), "authorities", sessionUser.getAuthorityCodes());
+                Map.of("username", sessionUser.getUsername(), "authorities", sessionUser.getAuthorityRoles());
 
         Instant now = Instant.now();
         Instant expiration = now.plusMillis(expirationMillis);
@@ -92,13 +92,13 @@ public class AuthenticationFactory {
         String username = claims.getSubject();
 
         List<?> authorities = claims.get("authorities", List.class);
-        List<String> authorityCodes = Objects.nonNull(authorities)
+        List<String> authorityRoles = Objects.nonNull(authorities)
                 ? authorities.stream().map(Object::toString).toList()
                 : List.of();
 
         return SessionUser.builder()
                 .username(username)
-                .authorityCodes(authorityCodes)
+                .authorityRoles(authorityRoles)
                 .build();
     }
 }

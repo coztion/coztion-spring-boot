@@ -3,7 +3,9 @@ package com.coztion.core.security;
 import java.util.*;
 
 import com.coztion.menu.MenuService;
+import com.coztion.menu.model.AuthorityType;
 import com.coztion.menu.model.Menu;
+import com.coztion.menu.model.MenuAuthority;
 import com.coztion.menu.model.MenuId;
 import com.coztion.menu.model.MenusSearch;
 import com.coztion.user.model.Authority;
@@ -43,8 +45,10 @@ public class AuthorizeAspect {
 
         MenuId[] menuIds = authorize.menuIds();
         Authority[] authorities = authorize.authorities();
+        AuthorityType authorityType = authorize.authorityType();
 
-        List<Authority> requiredAuthorities = extractRequiredAuthorities(List.of(menuIds), List.of(authorities));
+        List<Authority> requiredAuthorities =
+                extractRequiredAuthorities(List.of(menuIds), List.of(authorities), authorityType);
 
         List<Authority> userAuthorities = Optional.ofNullable(
                         SecurityContextHolder.getContext().getAuthentication())
@@ -59,13 +63,14 @@ public class AuthorizeAspect {
         }
     }
 
-    private List<Authority> extractRequiredAuthorities(List<MenuId> menuIds, List<Authority> authorities) {
+    private List<Authority> extractRequiredAuthorities(
+            List<MenuId> menuIds, List<Authority> authorities, AuthorityType authorityType) {
         boolean isMenuIdsEmpty = CollectionUtils.isEmpty(menuIds);
         if (isMenuIdsEmpty) {
             return authorities;
         }
 
-        List<Authority> accessibleMenuAuthorities = getAccessibleMenuAuthorities(menuIds);
+        List<Authority> accessibleMenuAuthorities = getAccessibleMenuAuthorities(menuIds, authorityType);
 
         boolean hasAuthorities = !CollectionUtils.isEmpty(authorities);
         if (hasAuthorities) {
@@ -77,13 +82,15 @@ public class AuthorizeAspect {
         return accessibleMenuAuthorities;
     }
 
-    private List<Authority> getAccessibleMenuAuthorities(List<MenuId> menuIds) {
+    private List<Authority> getAccessibleMenuAuthorities(List<MenuId> menuIds, AuthorityType authorityType) {
         MenusSearch menuSearch =
                 MenusSearch.builder().menuIds(menuIds).includeAuthorities(true).build();
         List<Menu> menus = menuService.getMenus(menuSearch);
         return menus.stream()
                 .map(Menu::getAuthorities)
                 .flatMap(Collection::stream)
+                .filter(menuAuthority -> menuAuthority.getAuthorityType() == authorityType)
+                .map(MenuAuthority::getAuthority)
                 .distinct()
                 .toList();
     }

@@ -12,7 +12,7 @@ public enum Authority implements ValueEnum {
     ADMIN("ROLE_ADMIN"),
     USER("ROLE_USER");
 
-    private final String authorityCode;
+    private final String authorityRole;
 
     public static Authority ofValue(String value) {
         return ValueEnum.ofValue(Authority.class, value);
@@ -20,6 +20,6 @@ public enum Authority implements ValueEnum {
 
     @Override
     public String getValue() {
-        return authorityCode;
+        return authorityRole;
     }
 }

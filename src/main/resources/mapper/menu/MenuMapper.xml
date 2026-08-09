@@ -34,7 +34,7 @@
            AND EXISTS (
                SELECT 1 FROM TB_MENU_AUTHORITY MA
                 WHERE MA.MENU_ID = M.MENU_ID
-                  AND MA.AUTHORITY_CODE IN
+                  AND MA.AUTHORITY_ROLE IN
                     <foreach item="authority" collection="authorities" open="(" separator="," close=")">
                         #{authority}
                     </foreach>
@@ -90,7 +90,7 @@
                  , M.SORT_ORDER
               FROM TB_MENU M
              INNER JOIN TB_MENU_AUTHORITY MA ON M.MENU_ID = MA.MENU_ID
-             WHERE MA.AUTHORITY_CODE IN
+             WHERE MA.AUTHORITY_ROLE IN
             <foreach item="authority" collection="authorities" open="(" separator="," close=")">
                 #{authority}
             </foreach>

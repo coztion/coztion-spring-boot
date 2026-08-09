@@ -17,21 +17,21 @@ public class SessionUser implements UserDetails {
 
     private String password;
 
-    private List<String> authorityCodes;
+    private List<String> authorityRoles;
 
     public static SessionUser ofUser(User user) {
         return SessionUser.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .authorityCodes(user.getAuthorities().stream()
-                        .map(Authority::getAuthorityCode)
+                .authorityRoles(user.getAuthorities().stream()
+                        .map(Authority::getAuthorityRole)
                         .toList())
                 .build();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorityCodes.stream()
+        return authorityRoles.stream()
                 .map(role -> (GrantedAuthority) () -> role)
                 .toList();
     }
@@ -49,11 +49,11 @@ public class SessionUser implements UserDetails {
     public SessionUserInfo toPublicInfo() {
         return SessionUserInfo.builder()
                 .username(username)
-                .authorityCodes(authorityCodes)
+                .authorityRoles(authorityRoles)
                 .build();
     }
 
     public List<Authority> getAuthorityList() {
-        return authorityCodes.stream().map(Authority::ofValue).toList();
+        return authorityRoles.stream().map(Authority::ofValue).toList();
     }
 }

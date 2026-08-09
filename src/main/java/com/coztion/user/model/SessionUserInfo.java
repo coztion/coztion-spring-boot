@@ -16,5 +16,5 @@ public class SessionUserInfo {
     private String username;
 
     @Schema(description = "Authorities")
-    private List<String> authorityCodes;
+    private List<String> authorityRoles;
 }

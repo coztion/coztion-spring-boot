@@ -18,4 +18,7 @@ public class MenuAuthority {
 
     @Schema(description = "Authority")
     private Authority authority;
+
+    @Schema(description = "Authority Type")
+    private AuthorityType authorityType;
 }
