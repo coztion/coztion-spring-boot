@@ -4,11 +4,12 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
+import com.coztion.authority.model.AuthorityRole;
+import com.coztion.authority.model.AuthorityType;
 import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
 import com.coztion.core.security.Authorize;
 import com.coztion.menu.model.*;
-import com.coztion.user.model.AuthorityRole;
 import com.coztion.user.model.SessionUser;
 import com.github.pagehelper.Page;
 

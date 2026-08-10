@@ -1,4 +1,4 @@
-package com.coztion.user.model;
+package com.coztion.authority.model;
 
 import com.coztion.common.enums.ValueEnum;
 
@@ -12,7 +12,7 @@ public enum AuthorityRole implements ValueEnum {
     ADMIN("ROLE_ADMIN"),
     USER("ROLE_USER");
 
-    private final String authorityRole;
+    private final String value;
 
     public static AuthorityRole ofValue(String value) {
         return ValueEnum.ofValue(AuthorityRole.class, value);
@@ -20,6 +20,6 @@ public enum AuthorityRole implements ValueEnum {
 
     @Override
     public String getValue() {
-        return authorityRole;
+        return value;
     }
 }

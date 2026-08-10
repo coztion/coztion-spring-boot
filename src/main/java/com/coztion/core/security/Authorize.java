@@ -5,9 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.coztion.menu.model.AuthorityType;
+import com.coztion.authority.model.AuthorityRole;
+import com.coztion.authority.model.AuthorityType;
 import com.coztion.menu.model.MenuId;
-import com.coztion.user.model.AuthorityRole;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

@@ -2,13 +2,13 @@ package com.coztion.core.security;
 
 import java.util.*;
 
+import com.coztion.authority.model.AuthorityRole;
+import com.coztion.authority.model.AuthorityType;
 import com.coztion.menu.MenuService;
-import com.coztion.menu.model.AuthorityType;
 import com.coztion.menu.model.Menu;
 import com.coztion.menu.model.MenuAuthority;
 import com.coztion.menu.model.MenuId;
 import com.coztion.menu.model.MenusSearch;
-import com.coztion.user.model.AuthorityRole;
 import com.coztion.user.model.SessionUser;
 
 import org.aspectj.lang.JoinPoint;

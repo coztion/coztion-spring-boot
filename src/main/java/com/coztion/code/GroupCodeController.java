@@ -2,6 +2,7 @@ package com.coztion.code;
 
 import jakarta.validation.Valid;
 
+import com.coztion.authority.model.AuthorityType;
 import com.coztion.code.model.GroupCode;
 import com.coztion.code.model.GroupCodeDelete;
 import com.coztion.code.model.GroupCodeSave;
@@ -11,7 +12,6 @@ import com.coztion.code.model.GroupCodesSearch;
 import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
 import com.coztion.core.security.Authorize;
-import com.coztion.menu.model.AuthorityType;
 import com.coztion.menu.model.MenuId;
 import com.coztion.user.model.SessionUser;
 import com.github.pagehelper.Page;

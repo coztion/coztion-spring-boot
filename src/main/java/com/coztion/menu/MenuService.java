@@ -7,10 +7,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.coztion.authority.model.AuthorityRole;
 import com.coztion.common.constant.TranslationKey;
 import com.coztion.common.exception.RestException;
 import com.coztion.menu.model.*;
-import com.coztion.user.model.AuthorityRole;
 import com.github.pagehelper.Page;
 
 import org.springframework.stereotype.Service;

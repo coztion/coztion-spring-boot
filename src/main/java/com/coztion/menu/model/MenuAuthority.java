@@ -1,6 +1,7 @@
 package com.coztion.menu.model;
 
-import com.coztion.user.model.AuthorityRole;
+import com.coztion.authority.model.AuthorityRole;
+import com.coztion.authority.model.AuthorityType;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

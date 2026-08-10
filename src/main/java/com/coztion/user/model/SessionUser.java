@@ -3,6 +3,8 @@ package com.coztion.user.model;
 import java.util.Collection;
 import java.util.List;
 
+import com.coztion.authority.model.AuthorityRole;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -24,7 +26,7 @@ public class SessionUser implements UserDetails {
                 .username(user.getUsername())
                 .password(user.getPassword())
                 .authorityRoles(user.getAuthorityRoles().stream()
-                        .map(AuthorityRole::getAuthorityRole)
+                        .map(AuthorityRole::getValue)
                         .toList())
                 .build();
     }

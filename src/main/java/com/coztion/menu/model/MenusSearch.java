@@ -2,9 +2,9 @@ package com.coztion.menu.model;
 
 import java.util.List;
 
+import com.coztion.authority.model.AuthorityRole;
 import com.coztion.common.enums.DataStatus;
 import com.coztion.common.model.Pagination;
-import com.coztion.user.model.AuthorityRole;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

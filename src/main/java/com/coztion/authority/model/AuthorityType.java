@@ -1,4 +1,4 @@
-package com.coztion.menu.model;
+package com.coztion.authority.model;
 
 import com.coztion.common.enums.ValueEnum;
 
