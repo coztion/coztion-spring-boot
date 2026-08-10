@@ -1,6 +1,6 @@
 package com.coztion.menu.model;
 
-import com.coztion.user.model.Authority;
+import com.coztion.user.model.AuthorityRole;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -16,8 +16,8 @@ public class MenuAuthority {
     @Schema(description = "Menu Id")
     private MenuId menuId;
 
-    @Schema(description = "Authority")
-    private Authority authority;
+    @Schema(description = "Authority Role")
+    private AuthorityRole authorityRole;
 
     @Schema(description = "Authority Type")
     private AuthorityType authorityType;

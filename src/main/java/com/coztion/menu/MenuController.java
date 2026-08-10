@@ -8,7 +8,7 @@ import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
 import com.coztion.core.security.Authorize;
 import com.coztion.menu.model.*;
-import com.coztion.user.model.Authority;
+import com.coztion.user.model.AuthorityRole;
 import com.coztion.user.model.SessionUser;
 import com.github.pagehelper.Page;
 
@@ -48,8 +48,8 @@ public class MenuController {
     @Operation(summary = "Get Menu Infos")
     @GetMapping("/menu-infos")
     public RestResponse<List<MenuInfo>> getMenuInfos(@AuthenticationPrincipal SessionUser sessionUser) {
-        List<Authority> authorities = sessionUser.getAuthorityList();
-        return RestResponse.ofSuccess(menuService.getMenuInfos(authorities));
+        List<AuthorityRole> authorityRoles = sessionUser.getAuthorityRoleList();
+        return RestResponse.ofSuccess(menuService.getMenuInfos(authorityRoles));
     }
 
     @Operation(summary = "Post Menu")

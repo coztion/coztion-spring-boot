@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import com.coztion.common.constant.TranslationKey;
 import com.coztion.common.exception.RestException;
 import com.coztion.menu.model.*;
-import com.coztion.user.model.Authority;
+import com.coztion.user.model.AuthorityRole;
 import com.github.pagehelper.Page;
 
 import org.springframework.stereotype.Service;
@@ -54,8 +54,8 @@ public class MenuService {
     }
 
     @Transactional(readOnly = true)
-    public List<MenuInfo> getMenuInfos(List<Authority> authorities) {
-        List<MenuInfo> menus = menuRepository.selectMenuInfos(authorities);
+    public List<MenuInfo> getMenuInfos(List<AuthorityRole> authorityRoles) {
+        List<MenuInfo> menus = menuRepository.selectMenuInfos(authorityRoles);
 
         Map<String, MenuInfo> map = menus.stream().collect(Collectors.toMap(MenuInfo::getMenuId, menu -> menu));
 

@@ -7,15 +7,15 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Authority implements ValueEnum {
+public enum AuthorityRole implements ValueEnum {
     SYSTEM("ROLE_SYSTEM"),
     ADMIN("ROLE_ADMIN"),
     USER("ROLE_USER");
 
     private final String authorityRole;
 
-    public static Authority ofValue(String value) {
-        return ValueEnum.ofValue(Authority.class, value);
+    public static AuthorityRole ofValue(String value) {
+        return ValueEnum.ofValue(AuthorityRole.class, value);
     }
 
     @Override

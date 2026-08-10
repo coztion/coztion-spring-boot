@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.coztion.common.enums.DataStatus;
 import com.coztion.common.model.Pagination;
-import com.coztion.user.model.Authority;
+import com.coztion.user.model.AuthorityRole;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -33,8 +33,8 @@ public class MenusSearch extends Pagination {
     @Schema(description = "Data Status", example = "ENABLED")
     private DataStatus dataStatus;
 
-    @Schema(description = "Authorities", hidden = true)
-    private List<Authority> authorities;
+    @Schema(description = "Authority Roles", hidden = true)
+    private List<AuthorityRole> authorityRoles;
 
     @Schema(description = "Include Authorities in Result")
     private boolean includeAuthorities;

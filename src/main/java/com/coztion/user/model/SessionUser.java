@@ -23,8 +23,8 @@ public class SessionUser implements UserDetails {
         return SessionUser.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .authorityRoles(user.getAuthorities().stream()
-                        .map(Authority::getAuthorityRole)
+                .authorityRoles(user.getAuthorityRoles().stream()
+                        .map(AuthorityRole::getAuthorityRole)
                         .toList())
                 .build();
     }
@@ -53,7 +53,7 @@ public class SessionUser implements UserDetails {
                 .build();
     }
 
-    public List<Authority> getAuthorityList() {
-        return authorityRoles.stream().map(Authority::ofValue).toList();
+    public List<AuthorityRole> getAuthorityRoleList() {
+        return authorityRoles.stream().map(AuthorityRole::ofValue).toList();
     }
 }

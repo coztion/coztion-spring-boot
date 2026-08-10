@@ -30,13 +30,13 @@
             <if test="menuName != null and menuName != ''">
            AND M.MENU_NAME LIKE CONCAT('%', #{menuName}, '%')
             </if>
-            <if test="authorities != null and !authorities.isEmpty()">
+            <if test="authorityRoles != null and !authorityRoles.isEmpty()">
            AND EXISTS (
                SELECT 1 FROM TB_MENU_AUTHORITY MA
                 WHERE MA.MENU_ID = M.MENU_ID
                   AND MA.AUTHORITY_ROLE IN
-                    <foreach item="authority" collection="authorities" open="(" separator="," close=")">
-                        #{authority}
+                    <foreach item="authorityRole" collection="authorityRoles" open="(" separator="," close=")">
+                        #{authorityRole}
                     </foreach>
            )
             </if>
@@ -93,15 +93,15 @@
                         WHERE WMA.MENU_ID = M.MENU_ID
                           AND WMA.AUTHORITY_TYPE = 'WRITE'
                           AND WMA.AUTHORITY_ROLE IN
-                        <foreach item="authority" collection="authorities" open="(" separator="," close=")">
-                            #{authority}
+                        <foreach item="authorityRole" collection="authorityRoles" open="(" separator="," close=")">
+                            #{authorityRole}
                         </foreach>
                    ) AS READONLY
               FROM TB_MENU M
              INNER JOIN TB_MENU_AUTHORITY MA ON M.MENU_ID = MA.MENU_ID
              WHERE MA.AUTHORITY_ROLE IN
-            <foreach item="authority" collection="authorities" open="(" separator="," close=")">
-                #{authority}
+            <foreach item="authorityRole" collection="authorityRoles" open="(" separator="," close=")">
+                #{authorityRole}
             </foreach>
                AND M.DATA_STATUS = 'ENABLED'
 
@@ -118,8 +118,8 @@
                         WHERE WMA.MENU_ID = P.MENU_ID
                           AND WMA.AUTHORITY_TYPE = 'WRITE'
                           AND WMA.AUTHORITY_ROLE IN
-                        <foreach item="authority" collection="authorities" open="(" separator="," close=")">
-                            #{authority}
+                        <foreach item="authorityRole" collection="authorityRoles" open="(" separator="," close=")">
+                            #{authorityRole}
                         </foreach>
                    ) AS READONLY
               FROM TB_MENU P

@@ -15,5 +15,5 @@ public class User {
 
     private String password;
 
-    private List<Authority> authorities;
+    private List<AuthorityRole> authorityRoles;
 }
