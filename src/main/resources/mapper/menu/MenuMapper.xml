@@ -88,6 +88,15 @@
                  , M.URL
                  , M.PARENT_MENU_ID
                  , M.SORT_ORDER
+                 , NOT EXISTS (
+                       SELECT 1 FROM TB_MENU_AUTHORITY WMA
+                        WHERE WMA.MENU_ID = M.MENU_ID
+                          AND WMA.AUTHORITY_TYPE = 'WRITE'
+                          AND WMA.AUTHORITY_ROLE IN
+                        <foreach item="authority" collection="authorities" open="(" separator="," close=")">
+                            #{authority}
+                        </foreach>
+                   ) AS READONLY
               FROM TB_MENU M
              INNER JOIN TB_MENU_AUTHORITY MA ON M.MENU_ID = MA.MENU_ID
              WHERE MA.AUTHORITY_ROLE IN
@@ -104,6 +113,15 @@
                  , P.URL
                  , P.PARENT_MENU_ID
                  , P.SORT_ORDER
+                 , NOT EXISTS (
+                       SELECT 1 FROM TB_MENU_AUTHORITY WMA
+                        WHERE WMA.MENU_ID = P.MENU_ID
+                          AND WMA.AUTHORITY_TYPE = 'WRITE'
+                          AND WMA.AUTHORITY_ROLE IN
+                        <foreach item="authority" collection="authorities" open="(" separator="," close=")">
+                            #{authority}
+                        </foreach>
+                   ) AS READONLY
               FROM TB_MENU P
              INNER JOIN MENU_INFO C ON P.MENU_ID = C.PARENT_MENU_ID
              WHERE P.DATA_STATUS = 'ENABLED'
@@ -114,6 +132,7 @@
                       , URL
                       , PARENT_MENU_ID
                       , SORT_ORDER
+                      , READONLY
           FROM MENU_INFO
          ORDER BY SORT_ORDER
     </select>
