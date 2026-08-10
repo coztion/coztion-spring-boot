@@ -6,7 +6,8 @@
             parameterType="com.coztion.menu.model.MenuAuthoritiesSearch"
             resultType="com.coztion.menu.model.MenuAuthority">
         SELECT MA.MENU_ID
-             , MA.AUTHORITY_CODE AS AUTHORITY
+             , MA.AUTHORITY_ROLE
+             , MA.AUTHORITY_TYPE
           FROM TB_MENU_AUTHORITY MA
          WHERE MA.MENU_ID IN
         <foreach collection="menuIds" item="menuId" open="(" separator="," close=")">

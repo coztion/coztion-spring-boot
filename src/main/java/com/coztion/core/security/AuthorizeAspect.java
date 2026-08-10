@@ -2,11 +2,13 @@ package com.coztion.core.security;
 
 import java.util.*;
 
+import com.coztion.authority.model.AuthorityRole;
+import com.coztion.authority.model.AuthorityType;
 import com.coztion.menu.MenuService;
 import com.coztion.menu.model.Menu;
+import com.coztion.menu.model.MenuAuthority;
 import com.coztion.menu.model.MenuId;
 import com.coztion.menu.model.MenusSearch;
-import com.coztion.user.model.Authority;
 import com.coztion.user.model.SessionUser;
 
 import org.aspectj.lang.JoinPoint;
@@ -42,53 +44,59 @@ public class AuthorizeAspect {
         Authorize authorize = signature.getMethod().getAnnotation(Authorize.class);
 
         MenuId[] menuIds = authorize.menuIds();
-        Authority[] authorities = authorize.authorities();
+        AuthorityRole[] authorityRoles = authorize.authorityRoles();
+        AuthorityType authorityType = authorize.authorityType();
 
-        List<Authority> requiredAuthorities = extractRequiredAuthorities(List.of(menuIds), List.of(authorities));
+        List<AuthorityRole> requiredAuthorityRoles =
+                extractRequiredAuthorityRoles(List.of(menuIds), List.of(authorityRoles), authorityType);
 
-        List<Authority> userAuthorities = Optional.ofNullable(
+        List<AuthorityRole> userAuthorityRoles = Optional.ofNullable(
                         SecurityContextHolder.getContext().getAuthentication())
                 .map(Authentication::getPrincipal)
                 .map(SessionUser.class::cast)
                 .orElseThrow(() -> new IllegalArgumentException(AUTHENTICATION_FAILURE_MESSAGE))
-                .getAuthorityList();
+                .getAuthorityRoleList();
 
-        boolean isNotAuthorized = !validateAuthority(requiredAuthorities, userAuthorities);
+        boolean isNotAuthorized = !validateAuthorityRole(requiredAuthorityRoles, userAuthorityRoles);
         if (isNotAuthorized) {
             throw new AccessDeniedException(AUTHORIZATION_FAILURE_MESSAGE);
         }
     }
 
-    private List<Authority> extractRequiredAuthorities(List<MenuId> menuIds, List<Authority> authorities) {
+    private List<AuthorityRole> extractRequiredAuthorityRoles(
+            List<MenuId> menuIds, List<AuthorityRole> authorityRoles, AuthorityType authorityType) {
         boolean isMenuIdsEmpty = CollectionUtils.isEmpty(menuIds);
         if (isMenuIdsEmpty) {
-            return authorities;
+            return authorityRoles;
         }
 
-        List<Authority> accessibleMenuAuthorities = getAccessibleMenuAuthorities(menuIds);
+        List<AuthorityRole> accessibleMenuAuthorityRoles = getAccessibleMenuAuthorityRoles(menuIds, authorityType);
 
-        boolean hasAuthorities = !CollectionUtils.isEmpty(authorities);
-        if (hasAuthorities) {
-            return authorities.stream()
-                    .filter(accessibleMenuAuthorities::contains)
+        boolean hasAuthorityRoles = !CollectionUtils.isEmpty(authorityRoles);
+        if (hasAuthorityRoles) {
+            return authorityRoles.stream()
+                    .filter(accessibleMenuAuthorityRoles::contains)
                     .toList();
         }
 
-        return accessibleMenuAuthorities;
+        return accessibleMenuAuthorityRoles;
     }
 
-    private List<Authority> getAccessibleMenuAuthorities(List<MenuId> menuIds) {
+    private List<AuthorityRole> getAccessibleMenuAuthorityRoles(List<MenuId> menuIds, AuthorityType authorityType) {
         MenusSearch menuSearch =
                 MenusSearch.builder().menuIds(menuIds).includeAuthorities(true).build();
         List<Menu> menus = menuService.getMenus(menuSearch);
         return menus.stream()
                 .map(Menu::getAuthorities)
                 .flatMap(Collection::stream)
+                .filter(menuAuthority -> menuAuthority.getAuthorityType() == authorityType)
+                .map(MenuAuthority::getAuthorityRole)
                 .distinct()
                 .toList();
     }
 
-    private boolean validateAuthority(List<Authority> requiredAuthorities, List<Authority> userAuthorities) {
-        return requiredAuthorities.stream().anyMatch(userAuthorities::contains);
+    private boolean validateAuthorityRole(
+            List<AuthorityRole> requiredAuthorityRoles, List<AuthorityRole> userAuthorityRoles) {
+        return requiredAuthorityRoles.stream().anyMatch(userAuthorityRoles::contains);
     }
 }

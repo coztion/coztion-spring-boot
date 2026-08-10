@@ -1,4 +1,4 @@
-package com.coztion.user.model;
+package com.coztion.authority.model;
 
 import com.coztion.common.enums.ValueEnum;
 
@@ -7,19 +7,19 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Authority implements ValueEnum {
+public enum AuthorityRole implements ValueEnum {
     SYSTEM("ROLE_SYSTEM"),
     ADMIN("ROLE_ADMIN"),
     USER("ROLE_USER");
 
-    private final String authorityCode;
+    private final String value;
 
-    public static Authority ofValue(String value) {
-        return ValueEnum.ofValue(Authority.class, value);
+    public static AuthorityRole ofValue(String value) {
+        return ValueEnum.ofValue(AuthorityRole.class, value);
     }
 
     @Override
     public String getValue() {
-        return authorityCode;
+        return value;
     }
 }

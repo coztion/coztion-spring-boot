@@ -7,10 +7,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.coztion.authority.model.AuthorityRole;
 import com.coztion.common.constant.TranslationKey;
 import com.coztion.common.exception.RestException;
 import com.coztion.menu.model.*;
-import com.coztion.user.model.Authority;
 import com.github.pagehelper.Page;
 
 import org.springframework.stereotype.Service;
@@ -37,10 +37,8 @@ public class MenuService {
             List<MenuId> menuIds = menus.stream().map(Menu::getMenuId).toList();
             List<MenuAuthority> menuAuthorities =
                     menuAuthorityRepository.selectMenuAuthorities(MenuAuthoritiesSearch.ofMenuIds(menuIds));
-            Map<MenuId, List<Authority>> menuIdMenuAuthorities = menuAuthorities.stream()
-                    .collect(Collectors.groupingBy(
-                            MenuAuthority::getMenuId,
-                            Collectors.mapping(MenuAuthority::getAuthority, Collectors.toList())));
+            Map<MenuId, List<MenuAuthority>> menuIdMenuAuthorities =
+                    menuAuthorities.stream().collect(Collectors.groupingBy(MenuAuthority::getMenuId));
             menus.forEach(menu -> menu.setAuthorities(menuIdMenuAuthorities.getOrDefault(menu.getMenuId(), List.of())));
         }
 
@@ -56,8 +54,8 @@ public class MenuService {
     }
 
     @Transactional(readOnly = true)
-    public List<MenuInfo> getMenuInfos(List<Authority> authorities) {
-        List<MenuInfo> menus = menuRepository.selectMenuInfos(authorities);
+    public List<MenuInfo> getMenuInfos(List<AuthorityRole> authorityRoles) {
+        List<MenuInfo> menus = menuRepository.selectMenuInfos(authorityRoles);
 
         Map<String, MenuInfo> map = menus.stream().collect(Collectors.toMap(MenuInfo::getMenuId, menu -> menu));
 

@@ -5,8 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.coztion.authority.model.AuthorityRole;
+import com.coztion.authority.model.AuthorityType;
 import com.coztion.menu.model.MenuId;
-import com.coztion.user.model.Authority;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -14,5 +15,7 @@ public @interface Authorize {
 
     MenuId[] menuIds() default {};
 
-    Authority[] authorities() default {};
+    AuthorityRole[] authorityRoles() default {};
+
+    AuthorityType authorityType() default AuthorityType.READ;
 }

@@ -3,6 +3,8 @@ package com.coztion.user.model;
 import java.util.Collection;
 import java.util.List;
 
+import com.coztion.authority.model.AuthorityRole;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,21 +19,21 @@ public class SessionUser implements UserDetails {
 
     private String password;
 
-    private List<String> authorityCodes;
+    private List<String> authorityRoles;
 
     public static SessionUser ofUser(User user) {
         return SessionUser.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .authorityCodes(user.getAuthorities().stream()
-                        .map(Authority::getAuthorityCode)
+                .authorityRoles(user.getAuthorityRoles().stream()
+                        .map(AuthorityRole::getValue)
                         .toList())
                 .build();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorityCodes.stream()
+        return authorityRoles.stream()
                 .map(role -> (GrantedAuthority) () -> role)
                 .toList();
     }
@@ -49,11 +51,11 @@ public class SessionUser implements UserDetails {
     public SessionUserInfo toPublicInfo() {
         return SessionUserInfo.builder()
                 .username(username)
-                .authorityCodes(authorityCodes)
+                .authorityRoles(authorityRoles)
                 .build();
     }
 
-    public List<Authority> getAuthorityList() {
-        return authorityCodes.stream().map(Authority::ofValue).toList();
+    public List<AuthorityRole> getAuthorityRoleList() {
+        return authorityRoles.stream().map(AuthorityRole::ofValue).toList();
     }
 }

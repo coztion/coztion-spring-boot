@@ -2,6 +2,8 @@ package com.coztion.user.model;
 
 import java.util.List;
 
+import com.coztion.authority.model.AuthorityRole;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,5 +17,5 @@ public class User {
 
     private String password;
 
-    private List<Authority> authorities;
+    private List<AuthorityRole> authorityRoles;
 }

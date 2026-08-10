@@ -4,8 +4,8 @@
 
     <resultMap id="findUserByParamMap" type="com.coztion.user.model.User">
         <id property="username" column="USERNAME" />
-        <collection property="authorities" ofType="com.coztion.user.model.Authority">
-            <result property="authorityCode" column="AUTHORITY_CODE"/>
+        <collection property="authorityRoles" ofType="com.coztion.authority.model.AuthorityRole">
+            <result property="authorityRole" column="AUTHORITY_ROLE"/>
         </collection>
     </resultMap>
 
@@ -14,7 +14,7 @@
             resultMap="findUserByParamMap">
         SELECT U.USERNAME
              , U.PASSWORD
-             , UA.AUTHORITY_CODE
+             , UA.AUTHORITY_ROLE
           FROM TB_USER U
           LEFT JOIN TB_USER_AUTHORITY UA
                  ON U.USERNAME = UA.USERNAME

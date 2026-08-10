@@ -3,6 +3,7 @@ package com.coztion.menu;
 import java.util.List;
 import java.util.Optional;
 
+import com.coztion.authority.model.AuthorityRole;
 import com.coztion.menu.model.Menu;
 import com.coztion.menu.model.MenuDelete;
 import com.coztion.menu.model.MenuInfo;
@@ -10,7 +11,6 @@ import com.coztion.menu.model.MenuSave;
 import com.coztion.menu.model.MenuSearch;
 import com.coztion.menu.model.MenuUpdate;
 import com.coztion.menu.model.MenusSearch;
-import com.coztion.user.model.Authority;
 import com.github.pagehelper.Page;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -22,7 +22,7 @@ public interface MenuRepository {
 
     Optional<Menu> selectMenu(MenuSearch menuSearch);
 
-    List<MenuInfo> selectMenuInfos(List<Authority> authorities);
+    List<MenuInfo> selectMenuInfos(List<AuthorityRole> authorityRoles);
 
     int insertMenu(MenuSave menuSave);
 

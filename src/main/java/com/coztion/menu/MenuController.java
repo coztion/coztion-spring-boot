@@ -4,11 +4,12 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
+import com.coztion.authority.model.AuthorityRole;
+import com.coztion.authority.model.AuthorityType;
 import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
 import com.coztion.core.security.Authorize;
 import com.coztion.menu.model.*;
-import com.coztion.user.model.Authority;
 import com.coztion.user.model.SessionUser;
 import com.github.pagehelper.Page;
 
@@ -48,13 +49,13 @@ public class MenuController {
     @Operation(summary = "Get Menu Infos")
     @GetMapping("/menu-infos")
     public RestResponse<List<MenuInfo>> getMenuInfos(@AuthenticationPrincipal SessionUser sessionUser) {
-        List<Authority> authorities = sessionUser.getAuthorityList();
-        return RestResponse.ofSuccess(menuService.getMenuInfos(authorities));
+        List<AuthorityRole> authorityRoles = sessionUser.getAuthorityRoleList();
+        return RestResponse.ofSuccess(menuService.getMenuInfos(authorityRoles));
     }
 
     @Operation(summary = "Post Menu")
     @PostMapping
-    @Authorize(menuIds = MenuId.MENU_MANAGEMENT)
+    @Authorize(menuIds = MenuId.MENU_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<Menu> postMenu(
             @Valid @RequestBody MenuSave menuSave, @AuthenticationPrincipal SessionUser sessionUser) {
         menuSave.setAuthor(sessionUser.getUsername());
@@ -64,7 +65,7 @@ public class MenuController {
 
     @Operation(summary = "Put Menu")
     @PutMapping("/{menuId}")
-    @Authorize(menuIds = MenuId.MENU_MANAGEMENT)
+    @Authorize(menuIds = MenuId.MENU_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<Void> putMenu(
             @PathVariable String menuId,
             @Valid @RequestBody MenuUpdate menuUpdate,
@@ -77,7 +78,7 @@ public class MenuController {
 
     @Operation(summary = "Delete Menu")
     @DeleteMapping("/{menuId}")
-    @Authorize(menuIds = MenuId.MENU_MANAGEMENT)
+    @Authorize(menuIds = MenuId.MENU_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<Boolean> deleteMenu(
             @PathVariable MenuId menuId, @AuthenticationPrincipal SessionUser sessionUser) {
         MenuDelete menuDelete = MenuDelete.builder()

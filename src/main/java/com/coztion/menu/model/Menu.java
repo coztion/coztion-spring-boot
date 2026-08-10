@@ -3,7 +3,6 @@ package com.coztion.menu.model;
 import java.util.List;
 
 import com.coztion.common.model.DataRecord;
-import com.coztion.user.model.Authority;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -35,5 +34,5 @@ public class Menu extends DataRecord {
     private Integer sortOrder;
 
     @Schema(description = "Authorities")
-    private List<Authority> authorities;
+    private List<MenuAuthority> authorities;
 }
