@@ -55,20 +55,14 @@ class CommonCodeService {
 
         int createdCount = commonCodeRepository.insertCommonCode(commonCodeSave);
         if (createdCount == 0) {
-            throw new RestException(
-                    TranslationKey.Common.Message.CREATE_FAILURE,
-                    TranslationKey.Code.Label.COMMON_CODE,
-                    commonCodeSave.getCommonCode());
+            throw new RestException(TranslationKey.Common.Message.CREATE_FAILURE);
         }
 
         CommonCodeSearch commonCodeSearch =
                 CommonCodeSearch.ofCode(commonCodeSave.getGroupCode(), commonCodeSave.getCommonCode());
         Optional<CommonCode> foundCommonCode = commonCodeRepository.selectCommonCode(commonCodeSearch);
 
-        return foundCommonCode.orElseThrow(() -> new RestException(
-                TranslationKey.Common.Message.CREATE_FAILURE,
-                TranslationKey.Code.Label.COMMON_CODE,
-                commonCodeSave.getCommonCode()));
+        return foundCommonCode.orElseThrow(() -> new RestException(TranslationKey.Common.Message.CREATE_FAILURE));
     }
 
     @Transactional
@@ -82,18 +76,12 @@ class CommonCodeService {
 
         int updatedCount = commonCodeRepository.updateCommonCode(commonCodeUpdate);
         if (updatedCount == 0) {
-            throw new RestException(
-                    TranslationKey.Common.Message.UPDATE_FAILURE,
-                    TranslationKey.Code.Label.COMMON_CODE,
-                    commonCodeUpdate.getTargetCommonCode());
+            throw new RestException(TranslationKey.Common.Message.UPDATE_FAILURE);
         }
 
         return commonCodeRepository
                 .selectCommonCode(commonCodeSearch)
-                .orElseThrow(() -> new RestException(
-                        TranslationKey.Common.Message.UPDATE_FAILURE,
-                        TranslationKey.Code.Label.COMMON_CODE,
-                        commonCodeUpdate.getTargetCommonCode()));
+                .orElseThrow(() -> new RestException(TranslationKey.Common.Message.UPDATE_FAILURE));
     }
 
     @Transactional
@@ -107,10 +95,7 @@ class CommonCodeService {
 
         int deletedCount = commonCodeRepository.deleteCommonCode(commonCodeDelete);
         if (deletedCount == 0) {
-            throw new RestException(
-                    TranslationKey.Common.Message.DELETE_FAILURE,
-                    TranslationKey.Code.Label.COMMON_CODE,
-                    commonCodeDelete.getTargetCommonCode());
+            throw new RestException(TranslationKey.Common.Message.DELETE_FAILURE);
         }
     }
 }
