@@ -44,11 +44,8 @@ class CommonCodeService {
         Optional<CommonCode> optionalExistingCommonCode =
                 commonCodeRepository.selectCommonCode(searchForExistingCommonCode);
         if (optionalExistingCommonCode.isPresent()) {
-            CommonCode existingCommonCode = optionalExistingCommonCode.get();
             throw new RestException(
-                    existingCommonCode.isDeleted()
-                            ? TranslationKey.Common.Message.DUPLICATE_DELETED_FAILURE
-                            : TranslationKey.Common.Message.DUPLICATE_FAILURE,
+                    TranslationKey.Common.Message.DUPLICATE_FAILURE,
                     TranslationKey.Code.Label.COMMON_CODE,
                     commonCodeSave.getCommonCode());
         }

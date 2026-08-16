@@ -43,11 +43,8 @@ public class GroupCodeService {
                 GroupCodeSearch.ofGroupCodeIncludingDeletedData(groupCodeSave.getGroupCode());
         Optional<GroupCode> optionalExistingGroupCode = groupCodeRepository.selectGroupCode(searchForExistingGroupCode);
         if (optionalExistingGroupCode.isPresent()) {
-            GroupCode existingGroupCode = optionalExistingGroupCode.get();
             throw new RestException(
-                    existingGroupCode.isDeleted()
-                            ? TranslationKey.Common.Message.DUPLICATE_DELETED_FAILURE
-                            : TranslationKey.Common.Message.DUPLICATE_FAILURE,
+                    TranslationKey.Common.Message.DUPLICATE_FAILURE,
                     TranslationKey.Code.Label.GROUP_CODE,
                     groupCodeSave.getGroupCode());
         }
