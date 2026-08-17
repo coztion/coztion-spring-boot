@@ -17,9 +17,4 @@ public enum AuthorityRole implements ValueEnum {
     public static AuthorityRole ofValue(String value) {
         return ValueEnum.ofValue(AuthorityRole.class, value);
     }
-
-    @Override
-    public String getValue() {
-        return value;
-    }
 }

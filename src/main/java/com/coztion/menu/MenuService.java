@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.coztion.authority.model.AuthorityRole;
 import com.coztion.common.constant.TranslationKey;
 import com.coztion.common.exception.RestException;
 import com.coztion.menu.model.*;
@@ -34,10 +33,10 @@ public class MenuService {
 
         boolean hasMenus = !CollectionUtils.isEmpty(menus);
         if (hasMenus && menusSearch.isIncludeAuthorities()) {
-            List<MenuId> menuIds = menus.stream().map(Menu::getMenuId).toList();
+            List<String> menuIds = menus.stream().map(Menu::getMenuId).toList();
             List<MenuAuthority> menuAuthorities =
                     menuAuthorityRepository.selectMenuAuthorities(MenuAuthoritiesSearch.ofMenuIds(menuIds));
-            Map<MenuId, List<MenuAuthority>> menuIdMenuAuthorities =
+            Map<String, List<MenuAuthority>> menuIdMenuAuthorities =
                     menuAuthorities.stream().collect(Collectors.groupingBy(MenuAuthority::getMenuId));
             menus.forEach(menu -> menu.setAuthorities(menuIdMenuAuthorities.getOrDefault(menu.getMenuId(), List.of())));
         }
@@ -54,7 +53,7 @@ public class MenuService {
     }
 
     @Transactional(readOnly = true)
-    public List<MenuInfo> getMenuInfos(List<AuthorityRole> authorityRoles) {
+    public List<MenuInfo> getMenuInfos(List<String> authorityRoles) {
         List<MenuInfo> menus = menuRepository.selectMenuInfos(authorityRoles);
 
         Map<String, MenuInfo> map = menus.stream().collect(Collectors.toMap(MenuInfo::getMenuId, menu -> menu));
@@ -88,24 +87,20 @@ public class MenuService {
                             ? TranslationKey.Common.Message.DUPLICATE_DELETED_FAILURE
                             : TranslationKey.Common.Message.DUPLICATE_FAILURE,
                     TranslationKey.Menu.Label.MENU,
-                    menuSave.getMenuId().getValue());
+                    menuSave.getMenuId());
         }
 
         int createdCount = menuRepository.insertMenu(menuSave);
         if (createdCount == 0) {
             throw new RestException(
-                    TranslationKey.Common.Message.CREATE_FAILURE,
-                    TranslationKey.Menu.Label.MENU,
-                    menuSave.getMenuId().getValue());
+                    TranslationKey.Common.Message.CREATE_FAILURE, TranslationKey.Menu.Label.MENU, menuSave.getMenuId());
         }
 
         MenuSearch menuSearch = MenuSearch.ofMenuId(menuSave.getMenuId());
         Optional<Menu> foundMenu = menuRepository.selectMenu(menuSearch);
 
         return foundMenu.orElseThrow(() -> new RestException(
-                TranslationKey.Common.Message.CREATE_FAILURE,
-                TranslationKey.Menu.Label.MENU,
-                menuSave.getMenuId().getValue()));
+                TranslationKey.Common.Message.CREATE_FAILURE, TranslationKey.Menu.Label.MENU, menuSave.getMenuId()));
     }
 
     @Transactional
@@ -132,7 +127,7 @@ public class MenuService {
             throw new RestException(
                     TranslationKey.Common.Message.DELETE_FAILURE,
                     TranslationKey.Menu.Label.MENU,
-                    menuDelete.getTargetMenuId().getValue());
+                    menuDelete.getTargetMenuId());
         }
     }
 }

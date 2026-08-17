@@ -3,7 +3,6 @@ package com.coztion.code.model;
 import jakarta.validation.constraints.NotBlank;
 
 import com.coztion.common.constant.TranslationKey;
-import com.coztion.common.enums.DataStatus;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -28,7 +27,7 @@ public class CommonCodeSearch {
     private String commonCode;
 
     @Schema(description = "Data Status")
-    private DataStatus dataStatus;
+    private String dataStatus;
 
     @Schema(description = "Include Deleted Data")
     private boolean includeDeletedData;

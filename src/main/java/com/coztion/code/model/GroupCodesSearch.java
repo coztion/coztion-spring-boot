@@ -2,7 +2,6 @@ package com.coztion.code.model;
 
 import java.util.List;
 
-import com.coztion.common.enums.DataStatus;
 import com.coztion.common.model.Pagination;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,7 +32,7 @@ public class GroupCodesSearch extends Pagination {
     private String commonCodeName;
 
     @Schema(description = "Data Status")
-    private DataStatus dataStatus;
+    private String dataStatus;
 
     @Schema(description = "Include Deleted Data")
     private boolean includeDeletedData;

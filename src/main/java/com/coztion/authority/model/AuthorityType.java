@@ -12,4 +12,8 @@ public enum AuthorityType implements ValueEnum {
     WRITE("WRITE");
 
     private final String value;
+
+    public static AuthorityType ofValue(String value) {
+        return ValueEnum.ofValue(AuthorityType.class, value);
+    }
 }

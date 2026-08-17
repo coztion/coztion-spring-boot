@@ -12,6 +12,10 @@ public enum DataStatus implements ValueEnum {
 
     private final String value;
 
+    public static DataStatus ofValue(String value) {
+        return ValueEnum.ofValue(DataStatus.class, value);
+    }
+
     public boolean isEnabled() {
         return this.equals(ENABLED);
     }

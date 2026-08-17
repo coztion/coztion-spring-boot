@@ -25,9 +25,7 @@ public class SessionUser implements UserDetails {
         return SessionUser.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .authorityRoles(user.getAuthorityRoles().stream()
-                        .map(AuthorityRole::getValue)
-                        .toList())
+                .authorityRoles(user.getAuthorityRoles())
                 .build();
     }
 

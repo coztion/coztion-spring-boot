@@ -4,7 +4,6 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
-import com.coztion.authority.model.AuthorityRole;
 import com.coztion.authority.model.AuthorityType;
 import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
@@ -40,8 +39,7 @@ public class MenuController {
     @Operation(summary = "Get Menu")
     @GetMapping("/{menuId}")
     @Authorize(menuIds = MenuId.MENU_MANAGEMENT)
-    public RestResponse<Menu> getMenu(@PathVariable MenuId menuId, @ModelAttribute MenuSearch menuSearch) {
-        menuSearch.setMenuId(menuId);
+    public RestResponse<Menu> getMenu(@ModelAttribute MenuSearch menuSearch) {
         Menu foundMenu = menuService.getMenu(menuSearch);
         return RestResponse.ofSuccess(foundMenu);
     }
@@ -49,7 +47,7 @@ public class MenuController {
     @Operation(summary = "Get Menu Infos")
     @GetMapping("/menu-infos")
     public RestResponse<List<MenuInfo>> getMenuInfos(@AuthenticationPrincipal SessionUser sessionUser) {
-        List<AuthorityRole> authorityRoles = sessionUser.getAuthorityRoleList();
+        List<String> authorityRoles = sessionUser.getAuthorityRoles();
         return RestResponse.ofSuccess(menuService.getMenuInfos(authorityRoles));
     }
 
@@ -80,7 +78,7 @@ public class MenuController {
     @DeleteMapping("/{menuId}")
     @Authorize(menuIds = MenuId.MENU_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<Boolean> deleteMenu(
-            @PathVariable MenuId menuId, @AuthenticationPrincipal SessionUser sessionUser) {
+            @PathVariable String menuId, @AuthenticationPrincipal SessionUser sessionUser) {
         MenuDelete menuDelete = MenuDelete.builder()
                 .targetMenuId(menuId)
                 .author(sessionUser.getUsername())
