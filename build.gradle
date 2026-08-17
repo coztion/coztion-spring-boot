@@ -63,6 +63,10 @@ apply {
     from rootProject.file('gradle/spotless.gradle')
 }
 
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs << '-parameters'
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }
