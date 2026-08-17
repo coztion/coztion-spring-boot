@@ -1,9 +1,15 @@
 package com.coztion.code;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.coztion.code.model.CommonCode;
+import com.coztion.code.model.CommonCodesSearch;
 import com.coztion.code.model.GroupCode;
 import com.coztion.code.model.GroupCodeDelete;
+import com.coztion.code.model.GroupCodeOperation;
 import com.coztion.code.model.GroupCodeSave;
 import com.coztion.code.model.GroupCodeSearch;
 import com.coztion.code.model.GroupCodeUpdate;
@@ -14,6 +20,7 @@ import com.github.pagehelper.Page;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,10 +30,26 @@ public class GroupCodeService {
 
     private final GroupCodeRepository groupCodeRepository;
 
+    private final CommonCodeService commonCodeService;
+
     @Transactional(readOnly = true)
     public Page<GroupCode> getGroupCodes(GroupCodesSearch groupCodesSearch) {
         groupCodesSearch.validatePageable();
-        return groupCodeRepository.selectGroupCodes(groupCodesSearch);
+        Page<GroupCode> groupCodes = groupCodeRepository.selectGroupCodes(groupCodesSearch);
+
+        boolean hasGroupCodes = !CollectionUtils.isEmpty(groupCodes);
+        if (hasGroupCodes && groupCodesSearch.isIncludeCommonCodes()) {
+            List<String> groupCodeValues =
+                    groupCodes.stream().map(GroupCode::getGroupCode).toList();
+            List<CommonCode> commonCodes = commonCodeService.getCommonCodes(
+                    CommonCodesSearch.builder().groupCodes(groupCodeValues).build());
+            Map<String, List<CommonCode>> groupCodeCommonCodes =
+                    commonCodes.stream().collect(Collectors.groupingBy(CommonCode::getGroupCode));
+            groupCodes.forEach(groupCode ->
+                    groupCode.setCommonCodes(groupCodeCommonCodes.getOrDefault(groupCode.getGroupCode(), List.of())));
+        }
+
+        return groupCodes;
     }
 
     @Transactional(readOnly = true)
@@ -43,30 +66,21 @@ public class GroupCodeService {
                 GroupCodeSearch.ofGroupCodeIncludingDeletedData(groupCodeSave.getGroupCode());
         Optional<GroupCode> optionalExistingGroupCode = groupCodeRepository.selectGroupCode(searchForExistingGroupCode);
         if (optionalExistingGroupCode.isPresent()) {
-            GroupCode existingGroupCode = optionalExistingGroupCode.get();
             throw new RestException(
-                    existingGroupCode.isDeleted()
-                            ? TranslationKey.Common.Message.DUPLICATE_DELETED_FAILURE
-                            : TranslationKey.Common.Message.DUPLICATE_FAILURE,
+                    TranslationKey.Common.Message.DUPLICATE_FAILURE,
                     TranslationKey.Code.Label.GROUP_CODE,
                     groupCodeSave.getGroupCode());
         }
 
         int createdCount = groupCodeRepository.insertGroupCode(groupCodeSave);
         if (createdCount == 0) {
-            throw new RestException(
-                    TranslationKey.Common.Message.CREATE_FAILURE,
-                    TranslationKey.Code.Label.GROUP_CODE,
-                    groupCodeSave.getGroupCode());
+            throw new RestException(TranslationKey.Common.Message.CREATE_FAILURE);
         }
 
         GroupCodeSearch groupCodeSearch = GroupCodeSearch.ofGroupCode(groupCodeSave.getGroupCode());
         Optional<GroupCode> foundGroupCode = groupCodeRepository.selectGroupCode(groupCodeSearch);
 
-        return foundGroupCode.orElseThrow(() -> new RestException(
-                TranslationKey.Common.Message.CREATE_FAILURE,
-                TranslationKey.Code.Label.GROUP_CODE,
-                groupCodeSave.getGroupCode()));
+        return foundGroupCode.orElseThrow(() -> new RestException(TranslationKey.Common.Message.CREATE_FAILURE));
     }
 
     @Transactional
@@ -79,10 +93,7 @@ public class GroupCodeService {
 
         int updatedCount = groupCodeRepository.updateGroupCode(groupCodeUpdate);
         if (updatedCount == 0) {
-            throw new RestException(
-                    TranslationKey.Common.Message.UPDATE_FAILURE,
-                    TranslationKey.Code.Label.GROUP_CODE,
-                    groupCodeUpdate.getTargetGroupCode());
+            throw new RestException(TranslationKey.Common.Message.UPDATE_FAILURE);
         }
 
         if (groupCodeUpdate.hasDataStatusChanged(groupCode)) {
@@ -91,10 +102,7 @@ public class GroupCodeService {
 
         return groupCodeRepository
                 .selectGroupCode(groupCodeSearch)
-                .orElseThrow(() -> new RestException(
-                        TranslationKey.Common.Message.UPDATE_FAILURE,
-                        TranslationKey.Code.Label.GROUP_CODE,
-                        groupCodeUpdate.getTargetGroupCode()));
+                .orElseThrow(() -> new RestException(TranslationKey.Common.Message.UPDATE_FAILURE));
     }
 
     @Transactional
@@ -114,10 +122,22 @@ public class GroupCodeService {
 
         int deletedCount = groupCodeRepository.deleteGroupCode(groupCodeDelete);
         if (deletedCount == 0) {
-            throw new RestException(
-                    TranslationKey.Common.Message.DELETE_FAILURE,
-                    TranslationKey.Code.Label.GROUP_CODE,
-                    groupCodeDelete.getTargetGroupCode());
+            throw new RestException(TranslationKey.Common.Message.DELETE_FAILURE);
+        }
+    }
+
+    @Transactional
+    public void operateGroupCodes(GroupCodeOperation groupCodeOperation) {
+        if (groupCodeOperation.hasDeleteTargets()) {
+            groupCodeOperation.getGroupCodeDeletes().forEach(this::deleteGroupCode);
+        }
+
+        if (groupCodeOperation.hasUpdateTargets()) {
+            groupCodeOperation.getGroupCodeUpdates().forEach(this::updateGroupCode);
+        }
+
+        if (groupCodeOperation.hasSaveTargets()) {
+            groupCodeOperation.getGroupCodeSaves().forEach(this::saveGroupCode);
         }
     }
 }

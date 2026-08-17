@@ -81,36 +81,36 @@ public class MenuService {
         MenuSearch searchForExistingMenu = MenuSearch.ofMenuIdIncludingDeletedData(menuSave.getMenuId());
         Optional<Menu> optionalExistingMenu = menuRepository.selectMenu(searchForExistingMenu);
         if (optionalExistingMenu.isPresent()) {
-            Menu existingMenu = optionalExistingMenu.get();
             throw new RestException(
-                    existingMenu.isDeleted()
-                            ? TranslationKey.Common.Message.DUPLICATE_DELETED_FAILURE
-                            : TranslationKey.Common.Message.DUPLICATE_FAILURE,
+                    TranslationKey.Common.Message.DUPLICATE_FAILURE,
                     TranslationKey.Menu.Label.MENU,
                     menuSave.getMenuId());
         }
 
         int createdCount = menuRepository.insertMenu(menuSave);
         if (createdCount == 0) {
-            throw new RestException(
-                    TranslationKey.Common.Message.CREATE_FAILURE, TranslationKey.Menu.Label.MENU, menuSave.getMenuId());
+            throw new RestException(TranslationKey.Common.Message.CREATE_FAILURE);
         }
+
+        menuAuthorityRepository.insertMenuAuthorities(MenuAuthoritySave.ofSystemWithReadAndWrite(menuSave.getMenuId()));
 
         MenuSearch menuSearch = MenuSearch.ofMenuId(menuSave.getMenuId());
         Optional<Menu> foundMenu = menuRepository.selectMenu(menuSearch);
 
-        return foundMenu.orElseThrow(() -> new RestException(
-                TranslationKey.Common.Message.CREATE_FAILURE, TranslationKey.Menu.Label.MENU, menuSave.getMenuId()));
+        return foundMenu.orElseThrow(() -> new RestException(TranslationKey.Common.Message.CREATE_FAILURE));
     }
 
     @Transactional
     public void updateMenu(MenuUpdate menuUpdate) {
+        MenuSearch menuSearch = MenuSearch.ofMenuId(menuUpdate.getTargetMenuId());
+        menuRepository
+                .selectMenu(menuSearch)
+                .orElseThrow(() -> new RestException(
+                        TranslationKey.Common.Message.NOT_FOUND_FAILURE, TranslationKey.Menu.Label.MENU));
+
         int updatedMenuCount = menuRepository.updateMenu(menuUpdate);
         if (updatedMenuCount == 0) {
-            throw new RestException(
-                    TranslationKey.Common.Message.UPDATE_FAILURE,
-                    TranslationKey.Menu.Label.MENU,
-                    menuUpdate.getTargetMenuId());
+            throw new RestException(TranslationKey.Common.Message.UPDATE_FAILURE);
         }
     }
 
@@ -124,10 +124,22 @@ public class MenuService {
 
         int deletedCount = menuRepository.deleteMenu(menuDelete);
         if (deletedCount == 0) {
-            throw new RestException(
-                    TranslationKey.Common.Message.DELETE_FAILURE,
-                    TranslationKey.Menu.Label.MENU,
-                    menuDelete.getTargetMenuId());
+            throw new RestException(TranslationKey.Common.Message.DELETE_FAILURE);
+        }
+    }
+
+    @Transactional
+    public void operateMenus(MenuOperate menuOperate) {
+        if (menuOperate.hasDeleteTargets()) {
+            menuOperate.getMenuDeletes().forEach(this::deleteMenu);
+        }
+
+        if (menuOperate.hasUpdateTargets()) {
+            menuOperate.getMenuUpdates().forEach(this::updateMenu);
+        }
+
+        if (menuOperate.hasSaveTargets()) {
+            menuOperate.getMenuSaves().forEach(this::saveMenu);
         }
     }
 }

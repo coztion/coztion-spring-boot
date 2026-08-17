@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import com.coztion.authority.model.AuthorityType;
 import com.coztion.code.model.CommonCode;
 import com.coztion.code.model.CommonCodeDelete;
+import com.coztion.code.model.CommonCodeOperation;
 import com.coztion.code.model.CommonCodeSave;
 import com.coztion.code.model.CommonCodeSearch;
 import com.coztion.code.model.CommonCodeUpdate;
@@ -51,9 +52,7 @@ public class CommonCodeController {
     @Operation(summary = "Get Common Code")
     @GetMapping("/{commonCode}")
     @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
-    public RestResponse<CommonCode> getCommonCode(
-            @PathVariable String commonCode, @Valid @ModelAttribute CommonCodeSearch commonCodeSearch) {
-        commonCodeSearch.setCommonCode(commonCode);
+    public RestResponse<CommonCode> getCommonCode(@Valid @ModelAttribute CommonCodeSearch commonCodeSearch) {
         CommonCode foundCommonCode = commonCodeService.getCommonCode(commonCodeSearch);
         return RestResponse.ofSuccess(foundCommonCode);
     }
@@ -91,6 +90,17 @@ public class CommonCodeController {
         commonCodeDelete.setTargetCommonCode(commonCode);
         commonCodeDelete.setAuthor(sessionUser.getUsername());
         commonCodeService.deleteCommonCode(commonCodeDelete);
+        return RestResponse.ofSuccess(true);
+    }
+
+    @Operation(summary = "Operate Common Codes")
+    @PostMapping("/operation")
+    @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    public RestResponse<Boolean> operationCommonCodes(
+            @Valid @RequestBody CommonCodeOperation commonCodeOperation,
+            @AuthenticationPrincipal SessionUser sessionUser) {
+        commonCodeOperation.setAuthor(sessionUser.getUsername());
+        commonCodeService.operateCommonCodes(commonCodeOperation);
         return RestResponse.ofSuccess(true);
     }
 }

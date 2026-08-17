@@ -181,5 +181,4 @@
              , UPDATED_AT  = NOW()
          WHERE MENU_ID     = #{targetMenuId}
     </update>
-
 </mapper>

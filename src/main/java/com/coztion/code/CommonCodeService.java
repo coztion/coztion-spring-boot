@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.coztion.code.model.CommonCode;
 import com.coztion.code.model.CommonCodeDelete;
+import com.coztion.code.model.CommonCodeOperation;
 import com.coztion.code.model.CommonCodeSave;
 import com.coztion.code.model.CommonCodeSearch;
 import com.coztion.code.model.CommonCodeUpdate;
@@ -44,31 +45,22 @@ class CommonCodeService {
         Optional<CommonCode> optionalExistingCommonCode =
                 commonCodeRepository.selectCommonCode(searchForExistingCommonCode);
         if (optionalExistingCommonCode.isPresent()) {
-            CommonCode existingCommonCode = optionalExistingCommonCode.get();
             throw new RestException(
-                    existingCommonCode.isDeleted()
-                            ? TranslationKey.Common.Message.DUPLICATE_DELETED_FAILURE
-                            : TranslationKey.Common.Message.DUPLICATE_FAILURE,
+                    TranslationKey.Common.Message.DUPLICATE_FAILURE,
                     TranslationKey.Code.Label.COMMON_CODE,
                     commonCodeSave.getCommonCode());
         }
 
         int createdCount = commonCodeRepository.insertCommonCode(commonCodeSave);
         if (createdCount == 0) {
-            throw new RestException(
-                    TranslationKey.Common.Message.CREATE_FAILURE,
-                    TranslationKey.Code.Label.COMMON_CODE,
-                    commonCodeSave.getCommonCode());
+            throw new RestException(TranslationKey.Common.Message.CREATE_FAILURE);
         }
 
         CommonCodeSearch commonCodeSearch =
                 CommonCodeSearch.ofCode(commonCodeSave.getGroupCode(), commonCodeSave.getCommonCode());
         Optional<CommonCode> foundCommonCode = commonCodeRepository.selectCommonCode(commonCodeSearch);
 
-        return foundCommonCode.orElseThrow(() -> new RestException(
-                TranslationKey.Common.Message.CREATE_FAILURE,
-                TranslationKey.Code.Label.COMMON_CODE,
-                commonCodeSave.getCommonCode()));
+        return foundCommonCode.orElseThrow(() -> new RestException(TranslationKey.Common.Message.CREATE_FAILURE));
     }
 
     @Transactional
@@ -82,18 +74,12 @@ class CommonCodeService {
 
         int updatedCount = commonCodeRepository.updateCommonCode(commonCodeUpdate);
         if (updatedCount == 0) {
-            throw new RestException(
-                    TranslationKey.Common.Message.UPDATE_FAILURE,
-                    TranslationKey.Code.Label.COMMON_CODE,
-                    commonCodeUpdate.getTargetCommonCode());
+            throw new RestException(TranslationKey.Common.Message.UPDATE_FAILURE);
         }
 
         return commonCodeRepository
                 .selectCommonCode(commonCodeSearch)
-                .orElseThrow(() -> new RestException(
-                        TranslationKey.Common.Message.UPDATE_FAILURE,
-                        TranslationKey.Code.Label.COMMON_CODE,
-                        commonCodeUpdate.getTargetCommonCode()));
+                .orElseThrow(() -> new RestException(TranslationKey.Common.Message.UPDATE_FAILURE));
     }
 
     @Transactional
@@ -107,10 +93,22 @@ class CommonCodeService {
 
         int deletedCount = commonCodeRepository.deleteCommonCode(commonCodeDelete);
         if (deletedCount == 0) {
-            throw new RestException(
-                    TranslationKey.Common.Message.DELETE_FAILURE,
-                    TranslationKey.Code.Label.COMMON_CODE,
-                    commonCodeDelete.getTargetCommonCode());
+            throw new RestException(TranslationKey.Common.Message.DELETE_FAILURE);
+        }
+    }
+
+    @Transactional
+    public void operateCommonCodes(CommonCodeOperation commonCodeOperation) {
+        if (commonCodeOperation.hasDeleteTargets()) {
+            commonCodeOperation.getCommonCodeDeletes().forEach(this::deleteCommonCode);
+        }
+
+        if (commonCodeOperation.hasUpdateTargets()) {
+            commonCodeOperation.getCommonCodeUpdates().forEach(this::updateCommonCode);
+        }
+
+        if (commonCodeOperation.hasSaveTargets()) {
+            commonCodeOperation.getCommonCodeSaves().forEach(this::saveCommonCode);
         }
     }
 }

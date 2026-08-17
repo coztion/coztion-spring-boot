@@ -34,6 +34,9 @@ public class GroupCodesSearch extends Pagination {
     @Schema(description = "Data Status")
     private String dataStatus;
 
+    @Schema(description = "Include Common Codes in Result")
+    private boolean includeCommonCodes;
+
     @Schema(description = "Include Deleted Data")
     private boolean includeDeletedData;
 }
