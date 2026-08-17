@@ -8,6 +8,7 @@
             <id property="commonCode" column="COMMON_CODE" />
             <result property="groupCode" column="COMMON_CODE_GROUP_CODE" />
             <result property="dataStatus" column="COMMON_CODE_DATA_STATUS" />
+            <result property="sortOrder" column="COMMON_CODE_SORT_ORDER" />
             <result property="createdAt" column="COMMON_CODE_CREATED_AT" />
             <result property="createdBy" column="COMMON_CODE_CREATED_BY" />
             <result property="updatedAt" column="COMMON_CODE_UPDATED_AT" />
@@ -75,7 +76,7 @@
              , CC.COMMON_CODE_NAME
              , CC.COMMON_CODE_DESC AS COMMON_CODE_DESCRIPTION
              , CC.DATA_STATUS AS COMMON_CODE_DATA_STATUS
-             , CC.SORT_ORDER
+             , CC.SORT_ORDER AS COMMON_CODE_SORT_ORDER
              , CC.CREATED_AT AS COMMON_CODE_CREATED_AT
              , CC.CREATED_BY AS COMMON_CODE_CREATED_BY
              , CC.UPDATED_AT AS COMMON_CODE_UPDATED_AT
