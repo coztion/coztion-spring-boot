@@ -92,6 +92,8 @@ public class MenuService {
             throw new RestException(TranslationKey.Common.Message.CREATE_FAILURE);
         }
 
+        menuAuthorityRepository.insertMenuAuthorities(MenuAuthoritySave.ofSystemWithReadAndWrite(menuSave.getMenuId()));
+
         MenuSearch menuSearch = MenuSearch.ofMenuId(menuSave.getMenuId());
         Optional<Menu> foundMenu = menuRepository.selectMenu(menuSearch);
 

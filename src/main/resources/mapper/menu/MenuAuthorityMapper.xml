@@ -15,4 +15,19 @@
         </foreach>
     </select>
 
+    <insert id="insertMenuAuthorities">
+        INSERT INTO TB_MENU_AUTHORITY (
+            MENU_ID
+          , AUTHORITY_ROLE
+          , AUTHORITY_TYPE
+        ) VALUES
+        <foreach item="menuAuthoritySave" collection="menuAuthoritySaves" separator=",">
+            (
+                #{menuAuthoritySave.menuId}
+              , #{menuAuthoritySave.authorityRole}
+              , #{menuAuthoritySave.authorityType}
+            )
+        </foreach>
+    </insert>
+
 </mapper>
