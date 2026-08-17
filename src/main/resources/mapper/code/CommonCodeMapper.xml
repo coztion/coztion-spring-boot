@@ -98,8 +98,8 @@
              , DATA_STATUS      = #{dataStatus}
              , UPDATED_BY       = #{author}
              , UPDATED_AT       = NOW()
-         WHERE GROUP_CODE       = #{targetGroupCode}
-           AND COMMON_CODE      = #{targetCommonCode}
+         WHERE GROUP_CODE       = #{groupCode}
+           AND COMMON_CODE      = #{commonCode}
            AND DATA_STATUS     != 'DELETED'
     </update>
 
@@ -109,8 +109,8 @@
            SET DATA_STATUS = 'DELETED'
              , UPDATED_BY  = #{author}
              , UPDATED_AT  = NOW()
-         WHERE GROUP_CODE  = #{targetGroupCode}
-           AND COMMON_CODE = #{targetCommonCode}
+         WHERE GROUP_CODE  = #{groupCode}
+           AND COMMON_CODE = #{commonCode}
     </update>
 
 </mapper>

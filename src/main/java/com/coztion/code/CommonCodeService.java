@@ -66,7 +66,7 @@ class CommonCodeService {
     @Transactional
     public CommonCode updateCommonCode(CommonCodeUpdate commonCodeUpdate) {
         CommonCodeSearch commonCodeSearch =
-                CommonCodeSearch.ofCode(commonCodeUpdate.getTargetGroupCode(), commonCodeUpdate.getTargetCommonCode());
+                CommonCodeSearch.ofCode(commonCodeUpdate.getGroupCode(), commonCodeUpdate.getCommonCode());
         commonCodeRepository
                 .selectCommonCode(commonCodeSearch)
                 .orElseThrow(() -> new RestException(
@@ -85,7 +85,7 @@ class CommonCodeService {
     @Transactional
     public void deleteCommonCode(CommonCodeDelete commonCodeDelete) {
         CommonCodeSearch commonCodeSearch =
-                CommonCodeSearch.ofCode(commonCodeDelete.getTargetGroupCode(), commonCodeDelete.getTargetCommonCode());
+                CommonCodeSearch.ofCode(commonCodeDelete.getGroupCode(), commonCodeDelete.getCommonCode());
         commonCodeRepository
                 .selectCommonCode(commonCodeSearch)
                 .orElseThrow(() -> new RestException(

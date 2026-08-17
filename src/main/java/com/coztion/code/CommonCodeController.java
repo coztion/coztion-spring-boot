@@ -21,7 +21,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -71,10 +70,7 @@ public class CommonCodeController {
     @PutMapping("/{commonCode}")
     @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<CommonCode> putCommonCode(
-            @PathVariable String commonCode,
-            @Valid @RequestBody CommonCodeUpdate commonCodeUpdate,
-            @AuthenticationPrincipal SessionUser sessionUser) {
-        commonCodeUpdate.setTargetCommonCode(commonCode);
+            @Valid @RequestBody CommonCodeUpdate commonCodeUpdate, @AuthenticationPrincipal SessionUser sessionUser) {
         commonCodeUpdate.setAuthor(sessionUser.getUsername());
         CommonCode updatedCommonCode = commonCodeService.updateCommonCode(commonCodeUpdate);
         return RestResponse.ofSuccess(updatedCommonCode);
@@ -84,10 +80,7 @@ public class CommonCodeController {
     @DeleteMapping("/{commonCode}")
     @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<Boolean> deleteCommonCode(
-            @PathVariable String commonCode,
-            @Valid @RequestBody CommonCodeDelete commonCodeDelete,
-            @AuthenticationPrincipal SessionUser sessionUser) {
-        commonCodeDelete.setTargetCommonCode(commonCode);
+            @Valid @RequestBody CommonCodeDelete commonCodeDelete, @AuthenticationPrincipal SessionUser sessionUser) {
         commonCodeDelete.setAuthor(sessionUser.getUsername());
         commonCodeService.deleteCommonCode(commonCodeDelete);
         return RestResponse.ofSuccess(true);

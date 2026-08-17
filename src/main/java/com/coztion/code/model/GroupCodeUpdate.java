@@ -16,8 +16,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class GroupCodeUpdate {
 
-    @Schema(description = "Target Group Code", example = "USAGE", hidden = true)
-    private String targetGroupCode;
+    @Schema(description = "Group Code", example = "USAGE")
+    @NotBlank(message = TranslationKey.Code.Label.GROUP_CODE)
+    private String groupCode;
 
     @Schema(description = "Group Code Name", example = "Usage")
     @NotBlank(message = TranslationKey.Code.Label.GROUP_CODE_NAME)

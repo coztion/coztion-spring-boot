@@ -85,7 +85,7 @@ public class GroupCodeService {
 
     @Transactional
     public GroupCode updateGroupCode(GroupCodeUpdate groupCodeUpdate) {
-        GroupCodeSearch groupCodeSearch = GroupCodeSearch.ofGroupCode(groupCodeUpdate.getTargetGroupCode());
+        GroupCodeSearch groupCodeSearch = GroupCodeSearch.ofGroupCode(groupCodeUpdate.getGroupCode());
         GroupCode groupCode = groupCodeRepository
                 .selectGroupCode(groupCodeSearch)
                 .orElseThrow(() -> new RestException(
@@ -107,7 +107,7 @@ public class GroupCodeService {
 
     @Transactional
     public void deleteGroupCode(GroupCodeDelete groupCodeDelete) {
-        GroupCodeSearch groupCodeSearch = GroupCodeSearch.ofGroupCode(groupCodeDelete.getTargetGroupCode());
+        GroupCodeSearch groupCodeSearch = GroupCodeSearch.ofGroupCode(groupCodeDelete.getGroupCode());
         GroupCode groupCode = groupCodeRepository
                 .selectGroupCode(groupCodeSearch)
                 .orElseThrow(() -> new RestException(TranslationKey.Common.Message.NOT_FOUND_FAILURE));

@@ -169,7 +169,7 @@
              , DATA_STATUS = #{dataStatus}
              , UPDATED_BY  = #{author}
              , UPDATED_AT  = NOW()
-         WHERE MENU_ID     = #{targetMenuId}
+         WHERE MENU_ID     = #{menuId}
            AND DATA_STATUS != 'DELETED'
     </update>
 
@@ -179,6 +179,6 @@
            SET DATA_STATUS = 'DELETED'
              , UPDATED_BY  = #{author}
              , UPDATED_AT  = NOW()
-         WHERE MENU_ID     = #{targetMenuId}
+         WHERE MENU_ID     = #{menuId}
     </update>
 </mapper>
