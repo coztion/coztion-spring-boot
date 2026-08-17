@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import com.coztion.common.constant.TranslationKey;
-import com.coztion.common.enums.DataStatus;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -35,7 +34,7 @@ public class CommonCodeSave {
 
     @Schema(description = "Data Status", example = "ENABLED")
     @NotNull(message = TranslationKey.Common.Label.DATA_STATUS)
-    private DataStatus dataStatus;
+    private String dataStatus;
 
     @Schema(description = "Sort Order")
     @NotNull(message = TranslationKey.Common.Label.SORT_ORDER)

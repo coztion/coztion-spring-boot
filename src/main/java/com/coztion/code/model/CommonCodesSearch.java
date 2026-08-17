@@ -30,7 +30,7 @@ public class CommonCodesSearch extends Pagination {
     private String commonCode;
 
     @Schema(description = "Data Status", example = "ENABLED")
-    private DataStatus dataStatus;
+    private String dataStatus;
 
     @Schema(description = "Include Deleted Data")
     private boolean includeDeletedData;
@@ -38,7 +38,7 @@ public class CommonCodesSearch extends Pagination {
     public static CommonCodesSearch ofEnabledGroupCodes(List<String> groupCodes) {
         return CommonCodesSearch.builder()
                 .groupCodes(groupCodes)
-                .dataStatus(DataStatus.ENABLED)
+                .dataStatus(DataStatus.ENABLED.getValue())
                 .build();
     }
 }

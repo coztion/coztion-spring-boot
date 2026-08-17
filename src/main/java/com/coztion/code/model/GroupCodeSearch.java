@@ -1,7 +1,5 @@
 package com.coztion.code.model;
 
-import com.coztion.common.enums.DataStatus;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.AllArgsConstructor;
@@ -21,7 +19,7 @@ public class GroupCodeSearch {
     private String groupCode;
 
     @Schema(description = "Data Status")
-    private DataStatus dataStatus;
+    private String dataStatus;
 
     @Schema(description = "Include Deleted Data")
     private boolean includeDeletedData;

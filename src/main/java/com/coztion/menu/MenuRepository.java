@@ -3,7 +3,6 @@ package com.coztion.menu;
 import java.util.List;
 import java.util.Optional;
 
-import com.coztion.authority.model.AuthorityRole;
 import com.coztion.menu.model.Menu;
 import com.coztion.menu.model.MenuDelete;
 import com.coztion.menu.model.MenuInfo;
@@ -22,7 +21,7 @@ public interface MenuRepository {
 
     Optional<Menu> selectMenu(MenuSearch menuSearch);
 
-    List<MenuInfo> selectMenuInfos(List<AuthorityRole> authorityRoles);
+    List<MenuInfo> selectMenuInfos(List<String> authorityRoles);
 
     int insertMenu(MenuSave menuSave);
 

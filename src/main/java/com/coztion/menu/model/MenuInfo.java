@@ -20,7 +20,7 @@ public class MenuInfo {
     private String menuName;
 
     @Schema(description = "Menu Type")
-    private MenuType menuType;
+    private String menuType;
 
     @Schema(description = "Parent Menu ID")
     private String parentMenuId;

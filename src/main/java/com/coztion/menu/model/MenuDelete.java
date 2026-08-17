@@ -16,7 +16,7 @@ import lombok.Setter;
 public class MenuDelete {
 
     @Schema(description = "Target Menu ID", hidden = true)
-    private MenuId targetMenuId;
+    private String targetMenuId;
 
     @Schema(description = "Author", hidden = true)
     private String author;
