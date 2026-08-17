@@ -21,14 +21,7 @@ public class MenuSearch {
     @Schema(description = "Data Status")
     private String dataStatus;
 
-    @Schema(description = "Include Deleted Data")
-    private boolean includeDeletedData;
-
     public static MenuSearch ofMenuId(String menuId) {
         return MenuSearch.builder().menuId(menuId).build();
-    }
-
-    public static MenuSearch ofMenuIdIncludingDeletedData(String menuId) {
-        return MenuSearch.builder().menuId(menuId).includeDeletedData(true).build();
     }
 }

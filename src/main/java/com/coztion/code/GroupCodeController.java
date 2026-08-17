@@ -84,7 +84,8 @@ public class GroupCodeController {
     @PostMapping("/operation")
     @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<Boolean> operationGroupCodes(
-            @Valid @RequestBody GroupCodeOperation groupCodeOperation, @AuthenticationPrincipal SessionUser sessionUser) {
+            @Valid @RequestBody GroupCodeOperation groupCodeOperation,
+            @AuthenticationPrincipal SessionUser sessionUser) {
         groupCodeOperation.setAuthor(sessionUser.getUsername());
         groupCodeService.operateGroupCodes(groupCodeOperation);
         return RestResponse.ofSuccess(true);

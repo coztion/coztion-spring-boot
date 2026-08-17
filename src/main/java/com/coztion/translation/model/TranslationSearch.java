@@ -36,9 +36,6 @@ public class TranslationSearch extends Pagination {
     @Schema(description = "Translation Key(group.type.code)")
     private String translationKey;
 
-    @Schema(description = "Include Deleted Data")
-    private boolean includeDeletedData;
-
     public static TranslationSearch ofEnabled() {
         return TranslationSearch.builder()
                 .dataStatus(DataStatus.ENABLED.getValue())

@@ -78,7 +78,7 @@ public class MenuService {
 
     @Transactional
     public Menu saveMenu(MenuSave menuSave) {
-        MenuSearch searchForExistingMenu = MenuSearch.ofMenuIdIncludingDeletedData(menuSave.getMenuId());
+        MenuSearch searchForExistingMenu = MenuSearch.ofMenuId(menuSave.getMenuId());
         Optional<Menu> optionalExistingMenu = menuRepository.selectMenu(searchForExistingMenu);
         if (optionalExistingMenu.isPresent()) {
             throw new RestException(

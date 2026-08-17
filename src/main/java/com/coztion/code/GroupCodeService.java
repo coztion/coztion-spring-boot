@@ -62,8 +62,7 @@ public class GroupCodeService {
 
     @Transactional
     public GroupCode saveGroupCode(GroupCodeSave groupCodeSave) {
-        GroupCodeSearch searchForExistingGroupCode =
-                GroupCodeSearch.ofGroupCodeIncludingDeletedData(groupCodeSave.getGroupCode());
+        GroupCodeSearch searchForExistingGroupCode = GroupCodeSearch.ofGroupCode(groupCodeSave.getGroupCode());
         Optional<GroupCode> optionalExistingGroupCode = groupCodeRepository.selectGroupCode(searchForExistingGroupCode);
         if (optionalExistingGroupCode.isPresent()) {
             throw new RestException(

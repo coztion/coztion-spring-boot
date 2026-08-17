@@ -35,9 +35,6 @@
         <if test="translationKey != null and translationKey != ''">
            AND CONCAT(TRANSLATION_GROUP, '.', TRANSLATION_TYPE, '.', TRANSLATION_CODE) LIKE CONCAT('%', #{translationKey}, '%')
         </if>
-        <if test="!includeDeletedData">
-           AND DATA_STATUS != 'DELETED'
-        </if>
          ORDER BY TRANSLATION_GROUP, TRANSLATION_TYPE, TRANSLATION_CODE, TRANSLATION_LOCALE
     </select>
 

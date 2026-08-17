@@ -40,8 +40,8 @@ class CommonCodeService {
 
     @Transactional
     public CommonCode saveCommonCode(CommonCodeSave commonCodeSave) {
-        CommonCodeSearch searchForExistingCommonCode = CommonCodeSearch.ofCodeIncludingDeletedData(
-                commonCodeSave.getGroupCode(), commonCodeSave.getCommonCode());
+        CommonCodeSearch searchForExistingCommonCode =
+                CommonCodeSearch.ofCode(commonCodeSave.getGroupCode(), commonCodeSave.getCommonCode());
         Optional<CommonCode> optionalExistingCommonCode =
                 commonCodeRepository.selectCommonCode(searchForExistingCommonCode);
         if (optionalExistingCommonCode.isPresent()) {
