@@ -17,7 +17,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class GroupCodeSearch {
 
-    @Schema(description = "Group Code", hidden = true)
+    @Schema(description = "Group Code")
     private String groupCode;
 
     @Schema(description = "Data Status")

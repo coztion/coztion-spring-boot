@@ -40,8 +40,7 @@ public class MenuController {
     @Operation(summary = "Get Menu")
     @GetMapping("/{menuId}")
     @Authorize(menuIds = MenuId.MENU_MANAGEMENT)
-    public RestResponse<Menu> getMenu(@PathVariable MenuId menuId, @ModelAttribute MenuSearch menuSearch) {
-        menuSearch.setMenuId(menuId);
+    public RestResponse<Menu> getMenu(@ModelAttribute MenuSearch menuSearch) {
         Menu foundMenu = menuService.getMenu(menuSearch);
         return RestResponse.ofSuccess(foundMenu);
     }

@@ -51,9 +51,7 @@ public class CommonCodeController {
     @Operation(summary = "Get Common Code")
     @GetMapping("/{commonCode}")
     @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
-    public RestResponse<CommonCode> getCommonCode(
-            @PathVariable String commonCode, @Valid @ModelAttribute CommonCodeSearch commonCodeSearch) {
-        commonCodeSearch.setCommonCode(commonCode);
+    public RestResponse<CommonCode> getCommonCode(@Valid @ModelAttribute CommonCodeSearch commonCodeSearch) {
         CommonCode foundCommonCode = commonCodeService.getCommonCode(commonCodeSearch);
         return RestResponse.ofSuccess(foundCommonCode);
     }

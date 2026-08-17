@@ -44,9 +44,7 @@ public class GroupCodeController {
     @Operation(summary = "Get Group Code")
     @GetMapping("/{groupCode}")
     @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
-    public RestResponse<GroupCode> getGroupCode(
-            @PathVariable String groupCode, @ModelAttribute GroupCodeSearch groupCodeSearch) {
-        groupCodeSearch.setGroupCode(groupCode);
+    public RestResponse<GroupCode> getGroupCode(@ModelAttribute GroupCodeSearch groupCodeSearch) {
         GroupCode foundGroupCode = groupCodeService.getGroupCode(groupCodeSearch);
         return RestResponse.ofSuccess(foundGroupCode);
     }

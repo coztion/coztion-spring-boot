@@ -24,7 +24,7 @@ public class CommonCodeSearch {
     @NotBlank(message = TranslationKey.Code.Label.GROUP_CODE)
     private String groupCode;
 
-    @Schema(description = "Common Code", hidden = true)
+    @Schema(description = "Common Code")
     private String commonCode;
 
     @Schema(description = "Data Status")
