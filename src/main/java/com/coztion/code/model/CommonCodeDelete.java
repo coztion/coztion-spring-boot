@@ -21,10 +21,11 @@ public class CommonCodeDelete {
 
     @Schema(description = "Group Code")
     @NotBlank(message = TranslationKey.Code.Label.GROUP_CODE)
-    private String targetGroupCode;
+    private String groupCode;
 
-    @Schema(description = "Target Common Code", hidden = true)
-    private String targetCommonCode;
+    @Schema(description = "Common Code")
+    @NotBlank(message = TranslationKey.Code.Label.COMMON_CODE)
+    private String commonCode;
 
     @Schema(description = "Author", hidden = true)
     private String author;

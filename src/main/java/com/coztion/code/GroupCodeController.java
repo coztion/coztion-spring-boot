@@ -64,10 +64,7 @@ public class GroupCodeController {
     @PutMapping("/{groupCode}")
     @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<GroupCode> putGroupCode(
-            @PathVariable String groupCode,
-            @Valid @RequestBody GroupCodeUpdate groupCodeUpdate,
-            @AuthenticationPrincipal SessionUser sessionUser) {
-        groupCodeUpdate.setTargetGroupCode(groupCode);
+            @Valid @RequestBody GroupCodeUpdate groupCodeUpdate, @AuthenticationPrincipal SessionUser sessionUser) {
         groupCodeUpdate.setAuthor(sessionUser.getUsername());
         GroupCode updatedGroupCode = groupCodeService.updateGroupCode(groupCodeUpdate);
         return RestResponse.ofSuccess(updatedGroupCode);
@@ -77,11 +74,8 @@ public class GroupCodeController {
     @DeleteMapping("/{groupCode}")
     @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
     public RestResponse<Boolean> deleteGroupCode(
-            @PathVariable String groupCode, @AuthenticationPrincipal SessionUser sessionUser) {
-        GroupCodeDelete groupCodeDelete = GroupCodeDelete.builder()
-                .targetGroupCode(groupCode)
-                .author(sessionUser.getUsername())
-                .build();
+            @Valid @RequestBody GroupCodeDelete groupCodeDelete, @AuthenticationPrincipal SessionUser sessionUser) {
+        groupCodeDelete.setAuthor(sessionUser.getUsername());
         groupCodeService.deleteGroupCode(groupCodeDelete);
         return RestResponse.ofSuccess(true);
     }

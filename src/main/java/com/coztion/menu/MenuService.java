@@ -102,7 +102,7 @@ public class MenuService {
 
     @Transactional
     public void updateMenu(MenuUpdate menuUpdate) {
-        MenuSearch menuSearch = MenuSearch.ofMenuId(menuUpdate.getTargetMenuId());
+        MenuSearch menuSearch = MenuSearch.ofMenuId(menuUpdate.getMenuId());
         menuRepository
                 .selectMenu(menuSearch)
                 .orElseThrow(() -> new RestException(
@@ -116,7 +116,7 @@ public class MenuService {
 
     @Transactional
     public void deleteMenu(MenuDelete menuDelete) {
-        MenuSearch menuSearch = MenuSearch.ofMenuId(menuDelete.getTargetMenuId());
+        MenuSearch menuSearch = MenuSearch.ofMenuId(menuDelete.getMenuId());
         menuRepository
                 .selectMenu(menuSearch)
                 .orElseThrow(() -> new RestException(

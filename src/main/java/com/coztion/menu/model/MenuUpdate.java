@@ -17,8 +17,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MenuUpdate {
 
-    @Schema(description = "Target Menu ID", hidden = true)
-    private String targetMenuId;
+    @Schema(description = "Menu ID")
+    @NotBlank(message = TranslationKey.Menu.Label.MENU_ID)
+    private String menuId;
 
     @Schema(description = "Menu Name")
     @NotBlank(message = TranslationKey.Menu.Label.MENU_NAME)
