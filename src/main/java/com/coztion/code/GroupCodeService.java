@@ -1,7 +1,12 @@
 package com.coztion.code;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.coztion.code.model.CommonCode;
+import com.coztion.code.model.CommonCodesSearch;
 import com.coztion.code.model.GroupCode;
 import com.coztion.code.model.GroupCodeDelete;
 import com.coztion.code.model.GroupCodeSave;
@@ -14,6 +19,7 @@ import com.github.pagehelper.Page;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,10 +29,26 @@ public class GroupCodeService {
 
     private final GroupCodeRepository groupCodeRepository;
 
+    private final CommonCodeService commonCodeService;
+
     @Transactional(readOnly = true)
     public Page<GroupCode> getGroupCodes(GroupCodesSearch groupCodesSearch) {
         groupCodesSearch.validatePageable();
-        return groupCodeRepository.selectGroupCodes(groupCodesSearch);
+        Page<GroupCode> groupCodes = groupCodeRepository.selectGroupCodes(groupCodesSearch);
+
+        boolean hasGroupCodes = !CollectionUtils.isEmpty(groupCodes);
+        if (hasGroupCodes && groupCodesSearch.isIncludeCommonCodes()) {
+            List<String> groupCodeValues =
+                    groupCodes.stream().map(GroupCode::getGroupCode).toList();
+            List<CommonCode> commonCodes = commonCodeService.getCommonCodes(
+                    CommonCodesSearch.builder().groupCodes(groupCodeValues).build());
+            Map<String, List<CommonCode>> groupCodeCommonCodes =
+                    commonCodes.stream().collect(Collectors.groupingBy(CommonCode::getGroupCode));
+            groupCodes.forEach(groupCode ->
+                    groupCode.setCommonCodes(groupCodeCommonCodes.getOrDefault(groupCode.getGroupCode(), List.of())));
+        }
+
+        return groupCodes;
     }
 
     @Transactional(readOnly = true)
