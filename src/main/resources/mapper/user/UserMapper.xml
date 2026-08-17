@@ -4,8 +4,8 @@
 
     <resultMap id="findUserByParamMap" type="com.coztion.user.model.User">
         <id property="username" column="USERNAME" />
-        <collection property="authorityRoles" ofType="com.coztion.authority.model.AuthorityRole">
-            <result property="authorityRole" column="AUTHORITY_ROLE"/>
+        <collection property="authorityRoles" ofType="java.lang.String">
+            <result column="AUTHORITY_ROLE"/>
         </collection>
     </resultMap>
 
