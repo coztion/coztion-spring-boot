@@ -9,6 +9,7 @@ import com.coztion.code.model.CommonCode;
 import com.coztion.code.model.CommonCodesSearch;
 import com.coztion.code.model.GroupCode;
 import com.coztion.code.model.GroupCodeDelete;
+import com.coztion.code.model.GroupCodeOperation;
 import com.coztion.code.model.GroupCodeSave;
 import com.coztion.code.model.GroupCodeSearch;
 import com.coztion.code.model.GroupCodeUpdate;
@@ -122,6 +123,21 @@ public class GroupCodeService {
         int deletedCount = groupCodeRepository.deleteGroupCode(groupCodeDelete);
         if (deletedCount == 0) {
             throw new RestException(TranslationKey.Common.Message.DELETE_FAILURE);
+        }
+    }
+
+    @Transactional
+    public void operateGroupCodes(GroupCodeOperation groupCodeOperation) {
+        if (groupCodeOperation.hasDeleteTargets()) {
+            groupCodeOperation.getGroupCodeDeletes().forEach(this::deleteGroupCode);
+        }
+
+        if (groupCodeOperation.hasUpdateTargets()) {
+            groupCodeOperation.getGroupCodeUpdates().forEach(this::updateGroupCode);
+        }
+
+        if (groupCodeOperation.hasSaveTargets()) {
+            groupCodeOperation.getGroupCodeSaves().forEach(this::saveGroupCode);
         }
     }
 }

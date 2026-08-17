@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import com.coztion.authority.model.AuthorityType;
 import com.coztion.code.model.GroupCode;
 import com.coztion.code.model.GroupCodeDelete;
+import com.coztion.code.model.GroupCodeOperation;
 import com.coztion.code.model.GroupCodeSave;
 import com.coztion.code.model.GroupCodeSearch;
 import com.coztion.code.model.GroupCodeUpdate;
@@ -82,6 +83,16 @@ public class GroupCodeController {
                 .author(sessionUser.getUsername())
                 .build();
         groupCodeService.deleteGroupCode(groupCodeDelete);
+        return RestResponse.ofSuccess(true);
+    }
+
+    @Operation(summary = "Operate Group Codes")
+    @PostMapping("/operation")
+    @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    public RestResponse<Boolean> operationGroupCodes(
+            @Valid @RequestBody GroupCodeOperation groupCodeOperation, @AuthenticationPrincipal SessionUser sessionUser) {
+        groupCodeOperation.setAuthor(sessionUser.getUsername());
+        groupCodeService.operateGroupCodes(groupCodeOperation);
         return RestResponse.ofSuccess(true);
     }
 }
