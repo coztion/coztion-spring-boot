@@ -25,7 +25,11 @@ public interface MenuRepository {
 
     int insertMenu(MenuSave menuSave);
 
-    int updateMenu(MenuUpdate update);
+    int updateMenu(MenuUpdate menuUpdate);
+
+    int updateMenus(List<MenuUpdate> menusUpdate);
 
     int deleteMenu(MenuDelete menuDelete);
+
+    int deleteMenus(List<MenuDelete> menusDelete);
 }

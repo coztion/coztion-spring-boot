@@ -173,6 +173,31 @@
            AND DATA_STATUS != 'DELETED'
     </update>
 
+    <update id="updateMenus">
+        UPDATE TB_MENU
+           SET MENU_NAME   = CASE MENU_ID
+            <foreach item="menuUpdate" collection="menusUpdate">
+               WHEN #{menuUpdate.targetMenuId} THEN #{menuUpdate.menuName}
+            </foreach>
+               END
+             , DATA_STATUS = CASE MENU_ID
+            <foreach item="menuUpdate" collection="menusUpdate">
+               WHEN #{menuUpdate.targetMenuId} THEN #{menuUpdate.dataStatus}
+            </foreach>
+               END
+             , UPDATED_BY  = CASE MENU_ID
+            <foreach item="menuUpdate" collection="menusUpdate">
+               WHEN #{menuUpdate.targetMenuId} THEN #{menuUpdate.author}
+            </foreach>
+               END
+             , UPDATED_AT  = NOW()
+         WHERE MENU_ID IN
+            <foreach item="menuUpdate" collection="menusUpdate" open="(" separator="," close=")">
+                #{menuUpdate.targetMenuId}
+            </foreach>
+           AND DATA_STATUS != 'DELETED'
+    </update>
+
     <update id="deleteMenu"
             parameterType="com.coztion.menu.model.MenuDelete">
         UPDATE TB_MENU
@@ -180,6 +205,21 @@
              , UPDATED_BY  = #{author}
              , UPDATED_AT  = NOW()
          WHERE MENU_ID     = #{targetMenuId}
+    </update>
+
+    <update id="deleteMenus">
+        UPDATE TB_MENU
+           SET DATA_STATUS = 'DELETED'
+             , UPDATED_BY  = CASE MENU_ID
+            <foreach item="menuDelete" collection="menusDelete">
+               WHEN #{menuDelete.targetMenuId} THEN #{menuDelete.author}
+            </foreach>
+               END
+             , UPDATED_AT  = NOW()
+         WHERE MENU_ID IN
+            <foreach item="menuDelete" collection="menusDelete" open="(" separator="," close=")">
+                #{menuDelete.targetMenuId}
+            </foreach>
     </update>
 
 </mapper>

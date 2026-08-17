@@ -39,8 +39,4 @@ public class MenusSearch extends Pagination {
 
     @Schema(description = "Include Deleted Data")
     private boolean includeDeletedData;
-
-    public static MenusSearch ofMenuIdsIncludingDeletedData(List<MenuId> menuIds) {
-        return MenusSearch.builder().menuIds(menuIds).includeDeletedData(true).build();
-    }
 }

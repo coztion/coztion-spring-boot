@@ -86,4 +86,14 @@ public class MenuController {
         menuService.deleteMenu(menuDelete);
         return RestResponse.ofSuccess(true);
     }
+
+    @Operation(summary = "Operate Menus")
+    @PostMapping("/operation")
+    @Authorize(menuIds = MenuId.MENU_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    public RestResponse<Boolean> operationMenus(
+            @Valid @RequestBody MenuOperate menuOperate, @AuthenticationPrincipal SessionUser sessionUser) {
+        menuOperate.setAuthor(sessionUser.getUsername());
+        menuService.operateMenus(menuOperate);
+        return RestResponse.ofSuccess(true);
+    }
 }
