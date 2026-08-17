@@ -7,8 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum DataStatus implements ValueEnum {
     ENABLED("ENABLED"),
-    DISABLED("DISABLED"),
-    DELETED("DELETED");
+    DISABLED("DISABLED");
 
     private final String value;
 
@@ -18,9 +17,5 @@ public enum DataStatus implements ValueEnum {
 
     public boolean isEnabled() {
         return this.equals(ENABLED);
-    }
-
-    public boolean isDeleted() {
-        return this.equals(DELETED);
     }
 }

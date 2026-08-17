@@ -46,9 +46,6 @@
             <if test="dataStatus != null and dataStatus != ''">
            AND M.DATA_STATUS = #{dataStatus}
             </if>
-            <if test="!includeDeletedData">
-           AND M.DATA_STATUS != 'DELETED'
-            </if>
          ORDER BY M.SORT_ORDER
     </select>
 
@@ -73,9 +70,6 @@
             </if>
             <if test="dataStatus != null and dataStatus != ''">
            AND M.DATA_STATUS = #{dataStatus}
-            </if>
-            <if test="!includeDeletedData">
-           AND M.DATA_STATUS != 'DELETED'
             </if>
     </select>
 
@@ -170,15 +164,11 @@
              , UPDATED_BY  = #{author}
              , UPDATED_AT  = NOW()
          WHERE MENU_ID     = #{menuId}
-           AND DATA_STATUS != 'DELETED'
     </update>
 
-    <update id="deleteMenu"
+    <delete id="deleteMenu"
             parameterType="com.coztion.menu.model.MenuDelete">
-        UPDATE TB_MENU
-           SET DATA_STATUS = 'DELETED'
-             , UPDATED_BY  = #{author}
-             , UPDATED_AT  = NOW()
+        DELETE FROM TB_MENU
          WHERE MENU_ID     = #{menuId}
-    </update>
+    </delete>
 </mapper>

@@ -32,9 +32,6 @@
         <if test="dataStatus != null and dataStatus != ''">
            AND DATA_STATUS = #{dataStatus}
         </if>
-        <if test="!includeDeletedData">
-           AND DATA_STATUS != 'DELETED'
-        </if>
          ORDER BY SORT_ORDER
     </select>
 
@@ -61,9 +58,6 @@
         </if>
         <if test="dataStatus != null and dataStatus != ''">
            AND DATA_STATUS = #{dataStatus}
-        </if>
-        <if test="!includeDeletedData">
-           AND DATA_STATUS != 'DELETED'
         </if>
     </select>
 
@@ -100,17 +94,13 @@
              , UPDATED_AT       = NOW()
          WHERE GROUP_CODE       = #{groupCode}
            AND COMMON_CODE      = #{commonCode}
-           AND DATA_STATUS     != 'DELETED'
     </update>
 
-    <update id="deleteCommonCode"
+    <delete id="deleteCommonCode"
             parameterType="com.coztion.code.model.CommonCodeDelete">
-        UPDATE TB_COMMON_CODE
-           SET DATA_STATUS = 'DELETED'
-             , UPDATED_BY  = #{author}
-             , UPDATED_AT  = NOW()
+        DELETE FROM TB_COMMON_CODE
          WHERE GROUP_CODE  = #{groupCode}
            AND COMMON_CODE = #{commonCode}
-    </update>
+    </delete>
 
 </mapper>

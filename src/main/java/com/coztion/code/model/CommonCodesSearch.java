@@ -32,9 +32,6 @@ public class CommonCodesSearch extends Pagination {
     @Schema(description = "Data Status", example = "ENABLED")
     private String dataStatus;
 
-    @Schema(description = "Include Deleted Data")
-    private boolean includeDeletedData;
-
     public static CommonCodesSearch ofEnabledGroupCodes(List<String> groupCodes) {
         return CommonCodesSearch.builder()
                 .groupCodes(groupCodes)

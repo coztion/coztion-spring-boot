@@ -46,15 +46,11 @@
            AND EXISTS (
                SELECT 1 FROM TB_COMMON_CODE CC
                 WHERE CC.GROUP_CODE = GC.GROUP_CODE
-                  AND CC.DATA_STATUS != 'DELETED'
                   AND CC.COMMON_CODE_NAME LIKE CONCAT('%', #{commonCodeName}, '%')
            )
             </if>
             <if test="dataStatus != null and dataStatus != ''">
            AND GC.DATA_STATUS = #{dataStatus}
-            </if>
-            <if test="!includeDeletedData">
-           AND GC.DATA_STATUS != 'DELETED'
             </if>
          ORDER BY GC.SORT_ORDER
     </select>
@@ -84,16 +80,12 @@
           FROM TB_GROUP_CODE GC
           LEFT JOIN TB_COMMON_CODE CC
                  ON GC.GROUP_CODE = CC.GROUP_CODE
-                AND CC.DATA_STATUS != 'DELETED'
          WHERE TRUE
             <if test="groupCode != null and groupCode != ''">
            AND GC.GROUP_CODE = #{groupCode}
             </if>
             <if test="dataStatus != null and dataStatus != ''">
            AND GC.DATA_STATUS = #{dataStatus}
-            </if>
-            <if test="!includeDeletedData">
-           AND GC.DATA_STATUS != 'DELETED'
             </if>
          ORDER BY GC.SORT_ORDER, CC.SORT_ORDER
     </select>
@@ -128,7 +120,6 @@
              , UPDATED_BY      = #{author}
              , UPDATED_AT      = NOW()
          WHERE GROUP_CODE      = #{groupCode}
-           AND DATA_STATUS    != 'DELETED'
     </update>
 
     <update id="updateCommonCodesByGroupCodeUpdate"
@@ -138,25 +129,18 @@
              , UPDATED_BY  = #{author}
              , UPDATED_AT  = NOW()
          WHERE GROUP_CODE  = #{groupCode}
-           AND DATA_STATUS != 'DELETED'
     </update>
 
-    <update id="deleteGroupCode"
+    <delete id="deleteGroupCode"
             parameterType="com.coztion.code.model.GroupCodeDelete">
-        UPDATE TB_GROUP_CODE
-           SET DATA_STATUS = 'DELETED'
-             , UPDATED_BY  = #{author}
-             , UPDATED_AT  = NOW()
+        DELETE FROM TB_GROUP_CODE
          WHERE GROUP_CODE  = #{groupCode}
-    </update>
+    </delete>
 
-    <update id="deleteCommonCodesByGroupCodeDelete"
+    <delete id="deleteCommonCodesByGroupCodeDelete"
             parameterType="com.coztion.code.model.GroupCodeDelete">
-        UPDATE TB_COMMON_CODE
-           SET DATA_STATUS = 'DELETED'
-             , UPDATED_BY  = #{author}
-             , UPDATED_AT  = NOW()
+        DELETE FROM TB_COMMON_CODE
          WHERE GROUP_CODE  = #{groupCode}
-    </update>
+    </delete>
 
 </mapper>

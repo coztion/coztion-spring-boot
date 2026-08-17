@@ -29,21 +29,10 @@ public class CommonCodeSearch {
     @Schema(description = "Data Status")
     private String dataStatus;
 
-    @Schema(description = "Include Deleted Data")
-    private boolean includeDeletedData;
-
     public static CommonCodeSearch ofCode(String groupCode, String commonCode) {
         return CommonCodeSearch.builder()
                 .groupCode(groupCode)
                 .commonCode(commonCode)
-                .build();
-    }
-
-    public static CommonCodeSearch ofCodeIncludingDeletedData(String groupCode, String commonCode) {
-        return CommonCodeSearch.builder()
-                .groupCode(groupCode)
-                .commonCode(commonCode)
-                .includeDeletedData(true)
                 .build();
     }
 }
