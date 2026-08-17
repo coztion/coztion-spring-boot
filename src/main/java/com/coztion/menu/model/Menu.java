@@ -16,19 +16,19 @@ import lombok.Setter;
 public class Menu extends DataRecord {
 
     @Schema(description = "Menu ID")
-    private MenuId menuId;
+    private String menuId;
 
     @Schema(description = "Menu Name")
     private String menuName;
 
     @Schema(description = "Menu Type")
-    private MenuType menuType;
+    private String menuType;
 
     @Schema(description = "URL")
     private String url;
 
     @Schema(description = "Parent Menu ID")
-    private MenuId parentMenuId;
+    private String parentMenuId;
 
     @Schema(description = "Sort Order")
     private Integer sortOrder;

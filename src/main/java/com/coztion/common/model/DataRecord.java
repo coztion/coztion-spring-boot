@@ -16,7 +16,7 @@ import lombok.Setter;
 public class DataRecord {
 
     @Schema(description = "Data Status")
-    private DataStatus dataStatus = DataStatus.ENABLED;
+    private String dataStatus = DataStatus.ENABLED.getValue();
 
     @Schema(description = "Creator", example = "system")
     private String createdBy = "system";
@@ -31,10 +31,10 @@ public class DataRecord {
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     public boolean isEnabled() {
-        return dataStatus.isEnabled();
+        return DataStatus.ofValue(dataStatus).isEnabled();
     }
 
     public boolean isDeleted() {
-        return dataStatus.isDeleted();
+        return DataStatus.ofValue(dataStatus).isDeleted();
     }
 }

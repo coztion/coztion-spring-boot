@@ -83,15 +83,19 @@ public class AuthorizeAspect {
     }
 
     private List<AuthorityRole> getAccessibleMenuAuthorityRoles(List<MenuId> menuIds, AuthorityType authorityType) {
-        MenusSearch menuSearch =
-                MenusSearch.builder().menuIds(menuIds).includeAuthorities(true).build();
+        MenusSearch menuSearch = MenusSearch.builder()
+                .menuIds(menuIds.stream().map(MenuId::getValue).toList())
+                .includeAuthorities(true)
+                .build();
         List<Menu> menus = menuService.getMenus(menuSearch);
         return menus.stream()
                 .map(Menu::getAuthorities)
                 .flatMap(Collection::stream)
-                .filter(menuAuthority -> menuAuthority.getAuthorityType() == authorityType)
+                .filter(menuAuthority ->
+                        AuthorityType.ofValue(menuAuthority.getAuthorityType()).equals(authorityType))
                 .map(MenuAuthority::getAuthorityRole)
                 .distinct()
+                .map(AuthorityRole::ofValue)
                 .toList();
     }
 

@@ -13,9 +13,9 @@ import lombok.Getter;
 public class MenuAuthoritiesSearch {
 
     @Schema(description = "Menu Ids")
-    private List<MenuId> menuIds;
+    private List<String> menuIds;
 
-    public static MenuAuthoritiesSearch ofMenuIds(List<MenuId> menuIds) {
+    public static MenuAuthoritiesSearch ofMenuIds(List<String> menuIds) {
         return MenuAuthoritiesSearch.builder().menuIds(menuIds).build();
     }
 }

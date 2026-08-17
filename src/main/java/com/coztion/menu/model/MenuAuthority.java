@@ -1,8 +1,5 @@
 package com.coztion.menu.model;
 
-import com.coztion.authority.model.AuthorityRole;
-import com.coztion.authority.model.AuthorityType;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.Getter;
@@ -15,11 +12,11 @@ import lombok.Setter;
 public class MenuAuthority {
 
     @Schema(description = "Menu Id")
-    private MenuId menuId;
+    private String menuId;
 
     @Schema(description = "Authority Role")
-    private AuthorityRole authorityRole;
+    private String authorityRole;
 
     @Schema(description = "Authority Type")
-    private AuthorityType authorityType;
+    private String authorityType;
 }

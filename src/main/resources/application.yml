@@ -24,7 +24,6 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
-  type-handlers-package: com.coztion.core.typehandler
   configuration:
     map-underscore-to-camel-case: true
     auto-mapping-behavior: full

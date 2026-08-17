@@ -1,7 +1,5 @@
 package com.coztion.menu.model;
 
-import com.coztion.common.enums.DataStatus;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.AllArgsConstructor;
@@ -18,19 +16,19 @@ import lombok.Setter;
 public class MenuSearch {
 
     @Schema(description = "Menu ID", hidden = true)
-    private MenuId menuId;
+    private String menuId;
 
     @Schema(description = "Data Status")
-    private DataStatus dataStatus;
+    private String dataStatus;
 
     @Schema(description = "Include Deleted Data")
     private boolean includeDeletedData;
 
-    public static MenuSearch ofMenuId(MenuId menuId) {
+    public static MenuSearch ofMenuId(String menuId) {
         return MenuSearch.builder().menuId(menuId).build();
     }
 
-    public static MenuSearch ofMenuIdIncludingDeletedData(MenuId menuId) {
+    public static MenuSearch ofMenuIdIncludingDeletedData(String menuId) {
         return MenuSearch.builder().menuId(menuId).includeDeletedData(true).build();
     }
 }

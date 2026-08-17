@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import com.coztion.common.constant.TranslationKey;
-import com.coztion.common.enums.DataStatus;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -20,8 +19,8 @@ import lombok.Setter;
 public class MenuSave {
 
     @Schema(description = "Menu ID")
-    @NotNull(message = TranslationKey.Menu.Label.MENU_ID)
-    private MenuId menuId;
+    @NotBlank(message = TranslationKey.Menu.Label.MENU_ID)
+    private String menuId;
 
     @Schema(description = "Menu Name")
     @NotBlank(message = TranslationKey.Menu.Label.MENU_NAME)
@@ -29,15 +28,15 @@ public class MenuSave {
     private String menuName;
 
     @Schema(description = "Menu Type")
-    @NotNull(message = TranslationKey.Menu.Label.MENU_TYPE)
-    private MenuType menuType;
+    @NotBlank(message = TranslationKey.Menu.Label.MENU_TYPE)
+    private String menuType;
 
     @Schema(description = "URL")
     @NotBlank(message = TranslationKey.Menu.Label.URL)
     private String url;
 
     @Schema(description = "Parent Menu ID")
-    private MenuId parentMenuId;
+    private String parentMenuId;
 
     @Schema(description = "Sort Order")
     @NotNull(message = TranslationKey.Common.Label.SORT_ORDER)
@@ -45,8 +44,8 @@ public class MenuSave {
     private Integer sortOrder;
 
     @Schema(description = "Data Status")
-    @NotNull(message = TranslationKey.Common.Label.DATA_STATUS)
-    private DataStatus dataStatus;
+    @NotBlank(message = TranslationKey.Common.Label.DATA_STATUS)
+    private String dataStatus;
 
     @Schema(description = "Author", hidden = true)
     private String author;
