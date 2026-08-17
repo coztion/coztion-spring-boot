@@ -29,7 +29,7 @@
         <if test="translationLocale != null and translationLocale != ''">
            AND TRANSLATION_LOCALE = #{translationLocale}
         </if>
-        <if test="dataStatus != null">
+        <if test="dataStatus != null and dataStatus != ''">
            AND DATA_STATUS = #{dataStatus}
         </if>
         <if test="translationKey != null and translationKey != ''">
