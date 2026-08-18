@@ -27,6 +27,9 @@
                     #{menuId}
                 </foreach>
             </if>
+            <if test="parentMenuId != null and parentMenuId != ''">
+           AND M.PARENT_MENU_ID = #{parentMenuId}
+            </if>
             <if test="menuName != null and menuName != ''">
            AND M.MENU_NAME LIKE CONCAT('%', #{menuName}, '%')
             </if>
@@ -169,6 +172,12 @@
     <delete id="deleteMenu"
             parameterType="com.coztion.menu.model.MenuDelete">
         DELETE FROM TB_MENU
+         WHERE MENU_ID     = #{menuId}
+    </delete>
+
+    <delete id="deleteMenuAuthoritiesByMenuDelete"
+            parameterType="com.coztion.menu.model.MenuDelete">
+        DELETE FROM TB_MENU_AUTHORITY
          WHERE MENU_ID     = #{menuId}
     </delete>
 </mapper>
