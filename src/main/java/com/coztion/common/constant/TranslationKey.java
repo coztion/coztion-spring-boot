@@ -60,5 +60,9 @@ public class TranslationKey {
             public static final String PARENT_MENU_ID = "menu.label.PARENT_MENU_ID";
             public static final String URL = "menu.label.URL";
         }
+
+        public static class Message {
+            public static final String MENU_DELETE_FAILURE_BY_SUB_MENU = "menu.message.MENU_DELETE_FAILURE_BY_SUB_MENU";
+        }
     }
 }
