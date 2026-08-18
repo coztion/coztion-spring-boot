@@ -1,6 +1,7 @@
 package com.coztion.menu;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -117,10 +118,19 @@ public class MenuService {
     @Transactional
     public void deleteMenu(MenuDelete menuDelete) {
         MenuSearch menuSearch = MenuSearch.ofMenuId(menuDelete.getMenuId());
-        menuRepository
-                .selectMenu(menuSearch)
-                .orElseThrow(() -> new RestException(
-                        TranslationKey.Common.Message.NOT_FOUND_FAILURE, TranslationKey.Menu.Label.MENU));
+        Optional<Menu> foundMenu = menuRepository.selectMenu(menuSearch);
+        if (foundMenu.isEmpty()) {
+            throw new RestException(TranslationKey.Common.Message.NOT_FOUND_FAILURE, TranslationKey.Menu.Label.MENU);
+        }
+
+        MenusSearch subMenusSearch =
+                MenusSearch.builder().parentMenuId(menuDelete.getMenuId()).build();
+        List<Menu> foundSubMenus = menuRepository.selectMenus(subMenusSearch);
+        if (!CollectionUtils.isEmpty(foundSubMenus)) {
+            throw new RestException(TranslationKey.Menu.Message.MENU_DELETE_FAILURE_BY_SUB_MENU);
+        }
+
+        menuRepository.deleteMenuAuthoritiesByMenuDelete(menuDelete);
 
         int deletedCount = menuRepository.deleteMenu(menuDelete);
         if (deletedCount == 0) {
@@ -131,7 +141,18 @@ public class MenuService {
     @Transactional
     public void operateMenus(MenuOperate menuOperate) {
         if (menuOperate.hasDeleteTargets()) {
-            menuOperate.getMenuDeletes().forEach(this::deleteMenu);
+            List<String> deleteMenuIds = menuOperate.getDeleteMenuIds();
+            MenusSearch deleteMenusSearch = MenusSearch.ofMenuIds(deleteMenuIds);
+            List<Menu> deleteMenus = menuRepository.selectMenus(deleteMenusSearch);
+            Map<String, String> parentMenuIdsOfDeleteMenus = deleteMenus.stream()
+                    .collect(
+                            HashMap::new,
+                            (map, menu) -> map.put(menu.getMenuId(), menu.getParentMenuId()),
+                            HashMap::putAll);
+
+            menuOperate
+                    .getMenuDeletesSortedByHierarchy(parentMenuIdsOfDeleteMenus)
+                    .forEach(this::deleteMenu);
         }
 
         if (menuOperate.hasUpdateTargets()) {
@@ -139,7 +160,7 @@ public class MenuService {
         }
 
         if (menuOperate.hasSaveTargets()) {
-            menuOperate.getMenuSaves().forEach(this::saveMenu);
+            menuOperate.getMenuSavesSortedByHierarchy().forEach(this::saveMenu);
         }
     }
 }

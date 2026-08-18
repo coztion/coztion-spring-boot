@@ -22,6 +22,9 @@ public class MenusSearch extends Pagination {
     @Schema(description = "Menu Ids")
     private List<String> menuIds;
 
+    @Schema(description = "Parent Menu Id", hidden = true)
+    private String parentMenuId;
+
     @Schema(description = "Menu Name")
     private String menuName;
 
@@ -36,4 +39,8 @@ public class MenusSearch extends Pagination {
 
     @Schema(description = "Include Authorities in Result")
     private boolean includeAuthorities;
+
+    public static MenusSearch ofMenuIds(List<String> menuIds) {
+        return MenusSearch.builder().menuIds(menuIds).build();
+    }
 }

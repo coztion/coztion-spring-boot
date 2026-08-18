@@ -28,4 +28,6 @@ public interface MenuRepository {
     int updateMenu(MenuUpdate menuUpdate);
 
     int deleteMenu(MenuDelete menuDelete);
+
+    int deleteMenuAuthoritiesByMenuDelete(MenuDelete menuDelete);
 }
