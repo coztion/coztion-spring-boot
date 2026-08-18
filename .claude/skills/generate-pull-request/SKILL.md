@@ -6,7 +6,7 @@ description: Use when user requests to generate a pull request.
 ### Pull Request Generation Rules
 
 - Generate pull request contents.
-- Follow @.claude/skills/pull-request/templates/pull-request-template.md and fill braces with contents following:
+- Follow @.claude/skills/generate-pull-request/templates/pull-request-template.md and fill braces with contents following:
     - Title should summarize the major changes ot the pull request. (Do not include commit type)
     - Description should show details about the pull request.
     - Changes should show each change's.
@@ -19,6 +19,7 @@ description: Use when user requests to generate a pull request.
 - Changes can be checked by the difference between remote develop branch and current branch.
     - Check by next git command : `git diff origin/develop HEAD`
     - Follow if user request for difference between different branch.
+- Commit history (e.g. `git log`, `git show`) may only be referenced for context. The actual PR content must be based solely on the diff.
 
 ### After Generation
 
