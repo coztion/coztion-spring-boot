@@ -45,7 +45,7 @@ public class MenuController {
     }
 
     @Operation(summary = "Get Menu Infos")
-    @GetMapping("/menu-infos")
+    @GetMapping("/infos")
     public RestResponse<List<MenuInfo>> getMenuInfos(@AuthenticationPrincipal SessionUser sessionUser) {
         List<String> authorityRoles = sessionUser.getAuthorityRoles();
         return RestResponse.ofSuccess(menuService.getMenuInfos(authorityRoles));

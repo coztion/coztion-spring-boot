@@ -1,15 +1,11 @@
 package com.coztion.code;
 
+import java.util.List;
+
 import jakarta.validation.Valid;
 
 import com.coztion.authority.model.AuthorityType;
-import com.coztion.code.model.CommonCode;
-import com.coztion.code.model.CommonCodeDelete;
-import com.coztion.code.model.CommonCodeOperation;
-import com.coztion.code.model.CommonCodeSave;
-import com.coztion.code.model.CommonCodeSearch;
-import com.coztion.code.model.CommonCodeUpdate;
-import com.coztion.code.model.CommonCodesSearch;
+import com.coztion.code.model.*;
 import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
 import com.coztion.core.security.Authorize;
@@ -25,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,6 +43,16 @@ public class CommonCodeController {
     public RestResponse<PageResponse<CommonCode>> getCommonCodes(@ModelAttribute CommonCodesSearch commonCodesSearch) {
         Page<CommonCode> commonCodes = commonCodeService.getCommonCodes(commonCodesSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(commonCodes));
+    }
+
+    @Operation(summary = "Get Common Code Infos")
+    @GetMapping("/infos")
+    public RestResponse<List<CommonCodeInfo>> getCommonCodeInfos(@RequestParam List<String> groupCodes) {
+        CommonCodesSearch commonCodesSearch = CommonCodesSearch.ofEnabledGroupCodes(groupCodes);
+        Page<CommonCode> commonCodes = commonCodeService.getCommonCodes(commonCodesSearch);
+        List<CommonCodeInfo> commonCodeInfos =
+                commonCodes.stream().map(CommonCode::toCommonCodeInfo).toList();
+        return RestResponse.ofSuccess(commonCodeInfos);
     }
 
     @Operation(summary = "Get Common Code")
