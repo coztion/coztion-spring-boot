@@ -39,7 +39,7 @@ public class TranslationController {
     }
 
     @Operation(summary = "Get Translation Information")
-    @GetMapping("/translation-infos")
+    @GetMapping("/infos")
     public RestResponse<List<TranslationInfo>> getTranslationInfos() {
         List<TranslationInfo> translationInfos = translationService.getTranslationInfos();
         return RestResponse.ofSuccess(translationInfos);

@@ -28,8 +28,8 @@ public class CommonCode extends DataRecord {
     @Schema(description = "Sort Order")
     private Integer sortOrder;
 
-    public Code toCode() {
-        return Code.builder()
+    public CommonCodeInfo toCommonCodeInfo() {
+        return CommonCodeInfo.builder()
                 .groupCode(groupCode)
                 .commonCode(commonCode)
                 .commonCodeName(commonCodeName)

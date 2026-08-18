@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class Code {
+public class CommonCodeInfo {
 
     @Schema(description = "Group Code")
     private String groupCode;
