@@ -20,7 +20,7 @@ spring:
     url:
       login: /session/login
       refresh: /session/refresh
-      unauthenticated: /swagger-ui/**,/v3/api-docs/**,/error,/translations/translation-infos
+      unauthenticated: /swagger-ui/**,/v3/api-docs/**,/error,/translations/infos
 
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
