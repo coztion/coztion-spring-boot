@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import com.coztion.common.constant.TranslationKey;
+import com.coztion.common.model.OperationAuthor;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -15,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CommonCodeSave {
+public class CommonCodeSave extends OperationAuthor {
 
     @Schema(description = "Group Code")
     @NotBlank(message = TranslationKey.Code.Label.GROUP_CODE)
@@ -40,7 +41,4 @@ public class CommonCodeSave {
     @NotNull(message = TranslationKey.Common.Label.SORT_ORDER)
     @Min(value = 1, message = TranslationKey.Common.Label.SORT_ORDER)
     private Integer sortOrder;
-
-    @Schema(description = "Author", hidden = true)
-    private String author;
 }

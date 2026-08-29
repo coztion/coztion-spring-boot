@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import jakarta.validation.Valid;
 
+import com.coztion.common.model.OperationAuthor;
+
 import org.springframework.util.CollectionUtils;
 
 import lombok.Getter;
@@ -17,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MenuOperate {
+public class MenuOperate extends OperationAuthor {
 
     @Valid
     private List<MenuSave> menuSaves;
@@ -65,7 +67,10 @@ public class MenuOperate {
                 .toList();
     }
 
+    @Override
     public void setAuthor(String author) {
+        super.setAuthor(author);
+
         if (hasSaveTargets()) {
             menuSaves.forEach(menuSave -> menuSave.setAuthor(author));
         }

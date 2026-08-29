@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import com.coztion.common.constant.TranslationKey;
+import com.coztion.common.model.OperationAuthor;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -15,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CommonCodeUpdate {
+public class CommonCodeUpdate extends OperationAuthor {
 
     @Schema(description = "Group Code")
     @NotBlank(message = TranslationKey.Code.Label.GROUP_CODE)
@@ -36,7 +37,4 @@ public class CommonCodeUpdate {
     @Schema(description = "Data Status", example = "ENABLED")
     @NotNull(message = TranslationKey.Common.Label.DATA_STATUS)
     private String dataStatus;
-
-    @Schema(description = "Author", hidden = true)
-    private String author;
 }

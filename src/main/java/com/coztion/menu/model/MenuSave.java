@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import com.coztion.common.constant.TranslationKey;
+import com.coztion.common.model.OperationAuthor;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -16,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MenuSave {
+public class MenuSave extends OperationAuthor {
 
     @Schema(description = "Menu ID")
     @NotBlank(message = TranslationKey.Menu.Label.MENU_ID)
@@ -46,7 +47,4 @@ public class MenuSave {
     @Schema(description = "Data Status")
     @NotBlank(message = TranslationKey.Common.Label.DATA_STATUS)
     private String dataStatus;
-
-    @Schema(description = "Author", hidden = true)
-    private String author;
 }

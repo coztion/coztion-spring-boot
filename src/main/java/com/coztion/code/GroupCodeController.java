@@ -14,10 +14,8 @@ import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
 import com.coztion.core.security.Authorize;
 import com.coztion.menu.model.MenuId;
-import com.coztion.user.model.SessionUser;
 import com.github.pagehelper.Page;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,9 +51,7 @@ public class GroupCodeController {
     @Operation(summary = "Post Group Code")
     @PostMapping
     @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
-    public RestResponse<GroupCode> postGroupCode(
-            @Valid @RequestBody GroupCodeSave groupCodeSave, @AuthenticationPrincipal SessionUser sessionUser) {
-        groupCodeSave.setAuthor(sessionUser.getUsername());
+    public RestResponse<GroupCode> postGroupCode(@Valid @RequestBody GroupCodeSave groupCodeSave) {
         GroupCode createdGroupCode = groupCodeService.saveGroupCode(groupCodeSave);
         return RestResponse.ofSuccess(createdGroupCode);
     }
@@ -63,9 +59,7 @@ public class GroupCodeController {
     @Operation(summary = "Put Group Code")
     @PutMapping("/{groupCode}")
     @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
-    public RestResponse<GroupCode> putGroupCode(
-            @Valid @RequestBody GroupCodeUpdate groupCodeUpdate, @AuthenticationPrincipal SessionUser sessionUser) {
-        groupCodeUpdate.setAuthor(sessionUser.getUsername());
+    public RestResponse<GroupCode> putGroupCode(@Valid @RequestBody GroupCodeUpdate groupCodeUpdate) {
         GroupCode updatedGroupCode = groupCodeService.updateGroupCode(groupCodeUpdate);
         return RestResponse.ofSuccess(updatedGroupCode);
     }
@@ -73,9 +67,7 @@ public class GroupCodeController {
     @Operation(summary = "Delete Group Code")
     @DeleteMapping("/{groupCode}")
     @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
-    public RestResponse<Boolean> deleteGroupCode(
-            @Valid @RequestBody GroupCodeDelete groupCodeDelete, @AuthenticationPrincipal SessionUser sessionUser) {
-        groupCodeDelete.setAuthor(sessionUser.getUsername());
+    public RestResponse<Boolean> deleteGroupCode(@Valid @RequestBody GroupCodeDelete groupCodeDelete) {
         groupCodeService.deleteGroupCode(groupCodeDelete);
         return RestResponse.ofSuccess(true);
     }
@@ -83,10 +75,7 @@ public class GroupCodeController {
     @Operation(summary = "Operate Group Codes")
     @PostMapping("/operation")
     @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
-    public RestResponse<Boolean> operationGroupCodes(
-            @Valid @RequestBody GroupCodeOperation groupCodeOperation,
-            @AuthenticationPrincipal SessionUser sessionUser) {
-        groupCodeOperation.setAuthor(sessionUser.getUsername());
+    public RestResponse<Boolean> operationGroupCodes(@Valid @RequestBody GroupCodeOperation groupCodeOperation) {
         groupCodeService.operateGroupCodes(groupCodeOperation);
         return RestResponse.ofSuccess(true);
     }

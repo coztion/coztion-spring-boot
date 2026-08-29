@@ -3,6 +3,7 @@ package com.coztion.code.model;
 import jakarta.validation.constraints.NotBlank;
 
 import com.coztion.common.constant.TranslationKey;
+import com.coztion.common.model.OperationAuthor;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -17,12 +18,9 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupCodeDelete {
+public class GroupCodeDelete extends OperationAuthor {
 
     @Schema(description = "Group Code")
     @NotBlank(message = TranslationKey.Code.Label.GROUP_CODE)
     private String groupCode;
-
-    @Schema(description = "Author", hidden = true)
-    private String author;
 }
