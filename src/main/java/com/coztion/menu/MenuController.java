@@ -54,9 +54,7 @@ public class MenuController {
     @Operation(summary = "Post Menu")
     @PostMapping
     @Authorize(menuIds = MenuId.MENU_MANAGEMENT, authorityType = AuthorityType.WRITE)
-    public RestResponse<Menu> postMenu(
-            @Valid @RequestBody MenuSave menuSave, @AuthenticationPrincipal SessionUser sessionUser) {
-        menuSave.setAuthor(sessionUser.getUsername());
+    public RestResponse<Menu> postMenu(@Valid @RequestBody MenuSave menuSave) {
         Menu createdMenu = menuService.saveMenu(menuSave);
         return RestResponse.ofSuccess(createdMenu);
     }
@@ -64,9 +62,7 @@ public class MenuController {
     @Operation(summary = "Put Menu")
     @PutMapping("/{menuId}")
     @Authorize(menuIds = MenuId.MENU_MANAGEMENT, authorityType = AuthorityType.WRITE)
-    public RestResponse<Void> putMenu(
-            @Valid @RequestBody MenuUpdate menuUpdate, @AuthenticationPrincipal SessionUser sessionUser) {
-        menuUpdate.setAuthor(sessionUser.getUsername());
+    public RestResponse<Void> putMenu(@Valid @RequestBody MenuUpdate menuUpdate) {
         menuService.updateMenu(menuUpdate);
         return RestResponse.ofSuccess(null);
     }
@@ -74,9 +70,7 @@ public class MenuController {
     @Operation(summary = "Delete Menu")
     @DeleteMapping("/{menuId}")
     @Authorize(menuIds = MenuId.MENU_MANAGEMENT, authorityType = AuthorityType.WRITE)
-    public RestResponse<Boolean> deleteMenu(
-            @Valid @RequestBody MenuDelete menuDelete, @AuthenticationPrincipal SessionUser sessionUser) {
-        menuDelete.setAuthor(sessionUser.getUsername());
+    public RestResponse<Boolean> deleteMenu(@Valid @RequestBody MenuDelete menuDelete) {
         menuService.deleteMenu(menuDelete);
         return RestResponse.ofSuccess(true);
     }
@@ -84,9 +78,7 @@ public class MenuController {
     @Operation(summary = "Operate Menus")
     @PostMapping("/operation")
     @Authorize(menuIds = MenuId.MENU_MANAGEMENT, authorityType = AuthorityType.WRITE)
-    public RestResponse<Boolean> operationMenus(
-            @Valid @RequestBody MenuOperate menuOperate, @AuthenticationPrincipal SessionUser sessionUser) {
-        menuOperate.setAuthor(sessionUser.getUsername());
+    public RestResponse<Boolean> operationMenus(@Valid @RequestBody MenuOperate menuOperate) {
         menuService.operateMenus(menuOperate);
         return RestResponse.ofSuccess(true);
     }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
+import com.coztion.common.model.OperationAuthor;
+
 import org.springframework.util.CollectionUtils;
 
 import lombok.Getter;
@@ -13,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class GroupCodeOperation {
+public class GroupCodeOperation extends OperationAuthor {
 
     @Valid
     private List<GroupCodeSave> groupCodeSaves;
@@ -36,7 +38,10 @@ public class GroupCodeOperation {
         return !CollectionUtils.isEmpty(groupCodeDeletes);
     }
 
+    @Override
     public void setAuthor(String author) {
+        super.setAuthor(author);
+
         if (hasSaveTargets()) {
             groupCodeSaves.forEach(groupCodeSave -> groupCodeSave.setAuthor(author));
         }

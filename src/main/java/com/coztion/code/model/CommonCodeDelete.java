@@ -3,6 +3,7 @@ package com.coztion.code.model;
 import jakarta.validation.constraints.NotBlank;
 
 import com.coztion.common.constant.TranslationKey;
+import com.coztion.common.model.OperationAuthor;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -17,7 +18,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommonCodeDelete {
+public class CommonCodeDelete extends OperationAuthor {
 
     @Schema(description = "Group Code")
     @NotBlank(message = TranslationKey.Code.Label.GROUP_CODE)
@@ -26,7 +27,4 @@ public class CommonCodeDelete {
     @Schema(description = "Common Code")
     @NotBlank(message = TranslationKey.Code.Label.COMMON_CODE)
     private String commonCode;
-
-    @Schema(description = "Author", hidden = true)
-    private String author;
 }

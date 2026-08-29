@@ -4,6 +4,8 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
+import com.coztion.common.model.OperationAuthor;
+
 import org.springframework.util.CollectionUtils;
 
 import lombok.Getter;
@@ -13,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CommonCodeOperation {
+public class CommonCodeOperation extends OperationAuthor {
 
     @Valid
     private List<CommonCodeSave> commonCodeSaves;
@@ -36,7 +38,10 @@ public class CommonCodeOperation {
         return !CollectionUtils.isEmpty(commonCodeDeletes);
     }
 
+    @Override
     public void setAuthor(String author) {
+        super.setAuthor(author);
+
         if (hasSaveTargets()) {
             commonCodeSaves.forEach(commonCodeSave -> commonCodeSave.setAuthor(author));
         }

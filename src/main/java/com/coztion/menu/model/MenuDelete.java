@@ -3,6 +3,7 @@ package com.coztion.menu.model;
 import jakarta.validation.constraints.NotBlank;
 
 import com.coztion.common.constant.TranslationKey;
+import com.coztion.common.model.OperationAuthor;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -17,12 +18,9 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenuDelete {
+public class MenuDelete extends OperationAuthor {
 
     @Schema(description = "Menu ID")
     @NotBlank(message = TranslationKey.Menu.Label.MENU_ID)
     private String menuId;
-
-    @Schema(description = "Author", hidden = true)
-    private String author;
 }
