@@ -38,4 +38,69 @@
          ORDER BY TRANSLATION_GROUP, TRANSLATION_TYPE, TRANSLATION_CODE, TRANSLATION_LOCALE
     </select>
 
+    <select id="selectTranslation"
+            parameterType="com.coztion.translation.model.TranslationSearch"
+            resultType="com.coztion.translation.model.Translation">
+        SELECT TRANSLATION_GROUP
+             , TRANSLATION_TYPE
+             , TRANSLATION_CODE
+             , TRANSLATION_LOCALE
+             , TRANSLATION_CONTENT
+             , DATA_STATUS
+             , CREATED_BY
+             , CREATED_AT
+             , UPDATED_BY
+             , UPDATED_AT
+          FROM TRANSLATION
+         WHERE TRANSLATION_GROUP  = #{translationGroup}
+           AND TRANSLATION_TYPE   = #{translationType}
+           AND TRANSLATION_CODE   = #{translationCode}
+           AND TRANSLATION_LOCALE = #{translationLocale}
+    </select>
+
+    <insert id="insertTranslation"
+            parameterType="com.coztion.translation.model.TranslationSave">
+        INSERT INTO TRANSLATION (
+            TRANSLATION_GROUP
+          , TRANSLATION_TYPE
+          , TRANSLATION_CODE
+          , TRANSLATION_LOCALE
+          , TRANSLATION_CONTENT
+          , DATA_STATUS
+          , CREATED_BY
+          , UPDATED_BY
+        ) VALUES (
+            #{translationGroup}
+          , #{translationType}
+          , #{translationCode}
+          , #{translationLocale}
+          , #{translationContent}
+          , #{dataStatus}
+          , #{author}
+          , #{author}
+        )
+    </insert>
+
+    <update id="updateTranslation"
+            parameterType="com.coztion.translation.model.TranslationUpdate">
+        UPDATE TRANSLATION
+           SET TRANSLATION_CONTENT = #{translationContent}
+             , DATA_STATUS         = #{dataStatus}
+             , UPDATED_BY          = #{author}
+             , UPDATED_AT          = NOW()
+         WHERE TRANSLATION_GROUP   = #{translationGroup}
+           AND TRANSLATION_TYPE    = #{translationType}
+           AND TRANSLATION_CODE    = #{translationCode}
+           AND TRANSLATION_LOCALE  = #{translationLocale}
+    </update>
+
+    <delete id="deleteTranslation"
+            parameterType="com.coztion.translation.model.TranslationDelete">
+        DELETE FROM TRANSLATION
+         WHERE TRANSLATION_GROUP  = #{translationGroup}
+           AND TRANSLATION_TYPE   = #{translationType}
+           AND TRANSLATION_CODE   = #{translationCode}
+           AND TRANSLATION_LOCALE = #{translationLocale}
+    </delete>
+
 </mapper>
