@@ -41,4 +41,14 @@ public class TranslationSearch extends Pagination {
                 .dataStatus(DataStatus.ENABLED.getValue())
                 .build();
     }
+
+    public static TranslationSearch ofKey(
+            String translationGroup, String translationType, String translationCode, String translationLocale) {
+        return TranslationSearch.builder()
+                .translationGroup(translationGroup)
+                .translationType(translationType)
+                .translationCode(translationCode)
+                .translationLocale(translationLocale)
+                .build();
+    }
 }

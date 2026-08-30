@@ -65,4 +65,16 @@ public class TranslationKey {
             public static final String MENU_DELETE_FAILURE_BY_SUB_MENU = "menu.message.MENU_DELETE_FAILURE_BY_SUB_MENU";
         }
     }
+
+    public static class Translation {
+
+        public static class Label {
+
+            public static final String TRANSLATION_GROUP = "translation.label.TRANSLATION_GROUP";
+            public static final String TRANSLATION_TYPE = "translation.label.TRANSLATION_TYPE";
+            public static final String TRANSLATION_CODE = "translation.label.TRANSLATION_CODE";
+            public static final String TRANSLATION_LOCALE = "translation.label.TRANSLATION_LOCALE";
+            public static final String TRANSLATION_CONTENT = "translation.label.TRANSLATION_CONTENT";
+        }
+    }
 }
