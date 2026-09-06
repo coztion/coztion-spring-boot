@@ -1,7 +1,7 @@
 package com.coztion.authority;
 
-import com.coztion.authority.model.Authority;
 import com.coztion.authority.model.AuthoritiesSearch;
+import com.coztion.authority.model.Authority;
 import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
 import com.github.pagehelper.Page;

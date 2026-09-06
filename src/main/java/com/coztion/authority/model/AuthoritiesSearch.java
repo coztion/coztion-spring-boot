@@ -11,5 +11,4 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-public class AuthoritiesSearch extends Pagination {
-}
+public class AuthoritiesSearch extends Pagination {}
