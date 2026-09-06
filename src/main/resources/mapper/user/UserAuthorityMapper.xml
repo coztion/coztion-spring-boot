@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coztion.user.UserAuthorityRepository">
+
+    <select id="selectUserAuthorities"
+            parameterType="com.coztion.user.model.UserAuthoritiesSearch"
+            resultType="com.coztion.user.model.UserAuthority">
+        SELECT UA.USERNAME
+             , UA.AUTHORITY_ROLE
+          FROM TB_USER_AUTHORITY UA
+         WHERE UA.USERNAME IN
+        <foreach collection="usernames" item="username" open="(" separator="," close=")">
+            #{username}
+        </foreach>
+    </select>
+
+</mapper>

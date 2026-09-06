@@ -23,4 +23,16 @@
         </if>
     </select>
 
+    <select id="selectUsers"
+            parameterType="com.coztion.user.model.UsersSearch"
+            resultType="com.coztion.user.model.User">
+        SELECT U.USERNAME
+          FROM TB_USER U
+         WHERE TRUE
+        <if test="username != null and username != ''">
+           AND U.USERNAME = #{username}
+        </if>
+         ORDER BY U.USERNAME
+    </select>
+
 </mapper>
