@@ -16,7 +16,7 @@ public enum MenuId implements ValueEnum {
     DEVELOPMENT("DEV"),
     DEV_FOUNDATION("DEV_FOUNDATION"),
     DEV_BUTTON("DEV_BUTTON"),
-    DEV_COMPONENT("DEV_COMPONENT");
+    DEV_FORM("DEV_FORM");
 
     private final String value;
 }
