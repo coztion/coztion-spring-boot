@@ -34,6 +34,13 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public User getUserOrThrow(UserSearch userSearch) {
+        return getUser(userSearch)
+                .orElseThrow(() -> new RestException(
+                        TranslationKey.Common.Message.NOT_FOUND_FAILURE, TranslationKey.User.Label.USER));
+    }
+
+    @Transactional(readOnly = true)
     public Page<User> getUsers(UsersSearch usersSearch) {
         usersSearch.validatePageable();
         Page<User> users = userRepository.selectUsers(usersSearch);

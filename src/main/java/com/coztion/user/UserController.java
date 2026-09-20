@@ -4,7 +4,10 @@ import jakarta.validation.Valid;
 
 import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
+import com.coztion.core.security.Authorize;
+import com.coztion.menu.model.MenuId;
 import com.coztion.user.model.User;
+import com.coztion.user.model.UserSearch;
 import com.coztion.user.model.UsersSearch;
 import com.github.pagehelper.Page;
 
@@ -28,5 +31,13 @@ public class UserController {
     public RestResponse<PageResponse<User>> getUsers(@Valid @ModelAttribute UsersSearch usersSearch) {
         Page<User> users = userService.getUsers(usersSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(users));
+    }
+
+    @Operation(summary = "Get User")
+    @GetMapping("/{username}")
+    @Authorize(menuIds = MenuId.USER_MANAGEMENT)
+    public RestResponse<User> getUser(@ModelAttribute UserSearch userSearch) {
+        User foundUser = userService.getUserOrThrow(userSearch);
+        return RestResponse.ofSuccess(foundUser);
     }
 }

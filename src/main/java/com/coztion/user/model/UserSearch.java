@@ -1,5 +1,7 @@
 package com.coztion.user.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,6 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserSearch {
 
+    @Schema(description = "Username", hidden = true)
     private String username;
 
     public static UserSearch ofUsername(String username) {
