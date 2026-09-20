@@ -14,6 +14,11 @@
             resultMap="findUserByParamMap">
         SELECT U.USERNAME
              , U.PASSWORD
+             , U.DATA_STATUS
+             , U.CREATED_BY
+             , U.CREATED_AT
+             , U.UPDATED_BY
+             , U.UPDATED_AT
              , UA.AUTHORITY_ROLE
           FROM TB_USER U
           LEFT JOIN TB_USER_AUTHORITY UA
@@ -27,6 +32,11 @@
             parameterType="com.coztion.user.model.UsersSearch"
             resultType="com.coztion.user.model.User">
         SELECT U.USERNAME
+             , U.DATA_STATUS
+             , U.CREATED_BY
+             , U.CREATED_AT
+             , U.UPDATED_BY
+             , U.UPDATED_AT
           FROM TB_USER U
          WHERE TRUE
         <if test="username != null and username != ''">
