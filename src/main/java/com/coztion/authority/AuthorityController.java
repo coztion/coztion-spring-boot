@@ -7,6 +7,8 @@ import com.coztion.authority.model.Authority;
 import com.coztion.authority.model.AuthorityInfo;
 import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
+import com.coztion.core.security.Authorize;
+import com.coztion.menu.model.MenuId;
 import com.github.pagehelper.Page;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,7 @@ public class AuthorityController {
 
     @Operation(summary = "Get Authorities")
     @GetMapping
+    @Authorize(menuIds = MenuId.AUTHORITY_MANAGEMENT)
     public RestResponse<PageResponse<Authority>> getAuthorities(@ModelAttribute AuthoritiesSearch authoritiesSearch) {
         Page<Authority> authorities = authorityService.getAuthorities(authoritiesSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(authorities));

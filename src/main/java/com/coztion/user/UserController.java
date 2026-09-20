@@ -28,6 +28,7 @@ public class UserController {
 
     @Operation(summary = "Get Users")
     @GetMapping
+    @Authorize(menuIds = MenuId.USER_MANAGEMENT)
     public RestResponse<PageResponse<User>> getUsers(@Valid @ModelAttribute UsersSearch usersSearch) {
         Page<User> users = userService.getUsers(usersSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(users));
