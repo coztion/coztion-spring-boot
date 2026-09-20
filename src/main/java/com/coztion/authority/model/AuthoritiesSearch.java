@@ -1,6 +1,9 @@
 package com.coztion.authority.model;
 
+import com.coztion.common.enums.DataStatus;
 import com.coztion.common.model.Pagination;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,4 +14,12 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-public class AuthoritiesSearch extends Pagination {}
+public class AuthoritiesSearch extends Pagination {
+
+    @Schema(description = "Data Status", example = "ENABLED")
+    private String dataStatus;
+
+    public static AuthoritiesSearch ofEnabled() {
+        return AuthoritiesSearch.builder().dataStatus(DataStatus.ENABLED.getValue()).build();
+    }
+}

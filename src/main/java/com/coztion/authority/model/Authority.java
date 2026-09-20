@@ -18,4 +18,11 @@ public class Authority extends DataRecord {
 
     @Schema(description = "Authority Name")
     private String authorityName;
+
+    public AuthorityInfo toAuthorityInfo() {
+        return AuthorityInfo.builder()
+                .authorityRole(authorityRole)
+                .authorityName(authorityName)
+                .build();
+    }
 }

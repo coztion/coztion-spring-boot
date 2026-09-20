@@ -13,6 +13,10 @@
              , UPDATED_BY
              , UPDATED_AT
           FROM TB_AUTHORITY
+         WHERE TRUE
+        <if test="dataStatus != null and dataStatus != ''">
+           AND DATA_STATUS = #{dataStatus}
+        </if>
          ORDER BY AUTHORITY_ROLE
     </select>
 

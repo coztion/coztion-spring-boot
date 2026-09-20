@@ -1,7 +1,10 @@
 package com.coztion.authority;
 
+import java.util.List;
+
 import com.coztion.authority.model.AuthoritiesSearch;
 import com.coztion.authority.model.Authority;
+import com.coztion.authority.model.AuthorityInfo;
 import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
 import com.github.pagehelper.Page;
@@ -29,5 +32,14 @@ public class AuthorityController {
     public RestResponse<PageResponse<Authority>> getAuthorities(@ModelAttribute AuthoritiesSearch authoritiesSearch) {
         Page<Authority> authorities = authorityService.getAuthorities(authoritiesSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(authorities));
+    }
+
+    @Operation(summary = "Get Authority Infos")
+    @GetMapping("/infos")
+    public RestResponse<List<AuthorityInfo>> getAuthorityInfos() {
+        Page<Authority> authorities = authorityService.getAuthorities(AuthoritiesSearch.ofEnabled());
+        List<AuthorityInfo> authorityInfos =
+                authorities.stream().map(Authority::toAuthorityInfo).toList();
+        return RestResponse.ofSuccess(authorityInfos);
     }
 }
