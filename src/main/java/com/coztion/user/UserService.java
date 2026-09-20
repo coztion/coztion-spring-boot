@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.coztion.common.constant.TranslationKey;
+import com.coztion.common.exception.RestException;
 import com.coztion.user.model.User;
 import com.coztion.user.model.UserAuthoritiesSearch;
 import com.coztion.user.model.UserAuthority;

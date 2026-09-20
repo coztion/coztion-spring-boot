@@ -42,10 +42,27 @@ public class TranslationKey {
 
     public static class User {
 
+        public static class Label {
+
+            public static final String USER = "user.label.USER";
+            public static final String USERNAME = "user.label.USERNAME";
+            public static final String PASSWORD = "user.label.PASSWORD";
+        }
+
         public static class Message {
 
             public static final String AUTHENTICATION_FAILURE = "user.message.AUTHENTICATION_FAILURE";
             public static final String AUTHORIZATION_FAILURE = "user.message.AUTHORIZATION_FAILURE";
+        }
+    }
+
+    public static class Authority {
+
+        public static class Label {
+
+            public static final String AUTHORITY = "authority.label.AUTHORITY";
+            public static final String AUTHORITY_ROLE = "authority.label.AUTHORITY_ROLE";
+            public static final String AUTHORITY_NAME = "authority.label.AUTHORITY_NAME";
         }
     }
 

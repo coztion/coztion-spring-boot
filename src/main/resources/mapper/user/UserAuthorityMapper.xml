@@ -8,10 +8,20 @@
         SELECT UA.USERNAME
              , UA.AUTHORITY_ROLE
           FROM TB_USER_AUTHORITY UA
-         WHERE UA.USERNAME IN
-        <foreach collection="usernames" item="username" open="(" separator="," close=")">
-            #{username}
-        </foreach>
+         WHERE TRUE
+        <if test="username != null and username != ''">
+           AND UA.USERNAME = #{username}
+        </if>
+        <if test="usernames != null and !usernames.isEmpty()">
+           AND UA.USERNAME IN
+            <foreach collection="usernames" item="username" open="(" separator="," close=")">
+                #{username}
+            </foreach>
+        </if>
+        <if test="authorityRole != null and authorityRole != ''">
+           AND UA.AUTHORITY_ROLE = #{authorityRole}
+        </if>
+         ORDER BY UA.USERNAME
     </select>
 
 </mapper>
