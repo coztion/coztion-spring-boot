@@ -19,6 +19,9 @@ public class Authority extends DataRecord {
     @Schema(description = "Authority Name")
     private String authorityName;
 
+    @Schema(description = "Sort Order")
+    private Integer sortOrder;
+
     public AuthorityInfo toAuthorityInfo() {
         return AuthorityInfo.builder()
                 .authorityRole(authorityRole)

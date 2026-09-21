@@ -7,6 +7,7 @@
             resultType="com.coztion.authority.model.Authority">
         SELECT AUTHORITY_ROLE
              , AUTHORITY_NAME
+             , SORT_ORDER
              , DATA_STATUS
              , CREATED_BY
              , CREATED_AT
@@ -17,7 +18,7 @@
         <if test="dataStatus != null and dataStatus != ''">
            AND DATA_STATUS = #{dataStatus}
         </if>
-         ORDER BY AUTHORITY_ROLE
+         ORDER BY SORT_ORDER
     </select>
 
 </mapper>
