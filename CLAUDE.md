@@ -19,3 +19,4 @@
 
 - Do not build, validate the source before I said so.
 - Do not try to do user test, such as browser test or api test, before I said so.
+- Do not use claude memory.
