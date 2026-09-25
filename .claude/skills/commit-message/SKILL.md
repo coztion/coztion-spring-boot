@@ -23,4 +23,5 @@ description: Use when user requests commit.
 - Create the commit with the generated message via heredoc.
 - Do not add a `Co-Authored-By: Claude` trailer or any other Claude authorship line to the commit message.
 - Always create a new commit. Never amend an existing commit unless explicitly requested.
-- One user request creates exactly one commit. Determine the target once, create that single commit, then stop — do not re-check git status afterward and create additional commits in the same run, even if changes remain uncommitted. Further commits require a new explicit user request.
+- Each commit request is independent of the conversation history. Use only the current git state.
+- One user request creates exactly one commit.
