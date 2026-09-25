@@ -20,6 +20,12 @@ public class UsersSearch extends Pagination {
     @Schema(description = "Username")
     private String username;
 
+    @Schema(description = "Authority Role")
+    private String authorityRole;
+
+    @Schema(description = "Data Status")
+    private String dataStatus;
+
     @Schema(description = "Include Authority Roles in Result")
     private boolean includeAuthorityRoles;
 }

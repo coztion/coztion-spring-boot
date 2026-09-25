@@ -24,4 +24,22 @@
          ORDER BY UA.USERNAME
     </select>
 
+    <insert id="insertUserAuthorities">
+        INSERT INTO TB_USER_AUTHORITY (
+            USERNAME
+          , AUTHORITY_ROLE
+        ) VALUES
+        <foreach item="userAuthoritySave" collection="userAuthoritySaves" separator=",">
+            (
+                #{userAuthoritySave.username}
+              , #{userAuthoritySave.authorityRole}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteUserAuthoritiesByUsername">
+        DELETE FROM TB_USER_AUTHORITY
+         WHERE USERNAME = #{username}
+    </delete>
+
 </mapper>
