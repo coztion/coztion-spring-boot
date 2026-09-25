@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coztion.authority.AuthorityRepository">
+
+    <select id="selectAuthorities"
+            parameterType="com.coztion.authority.model.AuthoritiesSearch"
+            resultType="com.coztion.authority.model.Authority">
+        SELECT AUTHORITY_ROLE
+             , AUTHORITY_NAME
+             , SORT_ORDER
+             , DATA_STATUS
+             , CREATED_BY
+             , CREATED_AT
+             , UPDATED_BY
+             , UPDATED_AT
+          FROM TB_AUTHORITY
+         WHERE TRUE
+        <if test="dataStatus != null and dataStatus != ''">
+           AND DATA_STATUS = #{dataStatus}
+        </if>
+         ORDER BY SORT_ORDER
+    </select>
+
+</mapper>

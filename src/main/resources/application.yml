@@ -17,6 +17,8 @@ spring:
       access-token: ACCESS_TOKEN
       refresh-token: REFRESH_TOKEN
       secure: true
+    password:
+      initial: "1q2w3e4r!"
     url:
       login: /session/login
       refresh: /session/refresh

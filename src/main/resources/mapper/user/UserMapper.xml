@@ -14,6 +14,11 @@
             resultMap="findUserByParamMap">
         SELECT U.USERNAME
              , U.PASSWORD
+             , U.DATA_STATUS
+             , U.CREATED_BY
+             , U.CREATED_AT
+             , U.UPDATED_BY
+             , U.UPDATED_AT
              , UA.AUTHORITY_ROLE
           FROM TB_USER U
           LEFT JOIN TB_USER_AUTHORITY UA
@@ -22,5 +27,69 @@
          WHERE U.USERNAME = #{username}
         </if>
     </select>
+
+    <select id="selectUsers"
+            parameterType="com.coztion.user.model.UsersSearch"
+            resultType="com.coztion.user.model.User">
+        SELECT U.USERNAME
+             , U.DATA_STATUS
+             , U.CREATED_BY
+             , U.CREATED_AT
+             , U.UPDATED_BY
+             , U.UPDATED_AT
+          FROM TB_USER U
+         WHERE TRUE
+        <if test="username != null and username != ''">
+           AND U.USERNAME = #{username}
+        </if>
+        <if test="authorityRole != null and authorityRole != ''">
+           AND EXISTS (
+               SELECT 1 FROM TB_USER_AUTHORITY UA
+                WHERE UA.USERNAME = U.USERNAME
+                  AND UA.AUTHORITY_ROLE = #{authorityRole}
+           )
+        </if>
+        <if test="dataStatus != null and dataStatus != ''">
+           AND U.DATA_STATUS = #{dataStatus}
+        </if>
+         ORDER BY U.USERNAME
+    </select>
+
+    <insert id="insertUser"
+            parameterType="com.coztion.user.model.UserSave">
+        INSERT INTO TB_USER (
+            USERNAME
+          , PASSWORD
+          , DATA_STATUS
+          , CREATED_BY
+          , UPDATED_BY
+        ) VALUES (
+            #{username}
+          , #{password}
+          , #{dataStatus}
+          , #{author}
+          , #{author}
+        )
+    </insert>
+
+    <update id="updateUser"
+            parameterType="com.coztion.user.model.UserUpdate">
+        UPDATE TB_USER
+           SET UPDATED_BY  = #{author}
+             , UPDATED_AT  = NOW()
+        <if test="dataStatus != null and dataStatus != ''">
+             , DATA_STATUS = #{dataStatus}
+        </if>
+        <if test="password != null and password != ''">
+             , PASSWORD    = #{password}
+        </if>
+         WHERE USERNAME    = #{username}
+    </update>
+
+    <delete id="deleteUser"
+            parameterType="com.coztion.user.model.UserDelete">
+        DELETE FROM TB_USER
+         WHERE USERNAME = #{username}
+    </delete>
 
 </mapper>

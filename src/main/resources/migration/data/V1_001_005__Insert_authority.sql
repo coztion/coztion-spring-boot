@@ -1,4 +1,4 @@
-INSERT INTO TB_AUTHORITY (AUTHORITY_ROLE, AUTHORITY_NAME)
-VALUES ('ROLE_SYSTEM', 'System')
-     , ('ROLE_ADMIN', 'Administrator')
-     , ('ROLE_USER', 'User');
+INSERT INTO TB_AUTHORITY (AUTHORITY_ROLE, AUTHORITY_NAME, SORT_ORDER)
+VALUES ('ROLE_SYSTEM', 'System', 1)
+     , ('ROLE_ADMIN', 'Administrator', 2)
+     , ('ROLE_USER', 'User', 3);
