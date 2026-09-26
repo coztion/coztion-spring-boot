@@ -44,10 +44,10 @@ public class MenuController {
         return RestResponse.ofSuccess(foundMenu);
     }
 
-    @Operation(summary = "Get Menu Infos")
-    @GetMapping("/infos")
-    public RestResponse<List<MenuInfo>> getMenuInfos(@AuthenticationPrincipal SessionUser sessionUser) {
-        return RestResponse.ofSuccess(menuService.getMenuInfos(sessionUser.getRoleCode()));
+    @Operation(summary = "Get Menu Tree")
+    @GetMapping("/tree")
+    public RestResponse<List<MenuTreeNode>> getMenuTree(@AuthenticationPrincipal SessionUser sessionUser) {
+        return RestResponse.ofSuccess(menuService.getMenuTree(sessionUser.getRoleCode()));
     }
 
     @Operation(summary = "Post Menu")

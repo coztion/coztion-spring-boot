@@ -45,7 +45,7 @@ public class MenuService {
     }
 
     @Transactional(readOnly = true)
-    public List<MenuInfo> getMenuInfos(String roleCode) {
+    public List<MenuTreeNode> getMenuTree(String roleCode) {
         List<String> permissionCodes =
                 permissionService.getPermissions(PermissionsSearch.ofEnabledRoleCode(roleCode)).stream()
                         .map(Permission::getPermissionCode)
@@ -54,16 +54,16 @@ public class MenuService {
             return List.of();
         }
 
-        List<MenuInfo> menus = menuRepository.selectMenuInfos(permissionCodes);
+        List<MenuTreeNode> menus = menuRepository.selectMenuTreeNodes(permissionCodes);
 
-        Map<String, MenuInfo> map = menus.stream().collect(Collectors.toMap(MenuInfo::getMenuId, menu -> menu));
+        Map<String, MenuTreeNode> map = menus.stream().collect(Collectors.toMap(MenuTreeNode::getMenuId, menu -> menu));
 
-        List<MenuInfo> roots = new ArrayList<>();
-        for (MenuInfo menu : menus) {
+        List<MenuTreeNode> roots = new ArrayList<>();
+        for (MenuTreeNode menu : menus) {
             if (Objects.isNull(menu.getParentMenuId())) {
                 roots.add(menu);
             } else {
-                MenuInfo parent = map.get(menu.getParentMenuId());
+                MenuTreeNode parent = map.get(menu.getParentMenuId());
                 if (Objects.nonNull(parent)) {
                     if (Objects.isNull(parent.getSubMenus())) {
                         parent.setSubMenus(new ArrayList<>());
