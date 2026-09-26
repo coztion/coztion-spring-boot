@@ -1,15 +1,8 @@
 package com.coztion.user;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import com.coztion.common.constant.TranslationKey;
 import com.coztion.common.exception.RestException;
 import com.coztion.user.model.User;
-import com.coztion.user.model.UserAuthoritiesSearch;
-import com.coztion.user.model.UserAuthority;
-import com.coztion.user.model.UserAuthoritySave;
 import com.coztion.user.model.UserDelete;
 import com.coztion.user.model.UserOperation;
 import com.coztion.user.model.UserPasswordReset;
@@ -23,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,8 +24,6 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
     private final UserRepository userRepository;
-
-    private final UserAuthorityRepository userAuthorityRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -51,22 +41,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public Page<User> getUsers(UsersSearch usersSearch) {
         usersSearch.validatePageable();
-        Page<User> users = userRepository.selectUsers(usersSearch);
-
-        boolean hasUsers = !CollectionUtils.isEmpty(users);
-        if (hasUsers && usersSearch.isIncludeAuthorityRoles()) {
-            List<String> usernames = users.stream().map(User::getUsername).toList();
-            List<UserAuthority> userAuthorities =
-                    userAuthorityRepository.selectUserAuthorities(UserAuthoritiesSearch.ofUsernames(usernames));
-            Map<String, List<String>> usernameAuthorityRoles = userAuthorities.stream()
-                    .collect(Collectors.groupingBy(
-                            UserAuthority::getUsername,
-                            Collectors.mapping(UserAuthority::getAuthorityRole, Collectors.toList())));
-            users.forEach(
-                    user -> user.setAuthorityRoles(usernameAuthorityRoles.getOrDefault(user.getUsername(), List.of())));
-        }
-
-        return users;
+        return userRepository.selectUsers(usersSearch);
     }
 
     @Transactional
@@ -86,9 +61,6 @@ public class UserService {
             throw new RestException(TranslationKey.Common.Message.CREATE_FAILURE);
         }
 
-        userAuthorityRepository.insertUserAuthorities(
-                UserAuthoritySave.ofUsernameAndAuthorityRoles(userSave.getUsername(), userSave.getAuthorityRoles()));
-
         return userRepository
                 .selectUser(userSearch)
                 .orElseThrow(() -> new RestException(TranslationKey.Common.Message.CREATE_FAILURE));
@@ -103,10 +75,6 @@ public class UserService {
         if (updatedUserCount == 0) {
             throw new RestException(TranslationKey.Common.Message.UPDATE_FAILURE);
         }
-
-        userAuthorityRepository.deleteUserAuthoritiesByUsername(userUpdate.getUsername());
-        userAuthorityRepository.insertUserAuthorities(
-                UserAuthoritySave.ofUsernameAndAuthorityRoles(userUpdate.getUsername(), userUpdate.getAuthorityRoles()));
     }
 
     @Transactional
@@ -126,7 +94,6 @@ public class UserService {
         UserSearch userSearch = UserSearch.ofUsername(userDelete.getUsername());
         getUser(userSearch);
 
-        userAuthorityRepository.deleteUserAuthoritiesByUsername(userDelete.getUsername());
         int deletedUserCount = userRepository.deleteUser(userDelete);
         if (deletedUserCount == 0) {
             throw new RestException(TranslationKey.Common.Message.DELETE_FAILURE);

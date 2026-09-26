@@ -3,9 +3,7 @@ package com.coztion.core.security;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.crypto.SecretKey;
 
@@ -65,7 +63,7 @@ public class AuthenticationFactory {
 
     private String generateToken(SessionUser sessionUser, long expirationMillis) {
         Map<String, Object> claims =
-                Map.of("username", sessionUser.getUsername(), "authorityRoles", sessionUser.getAuthorityRoles());
+                Map.of("username", sessionUser.getUsername(), "roleCode", sessionUser.getRoleCode());
 
         Instant now = Instant.now();
         Instant expiration = now.plusMillis(expirationMillis);
@@ -90,15 +88,8 @@ public class AuthenticationFactory {
                 .getPayload();
 
         String username = claims.getSubject();
+        String roleCode = claims.get("roleCode", String.class);
 
-        List<?> rawAuthorityRoleClaim = claims.get("authorityRoles", List.class);
-        List<String> authorityRoles = Objects.nonNull(rawAuthorityRoleClaim)
-                ? rawAuthorityRoleClaim.stream().map(Object::toString).toList()
-                : List.of();
-
-        return SessionUser.builder()
-                .username(username)
-                .authorityRoles(authorityRoles)
-                .build();
+        return SessionUser.builder().username(username).roleCode(roleCode).build();
     }
 }

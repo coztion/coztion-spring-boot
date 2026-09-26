@@ -4,7 +4,7 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
-import com.coztion.authority.model.AuthorityType;
+import com.coztion.authority.model.PermissionCode;
 import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
 import com.coztion.core.security.Authorize;
@@ -30,7 +30,7 @@ public class MenuController {
 
     @Operation(summary = "Get Menus")
     @GetMapping
-    @Authorize(menuIds = MenuId.MENU_MANAGEMENT)
+    @Authorize(permissionCodes = PermissionCode.MENU_MANAGEMENT_READ)
     public RestResponse<PageResponse<Menu>> getMenus(@Valid @ModelAttribute MenusSearch menusSearch) {
         Page<Menu> pagedMenus = menuService.getMenus(menusSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(pagedMenus));
@@ -38,7 +38,7 @@ public class MenuController {
 
     @Operation(summary = "Get Menu")
     @GetMapping("/{menuId}")
-    @Authorize(menuIds = MenuId.MENU_MANAGEMENT)
+    @Authorize(permissionCodes = PermissionCode.MENU_MANAGEMENT_READ)
     public RestResponse<Menu> getMenu(@ModelAttribute MenuSearch menuSearch) {
         Menu foundMenu = menuService.getMenu(menuSearch);
         return RestResponse.ofSuccess(foundMenu);
@@ -47,13 +47,12 @@ public class MenuController {
     @Operation(summary = "Get Menu Infos")
     @GetMapping("/infos")
     public RestResponse<List<MenuInfo>> getMenuInfos(@AuthenticationPrincipal SessionUser sessionUser) {
-        List<String> authorityRoles = sessionUser.getAuthorityRoles();
-        return RestResponse.ofSuccess(menuService.getMenuInfos(authorityRoles));
+        return RestResponse.ofSuccess(menuService.getMenuInfos(sessionUser.getRoleCode()));
     }
 
     @Operation(summary = "Post Menu")
     @PostMapping
-    @Authorize(menuIds = MenuId.MENU_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.MENU_MANAGEMENT_WRITE)
     public RestResponse<Menu> postMenu(@Valid @RequestBody MenuSave menuSave) {
         Menu createdMenu = menuService.saveMenu(menuSave);
         return RestResponse.ofSuccess(createdMenu);
@@ -61,7 +60,7 @@ public class MenuController {
 
     @Operation(summary = "Put Menu")
     @PutMapping("/{menuId}")
-    @Authorize(menuIds = MenuId.MENU_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.MENU_MANAGEMENT_WRITE)
     public RestResponse<Void> putMenu(@Valid @RequestBody MenuUpdate menuUpdate) {
         menuService.updateMenu(menuUpdate);
         return RestResponse.ofSuccess(null);
@@ -69,7 +68,7 @@ public class MenuController {
 
     @Operation(summary = "Delete Menu")
     @DeleteMapping("/{menuId}")
-    @Authorize(menuIds = MenuId.MENU_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.MENU_MANAGEMENT_WRITE)
     public RestResponse<Boolean> deleteMenu(@Valid @RequestBody MenuDelete menuDelete) {
         menuService.deleteMenu(menuDelete);
         return RestResponse.ofSuccess(true);
@@ -77,7 +76,7 @@ public class MenuController {
 
     @Operation(summary = "Operate Menus")
     @PostMapping("/operation")
-    @Authorize(menuIds = MenuId.MENU_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.MENU_MANAGEMENT_WRITE)
     public RestResponse<Boolean> operationMenus(@Valid @RequestBody MenuOperate menuOperate) {
         menuService.operateMenus(menuOperate);
         return RestResponse.ofSuccess(true);

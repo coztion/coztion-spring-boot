@@ -34,12 +34,6 @@ public class MenusSearch extends Pagination {
     @Schema(description = "Data Status", example = "ENABLED")
     private String dataStatus;
 
-    @Schema(description = "Authority Roles", hidden = true)
-    private List<String> authorityRoles;
-
-    @Schema(description = "Include Authorities in Result")
-    private boolean includeAuthorities;
-
     public static MenusSearch ofMenuIds(List<String> menuIds) {
         return MenusSearch.builder().menuIds(menuIds).build();
     }

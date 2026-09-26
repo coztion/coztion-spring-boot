@@ -14,12 +14,12 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-public class AuthoritiesSearch extends Pagination {
+public class RolesSearch extends Pagination {
 
     @Schema(description = "Data Status", example = "ENABLED")
     private String dataStatus;
 
-    public static AuthoritiesSearch ofEnabled() {
-        return AuthoritiesSearch.builder().dataStatus(DataStatus.ENABLED.getValue()).build();
+    public static RolesSearch ofEnabled() {
+        return RolesSearch.builder().dataStatus(DataStatus.ENABLED.getValue()).build();
     }
 }

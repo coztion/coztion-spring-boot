@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coztion.authority.PermissionRepository">
+
+    <select id="selectPermissions"
+            parameterType="com.coztion.authority.model.PermissionsSearch"
+            resultType="com.coztion.authority.model.Permission">
+        SELECT P.PERMISSION_CODE
+             , P.PERMISSION_NAME
+             , P.SORT_ORDER
+             , P.DATA_STATUS
+             , P.CREATED_BY
+             , P.CREATED_AT
+             , P.UPDATED_BY
+             , P.UPDATED_AT
+          FROM TB_PERMISSION P
+         WHERE TRUE
+        <if test="roleCode != null and roleCode != ''">
+           AND EXISTS (
+               SELECT 1 FROM TB_ROLE_PERMISSION RP
+                WHERE RP.PERMISSION_CODE = P.PERMISSION_CODE
+                  AND RP.ROLE_CODE = #{roleCode}
+           )
+        </if>
+        <if test="dataStatus != null and dataStatus != ''">
+           AND P.DATA_STATUS = #{dataStatus}
+        </if>
+         ORDER BY P.SORT_ORDER
+    </select>
+
+</mapper>

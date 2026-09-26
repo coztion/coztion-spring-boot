@@ -21,13 +21,11 @@ public interface MenuRepository {
 
     Optional<Menu> selectMenu(MenuSearch menuSearch);
 
-    List<MenuInfo> selectMenuInfos(List<String> authorityRoles);
+    List<MenuInfo> selectMenuInfos(List<String> permissionCodes);
 
     int insertMenu(MenuSave menuSave);
 
     int updateMenu(MenuUpdate menuUpdate);
 
     int deleteMenu(MenuDelete menuDelete);
-
-    int deleteMenuAuthoritiesByMenuDelete(MenuDelete menuDelete);
 }
