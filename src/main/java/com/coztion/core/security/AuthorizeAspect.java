@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.coztion.authority.PermissionService;
+import com.coztion.authority.model.Permission;
+import com.coztion.authority.model.PermissionsSearch;
 import com.coztion.user.model.SessionUser;
 
 import org.aspectj.lang.JoinPoint;
@@ -44,7 +46,10 @@ public class AuthorizeAspect {
                 .orElseThrow(() -> new IllegalArgumentException(AUTHENTICATION_FAILURE_MESSAGE))
                 .getRoleCode();
 
-        List<String> grantedPermissionCodes = permissionService.getPermissionCodesByRoleCode(roleCode);
+        List<String> grantedPermissionCodes =
+                permissionService.getPermissions(PermissionsSearch.ofEnabledRoleCode(roleCode)).stream()
+                        .map(Permission::getPermissionCode)
+                        .toList();
 
         boolean isNotAuthorized = Arrays.stream(authorize.permissionCodes())
                 .noneMatch(permissionCode -> permissionCode.isGrantedIn(grantedPermissionCodes));

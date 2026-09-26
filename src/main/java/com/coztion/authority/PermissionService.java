@@ -1,7 +1,5 @@
 package com.coztion.authority;
 
-import java.util.List;
-
 import com.coztion.authority.model.Permission;
 import com.coztion.authority.model.PermissionsSearch;
 import com.github.pagehelper.Page;
@@ -21,12 +19,5 @@ public class PermissionService {
     public Page<Permission> getPermissions(PermissionsSearch permissionsSearch) {
         permissionsSearch.validatePageable();
         return permissionRepository.selectPermissions(permissionsSearch);
-    }
-
-    @Transactional(readOnly = true)
-    public List<String> getPermissionCodesByRoleCode(String roleCode) {
-        return permissionRepository.selectPermissions(PermissionsSearch.ofEnabledRoleCode(roleCode)).stream()
-                .map(Permission::getPermissionCode)
-                .toList();
     }
 }

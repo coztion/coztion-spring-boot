@@ -9,6 +9,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.coztion.authority.PermissionService;
+import com.coztion.authority.model.Permission;
+import com.coztion.authority.model.PermissionsSearch;
 import com.coztion.common.constant.TranslationKey;
 import com.coztion.common.exception.RestException;
 import com.coztion.menu.model.*;
@@ -44,7 +46,10 @@ public class MenuService {
 
     @Transactional(readOnly = true)
     public List<MenuInfo> getMenuInfos(String roleCode) {
-        List<String> permissionCodes = permissionService.getPermissionCodesByRoleCode(roleCode);
+        List<String> permissionCodes =
+                permissionService.getPermissions(PermissionsSearch.ofEnabledRoleCode(roleCode)).stream()
+                        .map(Permission::getPermissionCode)
+                        .toList();
         if (CollectionUtils.isEmpty(permissionCodes)) {
             return List.of();
         }

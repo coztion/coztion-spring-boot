@@ -5,6 +5,8 @@ import java.util.List;
 import jakarta.servlet.http.HttpServletResponse;
 
 import com.coztion.authority.PermissionService;
+import com.coztion.authority.model.Permission;
+import com.coztion.authority.model.PermissionsSearch;
 import com.coztion.common.dto.RestResponse;
 import com.coztion.core.security.AuthenticationHandler;
 import com.coztion.user.model.SessionUser;
@@ -33,7 +35,11 @@ public class SessionController {
     @Operation(summary = "Get Session Info", description = "Get information about authenticated session user")
     @GetMapping("/user-info")
     public RestResponse<SessionUserInfo> getSessionUserInfo(@AuthenticationPrincipal SessionUser sessionUser) {
-        List<String> permissionCodes = permissionService.getPermissionCodesByRoleCode(sessionUser.getRoleCode());
+        List<String> permissionCodes = permissionService
+                .getPermissions(PermissionsSearch.ofEnabledRoleCode(sessionUser.getRoleCode()))
+                .stream()
+                .map(Permission::getPermissionCode)
+                .toList();
         SessionUserInfo sessionUserInfo = sessionUser.toPublicInfo(permissionCodes);
         return RestResponse.ofSuccess(sessionUserInfo);
     }
