@@ -1,7 +1,5 @@
 package com.coztion.user.model;
 
-import java.util.List;
-
 import com.coztion.common.model.DataRecord;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -19,5 +17,5 @@ public class User extends DataRecord {
     @JsonIgnore
     private String password;
 
-    private List<String> authorityRoles;
+    private String roleCode;
 }

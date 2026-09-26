@@ -4,12 +4,11 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
-import com.coztion.authority.model.AuthorityType;
+import com.coztion.authority.model.PermissionCode;
 import com.coztion.code.model.*;
 import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
 import com.coztion.core.security.Authorize;
-import com.coztion.menu.model.MenuId;
 import com.github.pagehelper.Page;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,7 +36,7 @@ public class CommonCodeController {
 
     @Operation(summary = "Get Common Codes")
     @GetMapping
-    @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
+    @Authorize(permissionCodes = PermissionCode.CODE_MANAGEMENT_READ)
     public RestResponse<PageResponse<CommonCode>> getCommonCodes(@ModelAttribute CommonCodesSearch commonCodesSearch) {
         Page<CommonCode> commonCodes = commonCodeService.getCommonCodes(commonCodesSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(commonCodes));
@@ -55,7 +54,7 @@ public class CommonCodeController {
 
     @Operation(summary = "Get Common Code")
     @GetMapping("/{commonCode}")
-    @Authorize(menuIds = MenuId.CODE_MANAGEMENT)
+    @Authorize(permissionCodes = PermissionCode.CODE_MANAGEMENT_READ)
     public RestResponse<CommonCode> getCommonCode(@Valid @ModelAttribute CommonCodeSearch commonCodeSearch) {
         CommonCode foundCommonCode = commonCodeService.getCommonCode(commonCodeSearch);
         return RestResponse.ofSuccess(foundCommonCode);
@@ -63,7 +62,7 @@ public class CommonCodeController {
 
     @Operation(summary = "Post Common Code")
     @PostMapping
-    @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.CODE_MANAGEMENT_WRITE)
     public RestResponse<CommonCode> postCommonCode(@Valid @RequestBody CommonCodeSave commonCodeSave) {
         CommonCode createdCommonCode = commonCodeService.saveCommonCode(commonCodeSave);
         return RestResponse.ofSuccess(createdCommonCode);
@@ -71,7 +70,7 @@ public class CommonCodeController {
 
     @Operation(summary = "Put Common Code")
     @PutMapping("/{commonCode}")
-    @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.CODE_MANAGEMENT_WRITE)
     public RestResponse<CommonCode> putCommonCode(@Valid @RequestBody CommonCodeUpdate commonCodeUpdate) {
         CommonCode updatedCommonCode = commonCodeService.updateCommonCode(commonCodeUpdate);
         return RestResponse.ofSuccess(updatedCommonCode);
@@ -79,7 +78,7 @@ public class CommonCodeController {
 
     @Operation(summary = "Delete Common Code")
     @DeleteMapping("/{commonCode}")
-    @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.CODE_MANAGEMENT_WRITE)
     public RestResponse<Boolean> deleteCommonCode(@Valid @RequestBody CommonCodeDelete commonCodeDelete) {
         commonCodeService.deleteCommonCode(commonCodeDelete);
         return RestResponse.ofSuccess(true);
@@ -87,7 +86,7 @@ public class CommonCodeController {
 
     @Operation(summary = "Operate Common Codes")
     @PostMapping("/operation")
-    @Authorize(menuIds = MenuId.CODE_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.CODE_MANAGEMENT_WRITE)
     public RestResponse<Boolean> operationCommonCodes(@Valid @RequestBody CommonCodeOperation commonCodeOperation) {
         commonCodeService.operateCommonCodes(commonCodeOperation);
         return RestResponse.ofSuccess(true);

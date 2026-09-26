@@ -1,7 +1,5 @@
 package com.coztion.menu.model;
 
-import java.util.List;
-
 import com.coztion.common.model.DataRecord;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,9 +28,9 @@ public class Menu extends DataRecord {
     @Schema(description = "Parent Menu ID")
     private String parentMenuId;
 
+    @Schema(description = "Menu Permission Code")
+    private String menuPermissionCode;
+
     @Schema(description = "Sort Order")
     private Integer sortOrder;
-
-    @Schema(description = "Authorities")
-    private List<MenuAuthority> authorities;
 }

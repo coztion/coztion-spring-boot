@@ -2,11 +2,10 @@ package com.coztion.user;
 
 import jakarta.validation.Valid;
 
-import com.coztion.authority.model.AuthorityType;
+import com.coztion.authority.model.PermissionCode;
 import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
 import com.coztion.core.security.Authorize;
-import com.coztion.menu.model.MenuId;
 import com.coztion.user.model.User;
 import com.coztion.user.model.UserDelete;
 import com.coztion.user.model.UserOperation;
@@ -34,7 +33,7 @@ public class UserController {
 
     @Operation(summary = "Get Users")
     @GetMapping
-    @Authorize(menuIds = MenuId.USER_MANAGEMENT)
+    @Authorize(permissionCodes = PermissionCode.USER_MANAGEMENT_READ)
     public RestResponse<PageResponse<User>> getUsers(@Valid @ModelAttribute UsersSearch usersSearch) {
         Page<User> users = userService.getUsers(usersSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(users));
@@ -42,7 +41,7 @@ public class UserController {
 
     @Operation(summary = "Get User")
     @GetMapping("/{username}")
-    @Authorize(menuIds = MenuId.USER_MANAGEMENT)
+    @Authorize(permissionCodes = PermissionCode.USER_MANAGEMENT_READ)
     public RestResponse<User> getUser(@ModelAttribute UserSearch userSearch) {
         User foundUser = userService.getUser(userSearch);
         return RestResponse.ofSuccess(foundUser);
@@ -50,7 +49,7 @@ public class UserController {
 
     @Operation(summary = "Post User")
     @PostMapping
-    @Authorize(menuIds = MenuId.USER_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.USER_MANAGEMENT_WRITE)
     public RestResponse<User> postUser(@Valid @RequestBody UserSave userSave) {
         User createdUser = userService.saveUser(userSave);
         return RestResponse.ofSuccess(createdUser);
@@ -58,7 +57,7 @@ public class UserController {
 
     @Operation(summary = "Put User")
     @PutMapping("/{username}")
-    @Authorize(menuIds = MenuId.USER_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.USER_MANAGEMENT_WRITE)
     public RestResponse<Void> putUser(@Valid @RequestBody UserUpdate userUpdate) {
         userService.updateUser(userUpdate);
         return RestResponse.ofSuccess(null);
@@ -66,7 +65,7 @@ public class UserController {
 
     @Operation(summary = "Reset User Password")
     @PostMapping("/password/reset")
-    @Authorize(menuIds = MenuId.USER_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.USER_MANAGEMENT_WRITE)
     public RestResponse<Boolean> resetUserPassword(@Valid @RequestBody UserPasswordReset userPasswordReset) {
         userService.resetUserPassword(userPasswordReset);
         return RestResponse.ofSuccess(true);
@@ -74,7 +73,7 @@ public class UserController {
 
     @Operation(summary = "Delete User")
     @DeleteMapping("/{username}")
-    @Authorize(menuIds = MenuId.USER_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.USER_MANAGEMENT_WRITE)
     public RestResponse<Boolean> deleteUser(@Valid @RequestBody UserDelete userDelete) {
         userService.deleteUser(userDelete);
         return RestResponse.ofSuccess(true);
@@ -82,7 +81,7 @@ public class UserController {
 
     @Operation(summary = "Operate Users")
     @PostMapping("/operation")
-    @Authorize(menuIds = MenuId.USER_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.USER_MANAGEMENT_WRITE)
     public RestResponse<Boolean> operationUsers(@Valid @RequestBody UserOperation userOperation) {
         userService.operateUsers(userOperation);
         return RestResponse.ofSuccess(true);

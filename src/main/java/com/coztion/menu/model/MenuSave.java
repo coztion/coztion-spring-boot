@@ -39,6 +39,9 @@ public class MenuSave extends OperationAuthor {
     @Schema(description = "Parent Menu ID")
     private String parentMenuId;
 
+    @Schema(description = "Menu Permission Code")
+    private String menuPermissionCode;
+
     @Schema(description = "Sort Order")
     @NotNull(message = TranslationKey.Common.Label.SORT_ORDER)
     @Min(value = 1, message = TranslationKey.Common.Label.SORT_ORDER)
