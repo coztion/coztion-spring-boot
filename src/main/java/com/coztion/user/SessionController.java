@@ -35,11 +35,12 @@ public class SessionController {
     @Operation(summary = "Get Session Info", description = "Get information about authenticated session user")
     @GetMapping("/user-info")
     public RestResponse<SessionUserInfo> getSessionUserInfo(@AuthenticationPrincipal SessionUser sessionUser) {
-        List<String> permissionCodes = permissionService
-                .getPermissions(PermissionsSearch.ofEnabledRoleCode(sessionUser.getRoleCode()))
-                .stream()
-                .map(Permission::getPermissionCode)
-                .toList();
+        List<String> permissionCodes =
+                permissionService
+                        .getPermissions(PermissionsSearch.ofEnabledRoleCode(sessionUser.getRoleCode()))
+                        .stream()
+                        .map(Permission::getPermissionCode)
+                        .toList();
         SessionUserInfo sessionUserInfo = sessionUser.toPublicInfo(permissionCodes);
         return RestResponse.ofSuccess(sessionUserInfo);
     }
