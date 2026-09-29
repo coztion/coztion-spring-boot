@@ -2,7 +2,7 @@ package com.coztion.core.security;
 
 import java.util.Optional;
 
-import com.coztion.user.UserService;
+import com.coztion.user.UserRepository;
 import com.coztion.user.model.SessionUser;
 import com.coztion.user.model.User;
 import com.coztion.user.model.UserSearch;
@@ -20,12 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class AuthenticationService implements UserDetailsService {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserSearch userSearch = UserSearch.ofUsername(username);
-        Optional<User> foundUser = userService.getUser(userSearch);
+        Optional<User> foundUser = userRepository.selectUser(userSearch);
 
         if (foundUser.isPresent()) {
             User user = foundUser.get();

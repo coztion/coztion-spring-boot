@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import com.coztion.menu.model.Menu;
 import com.coztion.menu.model.MenuDelete;
-import com.coztion.menu.model.MenuInfo;
 import com.coztion.menu.model.MenuSave;
 import com.coztion.menu.model.MenuSearch;
+import com.coztion.menu.model.MenuTreeNode;
 import com.coztion.menu.model.MenuUpdate;
 import com.coztion.menu.model.MenusSearch;
 import com.github.pagehelper.Page;
@@ -21,13 +21,11 @@ public interface MenuRepository {
 
     Optional<Menu> selectMenu(MenuSearch menuSearch);
 
-    List<MenuInfo> selectMenuInfos(List<String> authorityRoles);
+    List<MenuTreeNode> selectMenuTreeNodes(List<String> permissionCodes);
 
     int insertMenu(MenuSave menuSave);
 
     int updateMenu(MenuUpdate menuUpdate);
 
     int deleteMenu(MenuDelete menuDelete);
-
-    int deleteMenuAuthoritiesByMenuDelete(MenuDelete menuDelete);
 }

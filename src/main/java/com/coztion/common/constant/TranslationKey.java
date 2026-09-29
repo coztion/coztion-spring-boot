@@ -42,10 +42,31 @@ public class TranslationKey {
 
     public static class User {
 
+        public static class Label {
+
+            public static final String USER = "user.label.USER";
+            public static final String USERNAME = "user.label.USERNAME";
+            public static final String PASSWORD = "user.label.PASSWORD";
+        }
+
         public static class Message {
 
             public static final String AUTHENTICATION_FAILURE = "user.message.AUTHENTICATION_FAILURE";
             public static final String AUTHORIZATION_FAILURE = "user.message.AUTHORIZATION_FAILURE";
+        }
+    }
+
+    public static class Authority {
+
+        public static class Label {
+
+            public static final String AUTHORITY = "authority.label.AUTHORITY";
+            public static final String ROLE = "authority.label.ROLE";
+            public static final String ROLE_CODE = "authority.label.ROLE_CODE";
+            public static final String ROLE_NAME = "authority.label.ROLE_NAME";
+            public static final String PERMISSION = "authority.label.PERMISSION";
+            public static final String PERMISSION_CODE = "authority.label.PERMISSION_CODE";
+            public static final String PERMISSION_NAME = "authority.label.PERMISSION_NAME";
         }
     }
 
@@ -59,6 +80,7 @@ public class TranslationKey {
             public static final String MENU_TYPE = "menu.label.MENU_TYPE";
             public static final String PARENT_MENU_ID = "menu.label.PARENT_MENU_ID";
             public static final String URL = "menu.label.URL";
+            public static final String MENU_PERMISSION_CODE = "menu.label.MENU_PERMISSION_CODE";
         }
 
         public static class Message {

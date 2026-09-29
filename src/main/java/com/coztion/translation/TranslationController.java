@@ -4,11 +4,10 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
-import com.coztion.authority.model.AuthorityType;
+import com.coztion.authority.model.PermissionCode;
 import com.coztion.common.dto.PageResponse;
 import com.coztion.common.dto.RestResponse;
 import com.coztion.core.security.Authorize;
-import com.coztion.menu.model.MenuId;
 import com.coztion.translation.model.Translation;
 import com.coztion.translation.model.TranslationDelete;
 import com.coztion.translation.model.TranslationInfo;
@@ -35,7 +34,7 @@ public class TranslationController {
 
     @Operation(summary = "Get Translations")
     @GetMapping
-    @Authorize(menuIds = MenuId.TRANSLATION_MANAGEMENT)
+    @Authorize(permissionCodes = PermissionCode.TRANSLATION_MANAGEMENT_READ)
     public RestResponse<PageResponse<Translation>> getTranslations(
             @ModelAttribute TranslationSearch translationSearch) {
         Page<Translation> translations = translationService.getTranslations(translationSearch);
@@ -51,7 +50,7 @@ public class TranslationController {
 
     @Operation(summary = "Post Translation")
     @PostMapping
-    @Authorize(menuIds = MenuId.TRANSLATION_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.TRANSLATION_MANAGEMENT_WRITE)
     public RestResponse<Translation> postTranslation(@Valid @RequestBody TranslationSave translationSave) {
         Translation createdTranslation = translationService.saveTranslation(translationSave);
         return RestResponse.ofSuccess(createdTranslation);
@@ -59,7 +58,7 @@ public class TranslationController {
 
     @Operation(summary = "Put Translation")
     @PutMapping("/{translationCode}")
-    @Authorize(menuIds = MenuId.TRANSLATION_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.TRANSLATION_MANAGEMENT_WRITE)
     public RestResponse<Translation> putTranslation(@Valid @RequestBody TranslationUpdate translationUpdate) {
         Translation updatedTranslation = translationService.updateTranslation(translationUpdate);
         return RestResponse.ofSuccess(updatedTranslation);
@@ -67,7 +66,7 @@ public class TranslationController {
 
     @Operation(summary = "Delete Translation")
     @DeleteMapping("/{translationCode}")
-    @Authorize(menuIds = MenuId.TRANSLATION_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.TRANSLATION_MANAGEMENT_WRITE)
     public RestResponse<Boolean> deleteTranslation(@Valid @RequestBody TranslationDelete translationDelete) {
         translationService.deleteTranslation(translationDelete);
         return RestResponse.ofSuccess(true);
@@ -75,7 +74,7 @@ public class TranslationController {
 
     @Operation(summary = "Operate Translations")
     @PostMapping("/operation")
-    @Authorize(menuIds = MenuId.TRANSLATION_MANAGEMENT, authorityType = AuthorityType.WRITE)
+    @Authorize(permissionCodes = PermissionCode.TRANSLATION_MANAGEMENT_WRITE)
     public RestResponse<Boolean> operationTranslations(@Valid @RequestBody TranslationOperation translationOperation) {
         translationService.operateTranslations(translationOperation);
         return RestResponse.ofSuccess(true);

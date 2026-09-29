@@ -8,6 +8,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.coztion.authority.PermissionService;
+import com.coztion.authority.model.Permission;
+import com.coztion.authority.model.PermissionsSearch;
 import com.coztion.common.constant.TranslationKey;
 import com.coztion.common.exception.RestException;
 import com.coztion.menu.model.*;
@@ -25,24 +28,12 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
 
-    private final MenuAuthorityRepository menuAuthorityRepository;
+    private final PermissionService permissionService;
 
     @Transactional(readOnly = true)
     public Page<Menu> getMenus(MenusSearch menusSearch) {
         menusSearch.validatePageable();
-        Page<Menu> menus = menuRepository.selectMenus(menusSearch);
-
-        boolean hasMenus = !CollectionUtils.isEmpty(menus);
-        if (hasMenus && menusSearch.isIncludeAuthorities()) {
-            List<String> menuIds = menus.stream().map(Menu::getMenuId).toList();
-            List<MenuAuthority> menuAuthorities =
-                    menuAuthorityRepository.selectMenuAuthorities(MenuAuthoritiesSearch.ofMenuIds(menuIds));
-            Map<String, List<MenuAuthority>> menuIdMenuAuthorities =
-                    menuAuthorities.stream().collect(Collectors.groupingBy(MenuAuthority::getMenuId));
-            menus.forEach(menu -> menu.setAuthorities(menuIdMenuAuthorities.getOrDefault(menu.getMenuId(), List.of())));
-        }
-
-        return menus;
+        return menuRepository.selectMenus(menusSearch);
     }
 
     @Transactional(readOnly = true)
@@ -54,17 +45,25 @@ public class MenuService {
     }
 
     @Transactional(readOnly = true)
-    public List<MenuInfo> getMenuInfos(List<String> authorityRoles) {
-        List<MenuInfo> menus = menuRepository.selectMenuInfos(authorityRoles);
+    public List<MenuTreeNode> getMenuTree(String roleCode) {
+        List<String> permissionCodes =
+                permissionService.getPermissions(PermissionsSearch.ofEnabledRoleCode(roleCode)).stream()
+                        .map(Permission::getPermissionCode)
+                        .toList();
+        if (CollectionUtils.isEmpty(permissionCodes)) {
+            return List.of();
+        }
 
-        Map<String, MenuInfo> map = menus.stream().collect(Collectors.toMap(MenuInfo::getMenuId, menu -> menu));
+        List<MenuTreeNode> menus = menuRepository.selectMenuTreeNodes(permissionCodes);
 
-        List<MenuInfo> roots = new ArrayList<>();
-        for (MenuInfo menu : menus) {
+        Map<String, MenuTreeNode> map = menus.stream().collect(Collectors.toMap(MenuTreeNode::getMenuId, menu -> menu));
+
+        List<MenuTreeNode> roots = new ArrayList<>();
+        for (MenuTreeNode menu : menus) {
             if (Objects.isNull(menu.getParentMenuId())) {
                 roots.add(menu);
             } else {
-                MenuInfo parent = map.get(menu.getParentMenuId());
+                MenuTreeNode parent = map.get(menu.getParentMenuId());
                 if (Objects.nonNull(parent)) {
                     if (Objects.isNull(parent.getSubMenus())) {
                         parent.setSubMenus(new ArrayList<>());
@@ -92,8 +91,6 @@ public class MenuService {
         if (createdCount == 0) {
             throw new RestException(TranslationKey.Common.Message.CREATE_FAILURE);
         }
-
-        menuAuthorityRepository.insertMenuAuthorities(MenuAuthoritySave.ofSystemWithReadAndWrite(menuSave.getMenuId()));
 
         MenuSearch menuSearch = MenuSearch.ofMenuId(menuSave.getMenuId());
         Optional<Menu> foundMenu = menuRepository.selectMenu(menuSearch);
@@ -129,8 +126,6 @@ public class MenuService {
         if (!CollectionUtils.isEmpty(foundSubMenus)) {
             throw new RestException(TranslationKey.Menu.Message.MENU_DELETE_FAILURE_BY_SUB_MENU);
         }
-
-        menuRepository.deleteMenuAuthoritiesByMenuDelete(menuDelete);
 
         int deletedCount = menuRepository.deleteMenu(menuDelete);
         if (deletedCount == 0) {

@@ -2,25 +2,87 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.coztion.user.UserRepository">
 
-    <resultMap id="findUserByParamMap" type="com.coztion.user.model.User">
-        <id property="username" column="USERNAME" />
-        <collection property="authorityRoles" ofType="java.lang.String">
-            <result column="AUTHORITY_ROLE"/>
-        </collection>
-    </resultMap>
-
     <select id="selectUser"
             parameterType="com.coztion.user.model.UserSearch"
-            resultMap="findUserByParamMap">
+            resultType="com.coztion.user.model.User">
         SELECT U.USERNAME
              , U.PASSWORD
-             , UA.AUTHORITY_ROLE
+             , U.ROLE_CODE
+             , U.DATA_STATUS
+             , U.CREATED_BY
+             , U.CREATED_AT
+             , U.UPDATED_BY
+             , U.UPDATED_AT
           FROM TB_USER U
-          LEFT JOIN TB_USER_AUTHORITY UA
-                 ON U.USERNAME = UA.USERNAME
         <if test="username != null and username != ''">
          WHERE U.USERNAME = #{username}
         </if>
     </select>
+
+    <select id="selectUsers"
+            parameterType="com.coztion.user.model.UsersSearch"
+            resultType="com.coztion.user.model.User">
+        SELECT U.USERNAME
+             , U.ROLE_CODE
+             , U.DATA_STATUS
+             , U.CREATED_BY
+             , U.CREATED_AT
+             , U.UPDATED_BY
+             , U.UPDATED_AT
+          FROM TB_USER U
+         WHERE TRUE
+        <if test="username != null and username != ''">
+           AND U.USERNAME = #{username}
+        </if>
+        <if test="roleCode != null and roleCode != ''">
+           AND U.ROLE_CODE = #{roleCode}
+        </if>
+        <if test="dataStatus != null and dataStatus != ''">
+           AND U.DATA_STATUS = #{dataStatus}
+        </if>
+         ORDER BY U.USERNAME
+    </select>
+
+    <insert id="insertUser"
+            parameterType="com.coztion.user.model.UserSave">
+        INSERT INTO TB_USER (
+            USERNAME
+          , PASSWORD
+          , ROLE_CODE
+          , DATA_STATUS
+          , CREATED_BY
+          , UPDATED_BY
+        ) VALUES (
+            #{username}
+          , #{password}
+          , #{roleCode}
+          , #{dataStatus}
+          , #{author}
+          , #{author}
+        )
+    </insert>
+
+    <update id="updateUser"
+            parameterType="com.coztion.user.model.UserUpdate">
+        UPDATE TB_USER
+           SET UPDATED_BY  = #{author}
+             , UPDATED_AT  = NOW()
+        <if test="dataStatus != null and dataStatus != ''">
+             , DATA_STATUS = #{dataStatus}
+        </if>
+        <if test="password != null and password != ''">
+             , PASSWORD    = #{password}
+        </if>
+        <if test="roleCode != null and roleCode != ''">
+             , ROLE_CODE   = #{roleCode}
+        </if>
+         WHERE USERNAME    = #{username}
+    </update>
+
+    <delete id="deleteUser"
+            parameterType="com.coztion.user.model.UserDelete">
+        DELETE FROM TB_USER
+         WHERE USERNAME = #{username}
+    </delete>
 
 </mapper>

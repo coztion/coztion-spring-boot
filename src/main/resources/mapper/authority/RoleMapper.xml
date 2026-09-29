@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coztion.authority.RoleRepository">
+
+    <select id="selectRoles"
+            parameterType="com.coztion.authority.model.RolesSearch"
+            resultType="com.coztion.authority.model.Role">
+        SELECT ROLE_CODE
+             , ROLE_NAME
+             , SORT_ORDER
+             , DATA_STATUS
+             , CREATED_BY
+             , CREATED_AT
+             , UPDATED_BY
+             , UPDATED_AT
+          FROM TB_ROLE
+         WHERE TRUE
+        <if test="dataStatus != null and dataStatus != ''">
+           AND DATA_STATUS = #{dataStatus}
+        </if>
+         ORDER BY SORT_ORDER
+    </select>
+
+</mapper>

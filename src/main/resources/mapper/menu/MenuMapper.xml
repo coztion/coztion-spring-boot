@@ -10,6 +10,7 @@
              , M.MENU_TYPE
              , M.URL
              , M.PARENT_MENU_ID
+             , M.MENU_PERMISSION_CODE
              , M.SORT_ORDER
              , M.DATA_STATUS
              , M.CREATED_BY
@@ -33,16 +34,6 @@
             <if test="menuName != null and menuName != ''">
            AND M.MENU_NAME LIKE CONCAT('%', #{menuName}, '%')
             </if>
-            <if test="authorityRoles != null and !authorityRoles.isEmpty()">
-           AND EXISTS (
-               SELECT 1 FROM TB_MENU_AUTHORITY MA
-                WHERE MA.MENU_ID = M.MENU_ID
-                  AND MA.AUTHORITY_ROLE IN
-                    <foreach item="authorityRole" collection="authorityRoles" open="(" separator="," close=")">
-                        #{authorityRole}
-                    </foreach>
-           )
-            </if>
             <if test="menuType != null and menuType != ''">
            AND M.MENU_TYPE = #{menuType}
             </if>
@@ -60,6 +51,7 @@
              , M.MENU_TYPE
              , M.URL
              , M.PARENT_MENU_ID
+             , M.MENU_PERMISSION_CODE
              , M.SORT_ORDER
              , M.DATA_STATUS
              , M.CREATED_BY
@@ -76,29 +68,19 @@
             </if>
     </select>
 
-    <select id="selectMenuInfos"
-            resultType="com.coztion.menu.model.MenuInfo">
-        WITH RECURSIVE MENU_INFO AS (
+    <select id="selectMenuTreeNodes"
+            resultType="com.coztion.menu.model.MenuTreeNode">
+        WITH RECURSIVE MENU_TREE_NODE AS (
             SELECT M.MENU_ID
                  , M.MENU_NAME
                  , M.MENU_TYPE
                  , M.URL
                  , M.PARENT_MENU_ID
                  , M.SORT_ORDER
-                 , NOT EXISTS (
-                       SELECT 1 FROM TB_MENU_AUTHORITY WMA
-                        WHERE WMA.MENU_ID = M.MENU_ID
-                          AND WMA.AUTHORITY_TYPE = 'WRITE'
-                          AND WMA.AUTHORITY_ROLE IN
-                        <foreach item="authorityRole" collection="authorityRoles" open="(" separator="," close=")">
-                            #{authorityRole}
-                        </foreach>
-                   ) AS READONLY
               FROM TB_MENU M
-             INNER JOIN TB_MENU_AUTHORITY MA ON M.MENU_ID = MA.MENU_ID
-             WHERE MA.AUTHORITY_ROLE IN
-            <foreach item="authorityRole" collection="authorityRoles" open="(" separator="," close=")">
-                #{authorityRole}
+             WHERE M.MENU_PERMISSION_CODE IN
+            <foreach item="permissionCode" collection="permissionCodes" open="(" separator="," close=")">
+                #{permissionCode}
             </foreach>
                AND M.DATA_STATUS = 'ENABLED'
 
@@ -110,17 +92,8 @@
                  , P.URL
                  , P.PARENT_MENU_ID
                  , P.SORT_ORDER
-                 , NOT EXISTS (
-                       SELECT 1 FROM TB_MENU_AUTHORITY WMA
-                        WHERE WMA.MENU_ID = P.MENU_ID
-                          AND WMA.AUTHORITY_TYPE = 'WRITE'
-                          AND WMA.AUTHORITY_ROLE IN
-                        <foreach item="authorityRole" collection="authorityRoles" open="(" separator="," close=")">
-                            #{authorityRole}
-                        </foreach>
-                   ) AS READONLY
               FROM TB_MENU P
-             INNER JOIN MENU_INFO C ON P.MENU_ID = C.PARENT_MENU_ID
+             INNER JOIN MENU_TREE_NODE C ON P.MENU_ID = C.PARENT_MENU_ID
              WHERE P.DATA_STATUS = 'ENABLED'
         )
         SELECT DISTINCT MENU_ID
@@ -129,8 +102,7 @@
                       , URL
                       , PARENT_MENU_ID
                       , SORT_ORDER
-                      , READONLY
-          FROM MENU_INFO
+          FROM MENU_TREE_NODE
          ORDER BY SORT_ORDER
     </select>
 
@@ -142,6 +114,7 @@
           , MENU_TYPE
           , URL
           , PARENT_MENU_ID
+          , MENU_PERMISSION_CODE
           , SORT_ORDER
           , DATA_STATUS
           , CREATED_BY
@@ -152,6 +125,7 @@
           , #{menuType}
           , #{url}
           , #{parentMenuId}
+          , NULLIF(#{menuPermissionCode}, '')
           , #{sortOrder}
           , #{dataStatus}
           , #{author}
@@ -162,22 +136,17 @@
     <update id="updateMenu"
             parameterType="com.coztion.menu.model.MenuUpdate">
         UPDATE TB_MENU
-           SET MENU_NAME   = #{menuName}
-             , DATA_STATUS = #{dataStatus}
-             , UPDATED_BY  = #{author}
-             , UPDATED_AT  = NOW()
-         WHERE MENU_ID     = #{menuId}
+           SET MENU_NAME            = #{menuName}
+             , MENU_PERMISSION_CODE = NULLIF(#{menuPermissionCode}, '')
+             , DATA_STATUS          = #{dataStatus}
+             , UPDATED_BY           = #{author}
+             , UPDATED_AT           = NOW()
+         WHERE MENU_ID              = #{menuId}
     </update>
 
     <delete id="deleteMenu"
             parameterType="com.coztion.menu.model.MenuDelete">
         DELETE FROM TB_MENU
-         WHERE MENU_ID     = #{menuId}
-    </delete>
-
-    <delete id="deleteMenuAuthoritiesByMenuDelete"
-            parameterType="com.coztion.menu.model.MenuDelete">
-        DELETE FROM TB_MENU_AUTHORITY
          WHERE MENU_ID     = #{menuId}
     </delete>
 </mapper>

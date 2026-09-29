@@ -15,6 +15,9 @@ public class SessionUserInfo {
     @Schema(description = "Username", example = "admin")
     private String username;
 
-    @Schema(description = "Authority Roles")
-    private List<String> authorityRoles;
+    @Schema(description = "Role Code", example = "ROLE_ADMIN")
+    private String roleCode;
+
+    @Schema(description = "Permission Codes", example = "[\"MAIN_READ\"]")
+    private List<String> permissionCodes;
 }
