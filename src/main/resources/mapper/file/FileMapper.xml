@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coztion.file.FileRepository">
+
+    <select id="selectFiles"
+            parameterType="com.coztion.file.model.FilesSearch"
+            resultType="com.coztion.file.model.FileInfo">
+        SELECT F.FILE_ID
+             , F.FILE_NAME
+             , F.FILE_EXTENSION
+             , F.FILE_CONTENT_TYPE
+             , F.FILE_SIZE
+             , F.FILE_PATH
+          FROM FILE F
+         WHERE F.FILE_GROUP_ID = #{fileGroupId}
+           AND F.DATA_STATUS   = 'ENABLED'
+         ORDER BY F.CREATED_AT, F.FILE_NAME
+    </select>
+
+    <select id="selectFile"
+            parameterType="com.coztion.file.model.FileSearch"
+            resultType="com.coztion.file.model.FileInfo">
+        SELECT F.FILE_ID
+             , F.FILE_NAME
+             , F.FILE_EXTENSION
+             , F.FILE_CONTENT_TYPE
+             , F.FILE_SIZE
+             , F.FILE_GROUP_ID
+             , F.FILE_PATH
+          FROM FILE F
+         WHERE F.FILE_ID     = #{fileId}
+           AND F.DATA_STATUS = 'ENABLED'
+    </select>
+
+    <insert id="insertFiles"
+            parameterType="java.util.List">
+        INSERT INTO FILE (
+            FILE_ID
+          , FILE_GROUP_ID
+          , FILE_NAME
+          , FILE_EXTENSION
+          , FILE_CONTENT_TYPE
+          , FILE_SIZE
+          , FILE_PATH
+          , CREATED_BY
+          , UPDATED_BY
+        ) VALUES
+        <foreach collection="list" item="fileStorageUpload" separator=",">
+        (
+            #{fileStorageUpload.fileId}
+          , #{fileStorageUpload.fileGroupId}
+          , #{fileStorageUpload.fileName}
+          , #{fileStorageUpload.fileExtension}
+          , #{fileStorageUpload.fileContentType}
+          , #{fileStorageUpload.fileSize}
+          , #{fileStorageUpload.filePath}
+          , #{fileStorageUpload.author}
+          , #{fileStorageUpload.author}
+        )
+        </foreach>
+    </insert>
+
+    <update id="deleteFiles"
+            parameterType="com.coztion.file.model.FileUpload">
+        UPDATE FILE
+           SET DATA_STATUS   = 'DISABLED'
+             , UPDATED_BY    = #{author}
+             , UPDATED_AT    = NOW()
+         WHERE FILE_GROUP_ID = #{fileGroupId}
+           AND FILE_ID IN
+        <foreach collection="deleteFileIds" item="deleteFileId" open="(" separator="," close=")">
+            #{deleteFileId}
+        </foreach>
+           AND DATA_STATUS   = 'ENABLED'
+    </update>
+
+    <update id="deleteFile"
+            parameterType="com.coztion.file.model.FileDelete">
+        UPDATE FILE
+           SET DATA_STATUS = 'DISABLED'
+             , UPDATED_BY  = #{author}
+             , UPDATED_AT  = NOW()
+         WHERE FILE_ID     = #{fileId}
+           AND DATA_STATUS = 'ENABLED'
+    </update>
+
+</mapper>

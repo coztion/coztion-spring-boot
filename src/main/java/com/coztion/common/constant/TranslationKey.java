@@ -99,4 +99,12 @@ public class TranslationKey {
             public static final String TRANSLATION_CONTENT = "translation.label.TRANSLATION_CONTENT";
         }
     }
+
+    public static class File {
+
+        public static class Label {
+
+            public static final String FILES = "file.label.FILES";
+        }
+    }
 }

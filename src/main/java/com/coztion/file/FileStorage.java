@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import com.coztion.common.constant.TranslationKey;
 import com.coztion.common.exception.RestException;
-import com.coztion.file.model.FileCreate;
+import com.coztion.file.model.FileStorageUpload;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -29,19 +29,19 @@ public class FileStorage {
     @Value("${aws.s3.bucket}")
     private String bucket;
 
-    public void upload(FileCreate fileCreate) {
+    public void upload(FileStorageUpload fileStorageUpload) {
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucket)
-                .key(fileCreate.getFilePath())
-                .contentType(fileCreate.getFileContentType())
-                .contentLength(fileCreate.getFileSize())
+                .key(fileStorageUpload.getFilePath())
+                .contentType(fileStorageUpload.getFileContentType())
+                .contentLength(fileStorageUpload.getFileSize())
                 .build();
         ContentStreamProvider contentStreamProvider =
-                ContentStreamProvider.fromInputStreamSupplier(() -> openInputStream(fileCreate));
+                ContentStreamProvider.fromInputStreamSupplier(() -> openInputStream(fileStorageUpload));
         s3Client.putObject(
                 putObjectRequest,
                 RequestBody.fromContentProvider(
-                        contentStreamProvider, fileCreate.getFileSize(), fileCreate.getFileContentType()));
+                        contentStreamProvider, fileStorageUpload.getFileSize(), fileStorageUpload.getFileContentType()));
     }
 
     public InputStream download(String filePath) {
@@ -60,9 +60,9 @@ public class FileStorage {
         s3Client.deleteObject(deleteObjectRequest);
     }
 
-    private InputStream openInputStream(FileCreate fileCreate) {
+    private InputStream openInputStream(FileStorageUpload fileStorageUpload) {
         try {
-            return fileCreate.openInputStream();
+            return fileStorageUpload.openInputStream();
         } catch (IOException e) {
             throw new RestException(TranslationKey.Common.Message.CREATE_FAILURE);
         }
