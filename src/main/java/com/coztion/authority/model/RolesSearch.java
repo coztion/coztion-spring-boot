@@ -1,5 +1,7 @@
 package com.coztion.authority.model;
 
+import java.util.List;
+
 import com.coztion.common.enums.DataStatus;
 import com.coztion.common.model.Pagination;
 
@@ -15,6 +17,12 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 public class RolesSearch extends Pagination {
+
+    @Schema(description = "Role Name")
+    private String roleName;
+
+    @Schema(description = "Permission Codes")
+    private List<String> permissionCodes;
 
     @Schema(description = "Data Status", example = "ENABLED")
     private String dataStatus;

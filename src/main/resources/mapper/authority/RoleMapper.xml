@@ -5,20 +5,33 @@
     <select id="selectRoles"
             parameterType="com.coztion.authority.model.RolesSearch"
             resultType="com.coztion.authority.model.Role">
-        SELECT ROLE_CODE
-             , ROLE_NAME
-             , SORT_ORDER
-             , DATA_STATUS
-             , CREATED_BY
-             , CREATED_AT
-             , UPDATED_BY
-             , UPDATED_AT
-          FROM TB_ROLE
+        SELECT R.ROLE_CODE
+             , R.ROLE_NAME
+             , R.SORT_ORDER
+             , R.DATA_STATUS
+             , R.CREATED_BY
+             , R.CREATED_AT
+             , R.UPDATED_BY
+             , R.UPDATED_AT
+          FROM TB_ROLE R
          WHERE TRUE
-        <if test="dataStatus != null and dataStatus != ''">
-           AND DATA_STATUS = #{dataStatus}
+        <if test="roleName != null and roleName != ''">
+           AND R.ROLE_NAME LIKE CONCAT('%', #{roleName}, '%')
         </if>
-         ORDER BY SORT_ORDER
+        <if test="permissionCodes != null and !permissionCodes.isEmpty()">
+           AND EXISTS (
+               SELECT 1 FROM TB_ROLE_PERMISSION RP
+                WHERE RP.ROLE_CODE = R.ROLE_CODE
+                  AND RP.PERMISSION_CODE IN
+                <foreach collection="permissionCodes" item="permissionCode" open="(" separator="," close=")">
+                    #{permissionCode}
+                </foreach>
+           )
+        </if>
+        <if test="dataStatus != null and dataStatus != ''">
+           AND R.DATA_STATUS = #{dataStatus}
+        </if>
+         ORDER BY R.SORT_ORDER
     </select>
 
 </mapper>
