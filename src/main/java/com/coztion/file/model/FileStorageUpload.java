@@ -50,8 +50,8 @@ public class FileStorageUpload {
         String fileId = UUID.randomUUID().toString();
         String fileName = Objects.requireNonNullElse(StringUtils.getFilename(multipartFile.getOriginalFilename()), "");
         String fileExtension = Objects.requireNonNullElse(StringUtils.getFilenameExtension(fileName), "");
-        String fileContentType = Objects.requireNonNullElse(
-                multipartFile.getContentType(), MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        String fileContentType =
+                Objects.requireNonNullElse(multipartFile.getContentType(), MediaType.APPLICATION_OCTET_STREAM_VALUE);
         String filePath = fileGroupId + "/" + fileId;
         return new FileStorageUpload(
                 fileId,
