@@ -1,7 +1,7 @@
 ---
 name: git-commit
 description: Use when user requests commit.
-allowed-tools: Bash(bash .claude/skills/git-commit/scripts/*)
+allowed-tools: Bash(bash ${CLAUDE_SKILL_DIR}/scripts/*)
 ---
 
 ### Commit Target
@@ -9,7 +9,7 @@ allowed-tools: Bash(bash .claude/skills/git-commit/scripts/*)
 The commit target below is collected by shell, not by the conversation context. Use only this output.
 
 ```
-!`bash .claude/skills/git-commit/scripts/collect-staged.sh`
+!`bash ${CLAUDE_SKILL_DIR}/scripts/collect-staged.sh`
 ```
 
 - If there is nothing to commit, tell the user and stop.
@@ -21,8 +21,8 @@ The commit target below is collected by shell, not by the conversation context. 
 
 - Determine the commit type from the Commit Target Diff above: `fix`, `feat`, `refactor`, `docs`, `chore`, `style`, `test`, etc.
 - After determining the type, read only the template matching the type, and fill it:
-  - `fix` → read `.claude/skills/git-commit/templates/bugfix-template.md`
-  - `feat` → read `.claude/skills/git-commit/templates/feature-template.md`
+  - `fix` → read `${CLAUDE_SKILL_DIR}/templates/bugfix-template.md`
+  - `feat` → read `${CLAUDE_SKILL_DIR}/templates/feature-template.md`
   - Other types → read the feature template and use the same shape, with `feat` replaced by the actual type (e.g. `refactor: {message}`).
 - `{message}` should be a concise, single-line summary of the change, written in English.
 - For the bugfix template, fill `Issue` / `Cause` / `Solve` based only on what the diff actually shows. Do not fabricate details that aren't evidenced by the change.
@@ -33,7 +33,7 @@ The commit target below is collected by shell, not by the conversation context. 
 - Commit only via the script below, passing the generated message via heredoc. Never run `git commit` directly.
 
 ```bash
-bash .claude/skills/git-commit/scripts/commit.sh <<'EOF'
+bash ${CLAUDE_SKILL_DIR}/scripts/commit.sh <<'EOF'
 {generated commit message}
 EOF
 ```
