@@ -43,7 +43,9 @@ public class FileController {
         return ResponseEntity.ok()
                 .contentType(fileDownloadInfo.toMediaType())
                 .contentLength(fileDownloadInfo.getFileSize())
-                .header(HttpHeaders.CONTENT_DISPOSITION, fileDownloadInfo.toContentDisposition().toString())
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        fileDownloadInfo.toContentDisposition().toString())
                 .body(new InputStreamResource(fileDownloadInfo.getInputStream()));
     }
 

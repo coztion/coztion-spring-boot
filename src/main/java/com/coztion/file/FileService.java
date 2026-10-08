@@ -114,7 +114,8 @@ public class FileService {
                 throw new RestException(TranslationKey.Common.Message.CREATE_FAILURE);
             }
         } catch (RuntimeException e) {
-            uploadedFileStorageUploads.forEach(uploadedFileStorageUpload -> deleteUploadedFile(uploadedFileStorageUpload, e));
+            uploadedFileStorageUploads.forEach(
+                    uploadedFileStorageUpload -> deleteUploadedFile(uploadedFileStorageUpload, e));
             throw e;
         }
     }

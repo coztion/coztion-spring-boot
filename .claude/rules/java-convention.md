@@ -1,5 +1,6 @@
 ---
-path: "**/*.java"
+paths:
+  - "**/*.java"
 ---
 
 # Java Convention

@@ -3,13 +3,6 @@ package com.coztion.file;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.coztion.common.constant.TranslationKey;
-import com.coztion.common.exception.RestException;
-import com.coztion.file.model.FileStorageUpload;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.http.ContentStreamProvider;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -17,6 +10,13 @@ import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+
+import com.coztion.common.constant.TranslationKey;
+import com.coztion.common.exception.RestException;
+import com.coztion.file.model.FileStorageUpload;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,7 +41,9 @@ public class FileStorage {
         s3Client.putObject(
                 putObjectRequest,
                 RequestBody.fromContentProvider(
-                        contentStreamProvider, fileStorageUpload.getFileSize(), fileStorageUpload.getFileContentType()));
+                        contentStreamProvider,
+                        fileStorageUpload.getFileSize(),
+                        fileStorageUpload.getFileContentType()));
     }
 
     public InputStream download(String filePath) {

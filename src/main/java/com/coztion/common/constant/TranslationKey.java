@@ -68,6 +68,10 @@ public class TranslationKey {
             public static final String PERMISSION_CODE = "authority.label.PERMISSION_CODE";
             public static final String PERMISSION_NAME = "authority.label.PERMISSION_NAME";
         }
+
+        public static class Message {
+            public static final String ROLE_DELETE_FAILURE_BY_USER = "authority.message.ROLE_DELETE_FAILURE_BY_USER";
+        }
     }
 
     public static class Menu {

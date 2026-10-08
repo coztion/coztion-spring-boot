@@ -28,4 +28,64 @@
          ORDER BY P.SORT_ORDER
     </select>
 
+    <select id="selectPermission"
+            parameterType="com.coztion.authority.model.PermissionSearch"
+            resultType="com.coztion.authority.model.Permission">
+        SELECT P.PERMISSION_CODE
+             , P.PERMISSION_NAME
+             , P.SORT_ORDER
+             , P.DATA_STATUS
+             , P.CREATED_BY
+             , P.CREATED_AT
+             , P.UPDATED_BY
+             , P.UPDATED_AT
+          FROM TB_PERMISSION P
+         WHERE TRUE
+        <if test="permissionCode != null and permissionCode != ''">
+           AND P.PERMISSION_CODE = #{permissionCode}
+        </if>
+    </select>
+
+    <insert id="insertPermission"
+            parameterType="com.coztion.authority.model.PermissionSave">
+        INSERT INTO TB_PERMISSION (
+            PERMISSION_CODE
+          , PERMISSION_NAME
+          , DATA_STATUS
+          , SORT_ORDER
+          , CREATED_BY
+          , UPDATED_BY
+        ) VALUES (
+            #{permissionCode}
+          , #{permissionName}
+          , #{dataStatus}
+          , #{sortOrder}
+          , #{author}
+          , #{author}
+        )
+    </insert>
+
+    <update id="updatePermission"
+            parameterType="com.coztion.authority.model.PermissionUpdate">
+        UPDATE TB_PERMISSION
+           SET PERMISSION_NAME = #{permissionName}
+             , DATA_STATUS     = #{dataStatus}
+             , SORT_ORDER      = #{sortOrder}
+             , UPDATED_BY      = #{author}
+             , UPDATED_AT      = NOW()
+         WHERE PERMISSION_CODE = #{permissionCode}
+    </update>
+
+    <delete id="deletePermission"
+            parameterType="com.coztion.authority.model.PermissionDelete">
+        DELETE FROM TB_PERMISSION
+         WHERE PERMISSION_CODE = #{permissionCode}
+    </delete>
+
+    <delete id="deleteRolePermissionsByPermissionDelete"
+            parameterType="com.coztion.authority.model.PermissionDelete">
+        DELETE FROM TB_ROLE_PERMISSION
+         WHERE PERMISSION_CODE = #{permissionCode}
+    </delete>
+
 </mapper>

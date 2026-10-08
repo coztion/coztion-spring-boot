@@ -41,5 +41,6 @@ _how_ that split is usually implemented.
 │   ├── *Controller   # presentation
 │   ├── *Service      # application
 │   └── *Repository
-└── common/           # shared code not tied to a single domain
+├── common/           # shared code not tied to a single domain
+└── core/             # framework configuration and security
 ```
