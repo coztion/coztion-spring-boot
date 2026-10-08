@@ -1,6 +1,10 @@
 package com.coztion.authority.model;
 
+import java.util.List;
+
 import com.coztion.common.model.DataRecord;
+
+import org.springframework.util.CollectionUtils;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -21,6 +25,13 @@ public class Role extends DataRecord {
 
     @Schema(description = "Sort Order")
     private Integer sortOrder;
+
+    @Schema(description = "Permission Codes")
+    private List<String> permissionCodes;
+
+    public boolean hasPermissionCodes() {
+        return !CollectionUtils.isEmpty(permissionCodes);
+    }
 
     public RoleInfo toRoleInfo() {
         return RoleInfo.builder().roleCode(roleCode).roleName(roleName).build();
