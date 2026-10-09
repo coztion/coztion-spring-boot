@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.coztion.authority.RoleRepository">
 
+    <resultMap id="roleMap" type="com.coztion.authority.model.Role">
+        <id property="roleCode" column="ROLE_CODE" />
+        <collection property="permissionCodes" ofType="java.lang.String">
+            <result column="PERMISSION_CODE" />
+        </collection>
+    </resultMap>
+
     <select id="selectRoles"
             parameterType="com.coztion.authority.model.RolesSearch"
             resultType="com.coztion.authority.model.Role">
@@ -33,5 +40,102 @@
         </if>
          ORDER BY R.SORT_ORDER
     </select>
+
+    <select id="selectRole"
+            parameterType="com.coztion.authority.model.RoleSearch"
+            resultMap="roleMap">
+        SELECT R.ROLE_CODE
+             , R.ROLE_NAME
+             , R.SORT_ORDER
+             , R.DATA_STATUS
+             , R.CREATED_BY
+             , R.CREATED_AT
+             , R.UPDATED_BY
+             , R.UPDATED_AT
+             , RP.PERMISSION_CODE
+          FROM TB_ROLE R
+          LEFT JOIN TB_ROLE_PERMISSION RP
+                 ON R.ROLE_CODE = RP.ROLE_CODE
+         WHERE TRUE
+        <if test="roleCode != null and roleCode != ''">
+           AND R.ROLE_CODE = #{roleCode}
+        </if>
+         ORDER BY R.SORT_ORDER, RP.PERMISSION_CODE
+    </select>
+
+    <insert id="insertRole"
+            parameterType="com.coztion.authority.model.RoleSave">
+        INSERT INTO TB_ROLE (
+            ROLE_CODE
+          , ROLE_NAME
+          , DATA_STATUS
+          , SORT_ORDER
+          , CREATED_BY
+          , UPDATED_BY
+        ) VALUES (
+            #{roleCode}
+          , #{roleName}
+          , #{dataStatus}
+          , #{sortOrder}
+          , #{author}
+          , #{author}
+        )
+    </insert>
+
+    <insert id="insertRolePermissionsByRoleSave"
+            parameterType="com.coztion.authority.model.RoleSave">
+        INSERT INTO TB_ROLE_PERMISSION (
+            ROLE_CODE
+          , PERMISSION_CODE
+        ) VALUES
+        <foreach collection="permissionCodes" item="permissionCode" separator=",">
+        (
+            #{roleCode}
+          , #{permissionCode}
+        )
+        </foreach>
+    </insert>
+
+    <update id="updateRole"
+            parameterType="com.coztion.authority.model.RoleUpdate">
+        UPDATE TB_ROLE
+           SET ROLE_NAME   = #{roleName}
+             , DATA_STATUS = #{dataStatus}
+             , UPDATED_BY  = #{author}
+             , UPDATED_AT  = NOW()
+         WHERE ROLE_CODE   = #{roleCode}
+    </update>
+
+    <delete id="deleteRolePermissionsByRoleUpdate"
+            parameterType="com.coztion.authority.model.RoleUpdate">
+        DELETE FROM TB_ROLE_PERMISSION
+         WHERE ROLE_CODE = #{roleCode}
+    </delete>
+
+    <insert id="insertRolePermissionsByRoleUpdate"
+            parameterType="com.coztion.authority.model.RoleUpdate">
+        INSERT INTO TB_ROLE_PERMISSION (
+            ROLE_CODE
+          , PERMISSION_CODE
+        ) VALUES
+        <foreach collection="permissionCodes" item="permissionCode" separator=",">
+        (
+            #{roleCode}
+          , #{permissionCode}
+        )
+        </foreach>
+    </insert>
+
+    <delete id="deleteRole"
+            parameterType="com.coztion.authority.model.RoleDelete">
+        DELETE FROM TB_ROLE
+         WHERE ROLE_CODE = #{roleCode}
+    </delete>
+
+    <delete id="deleteRolePermissionsByRoleDelete"
+            parameterType="com.coztion.authority.model.RoleDelete">
+        DELETE FROM TB_ROLE_PERMISSION
+         WHERE ROLE_CODE = #{roleCode}
+    </delete>
 
 </mapper>

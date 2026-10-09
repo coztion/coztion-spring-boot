@@ -25,4 +25,8 @@ public class UsersSearch extends Pagination {
 
     @Schema(description = "Data Status")
     private String dataStatus;
+
+    public static UsersSearch ofRoleCode(String roleCode) {
+        return UsersSearch.builder().roleCode(roleCode).build();
+    }
 }
