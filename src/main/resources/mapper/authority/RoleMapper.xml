@@ -101,6 +101,7 @@
         UPDATE TB_ROLE
            SET ROLE_NAME   = #{roleName}
              , DATA_STATUS = #{dataStatus}
+             , SORT_ORDER  = #{sortOrder}
              , UPDATED_BY  = #{author}
              , UPDATED_AT  = NOW()
          WHERE ROLE_CODE   = #{roleCode}

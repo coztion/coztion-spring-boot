@@ -3,7 +3,9 @@ package com.coztion.authority.model;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import com.coztion.common.constant.TranslationKey;
 import com.coztion.common.model.OperationAuthor;
@@ -32,6 +34,11 @@ public class RoleUpdate extends OperationAuthor {
     @Schema(description = "Data Status", example = "ENABLED")
     @NotBlank(message = TranslationKey.Common.Label.DATA_STATUS)
     private String dataStatus;
+
+    @Schema(description = "Sort Order")
+    @NotNull(message = TranslationKey.Common.Label.SORT_ORDER)
+    @Min(value = 1, message = TranslationKey.Common.Label.SORT_ORDER)
+    private Integer sortOrder;
 
     @Schema(description = "Permission Codes (permission mapping is not changed when null)")
     private List<String> permissionCodes;

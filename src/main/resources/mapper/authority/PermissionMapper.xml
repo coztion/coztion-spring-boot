@@ -70,6 +70,7 @@
         UPDATE TB_PERMISSION
            SET PERMISSION_NAME = #{permissionName}
              , DATA_STATUS     = #{dataStatus}
+             , SORT_ORDER      = #{sortOrder}
              , UPDATED_BY      = #{author}
              , UPDATED_AT      = NOW()
          WHERE PERMISSION_CODE = #{permissionCode}
