@@ -17,8 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FileInfo {
 
-    public static final Set<String> IMAGE_CONTENT_TYPES =
-            Set.of("image/png", "image/jpeg", "image/webp", "image/gif");
+    public static final Set<String> IMAGE_CONTENT_TYPES = Set.of("image/png", "image/jpeg", "image/webp", "image/gif");
 
     @Schema(description = "File ID")
     private String fileId;
