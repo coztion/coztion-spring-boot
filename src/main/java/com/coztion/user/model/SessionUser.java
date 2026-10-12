@@ -42,11 +42,13 @@ public class SessionUser implements UserDetails {
         return username;
     }
 
-    public SessionUserInfo toPublicInfo(List<String> permissionCodes) {
+    public SessionUserInfo toPublicInfo(List<String> permissionCodes, UserProfileImage userProfileImage) {
         return SessionUserInfo.builder()
                 .username(username)
                 .roleCode(roleCode)
                 .permissionCodes(permissionCodes)
+                .profileImageFileGroupId(userProfileImage.getFileGroupId())
+                .profileImageFileId(userProfileImage.getFileId())
                 .build();
     }
 }

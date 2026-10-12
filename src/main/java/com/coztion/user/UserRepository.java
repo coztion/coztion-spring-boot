@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.coztion.user.model.User;
 import com.coztion.user.model.UserDelete;
+import com.coztion.user.model.UserProfileImageUpdate;
 import com.coztion.user.model.UserSave;
 import com.coztion.user.model.UserSearch;
 import com.coztion.user.model.UserUpdate;
@@ -22,6 +23,8 @@ public interface UserRepository {
     int insertUser(UserSave userSave);
 
     int updateUser(UserUpdate userUpdate);
+
+    int updateUserProfileImage(UserProfileImageUpdate userProfileImageUpdate);
 
     int deleteUser(UserDelete userDelete);
 }

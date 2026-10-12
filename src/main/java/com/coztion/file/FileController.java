@@ -49,6 +49,19 @@ public class FileController {
                 .body(new InputStreamResource(fileDownloadInfo.getInputStream()));
     }
 
+    @Operation(summary = "View File", description = "Show image files inline, download other files")
+    @GetMapping("/{fileId}/view")
+    public ResponseEntity<InputStreamResource> viewFile(@ModelAttribute FileDownload fileDownload) {
+        FileDownloadInfo fileDownloadInfo = fileService.downloadFile(fileDownload);
+        return ResponseEntity.ok()
+                .contentType(fileDownloadInfo.toMediaType())
+                .contentLength(fileDownloadInfo.getFileSize())
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        fileDownloadInfo.toViewContentDisposition().toString())
+                .body(new InputStreamResource(fileDownloadInfo.getInputStream()));
+    }
+
     @Operation(summary = "Upload Files")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public RestResponse<FileGroup> postFiles(@Valid @ModelAttribute FileUpload fileUpload) {

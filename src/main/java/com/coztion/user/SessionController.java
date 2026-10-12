@@ -3,6 +3,7 @@ package com.coztion.user;
 import java.util.List;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 
 import com.coztion.authority.PermissionService;
 import com.coztion.authority.model.Permission;
@@ -11,6 +12,10 @@ import com.coztion.common.dto.RestResponse;
 import com.coztion.core.security.AuthenticationHandler;
 import com.coztion.user.model.SessionUser;
 import com.coztion.user.model.SessionUserInfo;
+import com.coztion.user.model.UserProfileImage;
+import com.coztion.user.model.UserProfileImageDelete;
+import com.coztion.user.model.UserProfileImageUpdate;
+import com.coztion.user.model.UserSearch;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +33,8 @@ public class SessionController {
 
     private final SessionService sessionService;
 
+    private final UserService userService;
+
     private final PermissionService permissionService;
 
     private final AuthenticationHandler authenticationHandler;
@@ -41,8 +48,26 @@ public class SessionController {
                         .stream()
                         .map(Permission::getPermissionCode)
                         .toList();
-        SessionUserInfo sessionUserInfo = sessionUser.toPublicInfo(permissionCodes);
+        UserProfileImage userProfileImage =
+                userService.getUserProfileImage(UserSearch.ofUsername(sessionUser.getUsername()));
+        SessionUserInfo sessionUserInfo = sessionUser.toPublicInfo(permissionCodes, userProfileImage);
         return RestResponse.ofSuccess(sessionUserInfo);
+    }
+
+    @Operation(summary = "Put Session Profile Image", description = "Set profile image of authenticated session user")
+    @PutMapping("/profile-image")
+    public RestResponse<Void> putProfileImage(@Valid @RequestBody UserProfileImageUpdate userProfileImageUpdate) {
+        userService.updateUserProfileImage(userProfileImageUpdate);
+        return RestResponse.ofSuccess(null);
+    }
+
+    @Operation(
+            summary = "Delete Session Profile Image",
+            description = "Remove profile image of authenticated session user")
+    @DeleteMapping("/profile-image")
+    public RestResponse<Boolean> deleteProfileImage(@ModelAttribute UserProfileImageDelete userProfileImageDelete) {
+        userService.deleteUserProfileImage(userProfileImageDelete);
+        return RestResponse.ofSuccess(true);
     }
 
     @Operation(

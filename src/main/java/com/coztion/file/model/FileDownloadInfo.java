@@ -42,4 +42,14 @@ public class FileDownloadInfo {
                 .filename(fileName, StandardCharsets.UTF_8)
                 .build();
     }
+
+    public ContentDisposition toViewContentDisposition() {
+        if (!FileInfo.IMAGE_CONTENT_TYPES.contains(fileContentType)) {
+            return toContentDisposition();
+        }
+
+        return ContentDisposition.inline()
+                .filename(fileName, StandardCharsets.UTF_8)
+                .build();
+    }
 }
