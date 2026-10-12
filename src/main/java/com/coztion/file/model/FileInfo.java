@@ -1,5 +1,7 @@
 package com.coztion.file.model;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,6 +16,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FileInfo {
+
+    public static final Set<String> IMAGE_CONTENT_TYPES = Set.of("image/png", "image/jpeg", "image/webp", "image/gif");
 
     @Schema(description = "File ID")
     private String fileId;
@@ -37,4 +41,13 @@ public class FileInfo {
     @JsonIgnore
     @Schema(hidden = true)
     private String filePath;
+
+    @JsonIgnore
+    public boolean isImage() {
+        return IMAGE_CONTENT_TYPES.contains(fileContentType);
+    }
+
+    public boolean isLargerThan(long maxFileSize) {
+        return fileSize > maxFileSize;
+    }
 }

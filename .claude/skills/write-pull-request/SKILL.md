@@ -31,6 +31,7 @@ bash ${CLAUDE_SKILL_DIR}/scripts/collect-diff.sh {base branch}
 - Do not create a file or request to create a PR. Just show the plain text.
 - Do not interpret the Markdown. Wrap the entire output in a code block to prevent Markdown rendering.
 - Write a pull request content in Korean.
+- Do not add a `Generated with Claude Code` line or any other Claude authorship line to the pull request content.
 
 ### After Generation
 

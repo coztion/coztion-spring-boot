@@ -1,6 +1,7 @@
 package com.coztion.file.model;
 
 import java.util.List;
+import java.util.Optional;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -20,5 +21,9 @@ public class FileGroup {
 
     public static FileGroup ofFileInfos(String fileGroupId, List<FileInfo> fileInfos) {
         return new FileGroup(fileGroupId, fileInfos);
+    }
+
+    public Optional<FileInfo> findLatestFile() {
+        return files.isEmpty() ? Optional.empty() : Optional.of(files.getLast());
     }
 }

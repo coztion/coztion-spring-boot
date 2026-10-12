@@ -20,4 +20,10 @@ public class SessionUserInfo {
 
     @Schema(description = "Permission Codes", example = "[\"MAIN_READ\"]")
     private List<String> permissionCodes;
+
+    @Schema(description = "Profile Image File Group ID")
+    private String profileImageFileGroupId;
+
+    @Schema(description = "Profile Image File ID")
+    private String profileImageFileId;
 }

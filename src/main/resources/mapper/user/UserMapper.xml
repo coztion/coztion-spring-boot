@@ -8,6 +8,7 @@
         SELECT U.USERNAME
              , U.PASSWORD
              , U.ROLE_CODE
+             , U.PROFILE_IMAGE_FILE_GROUP_ID
              , U.DATA_STATUS
              , U.CREATED_BY
              , U.CREATED_AT
@@ -77,6 +78,15 @@
              , ROLE_CODE   = #{roleCode}
         </if>
          WHERE USERNAME    = #{username}
+    </update>
+
+    <update id="updateUserProfileImage"
+            parameterType="com.coztion.user.model.UserProfileImageUpdate">
+        UPDATE TB_USER
+           SET PROFILE_IMAGE_FILE_GROUP_ID = #{fileGroupId}
+             , UPDATED_BY                  = #{author}
+             , UPDATED_AT                  = NOW()
+         WHERE USERNAME                    = #{username}
     </update>
 
     <delete id="deleteUser"

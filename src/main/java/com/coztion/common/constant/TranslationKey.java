@@ -47,12 +47,15 @@ public class TranslationKey {
             public static final String USER = "user.label.USER";
             public static final String USERNAME = "user.label.USERNAME";
             public static final String PASSWORD = "user.label.PASSWORD";
+            public static final String PROFILE_IMAGE = "user.label.PROFILE_IMAGE";
         }
 
         public static class Message {
 
             public static final String AUTHENTICATION_FAILURE = "user.message.AUTHENTICATION_FAILURE";
             public static final String AUTHORIZATION_FAILURE = "user.message.AUTHORIZATION_FAILURE";
+            public static final String PROFILE_IMAGE_TYPE_VALIDATION_FAILURE =
+                    "user.message.PROFILE_IMAGE_TYPE_VALIDATION_FAILURE";
         }
     }
 
