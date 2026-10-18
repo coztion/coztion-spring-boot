@@ -1,4 +1,4 @@
-# Coztion Server
+# Coztion Spring Boot
 
 Admin API server for Coztion, built with Spring Boot, MyBatis and MySQL.
 
