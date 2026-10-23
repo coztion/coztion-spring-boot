@@ -65,6 +65,7 @@ dependencies {
 
 apply {
     from rootProject.file('gradle/spotless.gradle')
+    from rootProject.file('gradle/boot-run.gradle')
 }
 
 tasks.withType(JavaCompile).configureEach {
