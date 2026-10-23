@@ -73,6 +73,7 @@ public class AuthenticationHandler
         accessTokenCookie.setHttpOnly(true);
         accessTokenCookie.setSecure(secureCookie);
         accessTokenCookie.setPath("/");
+        accessTokenCookie.setAttribute("SameSite", "Lax");
         accessTokenCookie.setMaxAge(authenticationFactory.getAccessTokenExpirationSeconds());
         response.addCookie(accessTokenCookie);
 
@@ -80,6 +81,7 @@ public class AuthenticationHandler
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(secureCookie);
         refreshTokenCookie.setPath(refreshUrl);
+        refreshTokenCookie.setAttribute("SameSite", "Lax");
         refreshTokenCookie.setMaxAge(authenticationFactory.getRefreshTokenExpirationSeconds());
         response.addCookie(refreshTokenCookie);
 
@@ -114,6 +116,7 @@ public class AuthenticationHandler
         accessTokenCookie.setHttpOnly(true);
         accessTokenCookie.setSecure(secureCookie);
         accessTokenCookie.setPath("/");
+        accessTokenCookie.setAttribute("SameSite", "Lax");
         accessTokenCookie.setMaxAge(0);
         response.addCookie(accessTokenCookie);
     }
@@ -123,6 +126,7 @@ public class AuthenticationHandler
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(secureCookie);
         refreshTokenCookie.setPath(refreshUrl);
+        refreshTokenCookie.setAttribute("SameSite", "Lax");
         refreshTokenCookie.setMaxAge(0);
         response.addCookie(refreshTokenCookie);
     }
