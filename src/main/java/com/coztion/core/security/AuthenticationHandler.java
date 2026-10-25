@@ -99,6 +99,12 @@ public class AuthenticationHandler
         writeJson(response, RestResponse.ofFailure(TranslationKey.User.Message.AUTHENTICATION_FAILURE));
     }
 
+    @SneakyThrows
+    public void handleRequestValidationFailure(HttpServletResponse response) {
+        response.setStatus(HttpServletResponse.SC_OK);
+        writeJson(response, RestResponse.ofFailure(TranslationKey.Common.Message.REQUEST_VALIDATION_FAILURE));
+    }
+
     private void writeJson(HttpServletResponse response, RestResponse<?> body) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
