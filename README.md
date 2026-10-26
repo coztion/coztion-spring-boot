@@ -37,10 +37,11 @@ The server runs on `http://localhost:8080`.
 
 ## Environment
 
-| Profile | Config File             | Description                            |
-| ------- | ----------------------- | -------------------------------------- |
-| `local` | `application-local.yml` | Local development with Docker services |
-| `dev`   | `application-dev.yml`   | Development server                     |
+| Profile       | Config File                   | Description                            |
+| ------------- | ----------------------------- | -------------------------------------- |
+| `local`       | `application-local.yml`       | Local development with Docker services |
+| `development` | `application-development.yml` | Development server                     |
+| `production`  | `application-production.yml`  | Production server                      |
 
 | Variable                           | Description                              |
 | ---------------------------------- | ---------------------------------------- |

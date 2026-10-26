@@ -1,0 +1,8 @@
+[bootLocal: 'local', bootDev: 'development', bootProd: 'production'].each { taskName, profile ->
+    tasks.register(taskName, JavaExec) {
+        group = 'application'
+        mainClass = bootRun.mainClass
+        classpath = bootRun.classpath
+        args = ["--spring.profiles.active=${profile}"]
+    }
+}
