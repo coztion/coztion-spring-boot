@@ -26,6 +26,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FileService {
 
+    private static final long UPLOAD_FILE_MAX_SIZE = 10 * 1024 * 1024;
+
+    private static final String UPLOAD_FILE_MAX_SIZE_LABEL = "10MB";
+
     private final FileRepository fileRepository;
 
     private final FileStorage fileStorage;
@@ -52,6 +56,13 @@ public class FileService {
         if (!fileUpload.hasTargets()) {
             throw new RestException(
                     TranslationKey.Common.Message.REQUIRED_VALIDATION_FAILURE, TranslationKey.File.Label.FILES);
+        }
+
+        if (fileUpload.hasLargerFileThan(UPLOAD_FILE_MAX_SIZE)) {
+            throw new RestException(
+                    TranslationKey.Common.Message.MAX_SIZE_VALIDATION_FAILURE,
+                    TranslationKey.File.Label.FILES,
+                    UPLOAD_FILE_MAX_SIZE_LABEL);
         }
 
         if (fileUpload.hasFileGroupId()) {

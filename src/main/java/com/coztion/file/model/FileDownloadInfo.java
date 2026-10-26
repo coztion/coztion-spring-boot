@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import org.springframework.http.ContentDisposition;
+import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -34,7 +35,12 @@ public class FileDownloadInfo {
     }
 
     public MediaType toMediaType() {
-        return MediaType.parseMediaType(fileContentType);
+        try {
+            MediaType mediaType = MediaType.parseMediaType(fileContentType);
+            return mediaType.isConcrete() ? mediaType : MediaType.APPLICATION_OCTET_STREAM;
+        } catch (InvalidMediaTypeException e) {
+            return MediaType.APPLICATION_OCTET_STREAM;
+        }
     }
 
     public ContentDisposition toContentDisposition() {

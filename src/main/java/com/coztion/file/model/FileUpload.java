@@ -45,6 +45,10 @@ public class FileUpload extends OperationAuthor {
         return hasUploadTargets() || hasDeleteTargets();
     }
 
+    public boolean hasLargerFileThan(long maxFileSize) {
+        return hasUploadTargets() && uploadFiles.stream().anyMatch(uploadFile -> uploadFile.getSize() > maxFileSize);
+    }
+
     public String resolveFileGroupId() {
         return hasFileGroupId() ? fileGroupId : UUID.randomUUID().toString();
     }

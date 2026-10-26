@@ -73,6 +73,7 @@ public class AuthenticationHandler
         accessTokenCookie.setHttpOnly(true);
         accessTokenCookie.setSecure(secureCookie);
         accessTokenCookie.setPath("/");
+        accessTokenCookie.setAttribute("SameSite", "Lax");
         accessTokenCookie.setMaxAge(authenticationFactory.getAccessTokenExpirationSeconds());
         response.addCookie(accessTokenCookie);
 
@@ -80,6 +81,7 @@ public class AuthenticationHandler
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(secureCookie);
         refreshTokenCookie.setPath(refreshUrl);
+        refreshTokenCookie.setAttribute("SameSite", "Lax");
         refreshTokenCookie.setMaxAge(authenticationFactory.getRefreshTokenExpirationSeconds());
         response.addCookie(refreshTokenCookie);
 
@@ -95,6 +97,12 @@ public class AuthenticationHandler
             HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
         handleAuthenticationFailure(response);
         writeJson(response, RestResponse.ofFailure(TranslationKey.User.Message.AUTHENTICATION_FAILURE));
+    }
+
+    @SneakyThrows
+    public void handleRequestValidationFailure(HttpServletResponse response) {
+        response.setStatus(HttpServletResponse.SC_OK);
+        writeJson(response, RestResponse.ofFailure(TranslationKey.Common.Message.REQUEST_VALIDATION_FAILURE));
     }
 
     private void writeJson(HttpServletResponse response, RestResponse<?> body) throws IOException {
@@ -114,6 +122,7 @@ public class AuthenticationHandler
         accessTokenCookie.setHttpOnly(true);
         accessTokenCookie.setSecure(secureCookie);
         accessTokenCookie.setPath("/");
+        accessTokenCookie.setAttribute("SameSite", "Lax");
         accessTokenCookie.setMaxAge(0);
         response.addCookie(accessTokenCookie);
     }
@@ -123,6 +132,7 @@ public class AuthenticationHandler
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(secureCookie);
         refreshTokenCookie.setPath(refreshUrl);
+        refreshTokenCookie.setAttribute("SameSite", "Lax");
         refreshTokenCookie.setMaxAge(0);
         response.addCookie(refreshTokenCookie);
     }
